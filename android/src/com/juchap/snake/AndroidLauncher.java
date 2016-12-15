@@ -1,10 +1,9 @@
 package com.juchap.snake;
 
 import android.os.Bundle;
-
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.juchap.snake.GameManager;
+
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
@@ -14,6 +13,6 @@ public class AndroidLauncher extends AndroidApplication {
 		config.useCompass = false;
 		config.useAccelerometer = false;
 		config.useWakelock = true;
-		initialize(new GameManager(), config);
+		initialize(new MySnakeGame(), config);
 	}
 }

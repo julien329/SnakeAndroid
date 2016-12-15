@@ -1,30 +1,29 @@
-package com.juchap.snake;
+package com.juchap.snake.Screens;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
+import com.juchap.snake.GameScene.Food;
+import com.juchap.snake.GameScene.GameUI;
+import com.juchap.snake.GameScene.Snake;
 
 
+public class GameScreen extends AbstractScreen {
 
-public class GameManager extends ApplicationAdapter {
-
-	public static GameManager getInstance() {
-		if(instance_ == null) {
-			instance_ = new GameManager();
-		}
-		return instance_;
-	}
-
-	@Override
-	public void create () {
-		instance_ = this;
+	public GameScreen() {
+		super();
 
 		Gdx.input.setInputProcessor(new InputManager());
 
+		timer_ = new Timer();
+		updatePosInterval_ = INTERVAL_EASY;
+		timer_.scheduleTask(new MoveSnake(), updatePosInterval_, updatePosInterval_);
+	}
+
+	@Override
+	public void buildStage() {
 		PART_SIZE = Gdx.graphics.getWidth() / 38;
 		screenOffsetX_ = (Gdx.graphics.getWidth() % PART_SIZE) / 2;
 		screenOffsetY_ = (Gdx.graphics.getHeight() % PART_SIZE) / 2;
@@ -37,30 +36,25 @@ public class GameManager extends ApplicationAdapter {
 
 		food_ = new Food(screenOffsetX_, screenOffsetY_, gameUI_.getGameHeight(), PART_SIZE, Color.RED);
 		food_.spawnFood();
-
-		timer_ = new Timer();
-		updatePosInterval_ = INTERVAL_EASY;
-		timer_.scheduleTask(new MoveSnake(), updatePosInterval_, updatePosInterval_);
 	}
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	public void render(float delta) {
+		super.render(delta);
 
 		snake_.render();
 		gameUI_.render();
 		food_.render();
 	}
-	
+
 	@Override
-	public void dispose () {
-		timer_.clear();
+	public void dispose() {
+		super.dispose();
 	}
 
 	private void gameOver() {
-		dispose();
-		create();
+		timer_.clear();
+		com.juchap.snake.Utility.ScreenManager.getInstance().showScreen(com.juchap.snake.Utility.ScreenEnum.GAME);
 	}
 
 
@@ -115,8 +109,6 @@ public class GameManager extends ApplicationAdapter {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	/// VARIABLES
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static GameManager instance_;
 
 	private int PART_SIZE;
 	private static final float INTERVAL_EASY = 0.125f;

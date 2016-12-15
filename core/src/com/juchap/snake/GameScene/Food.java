@@ -1,12 +1,11 @@
-package com.juchap.snake;
-
+package com.juchap.snake.GameScene;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.juchap.snake.Screens.GameScreen;
 import java.util.Random;
-
 import java.util.ArrayList;
 
 public class Food {
@@ -44,7 +43,7 @@ public class Food {
     }
 
     private boolean authorizedPos(int posX, int posY) {
-        ArrayList<BodyPart> bodyParts = GameManager.getInstance().getSnake().getBodyParts();
+        ArrayList<BodyPart> bodyParts = ((GameScreen) com.juchap.snake.Utility.ScreenManager.getInstance().getScreen()).getSnake().getBodyParts();
         for(BodyPart part : bodyParts) {
             if(posX == part.getPos().x && posY == part.getPos().y)
                 return false;

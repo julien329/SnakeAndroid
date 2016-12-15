@@ -1,4 +1,4 @@
-package com.juchap.snake;
+package com.juchap.snake.GameScene;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.juchap.snake.Utility.FontManager;
 
 
 public class GameUI {
@@ -25,7 +26,7 @@ public class GameUI {
         border_ = new ShapeRenderer();
         batch_ = new SpriteBatch();
 
-        font_ = generateFont("Fonts/audimatMonoB.ttf", Color.WHITE, 64);
+        font_ = FontManager.audimatMonoB();
     }
 
     public void render() {
@@ -52,21 +53,6 @@ public class GameUI {
         font_.draw(batch_, scoreText, (width_ - scoreText.width - score.width) / 2, ((height_ + gameHeight_) / 2) + scoreText.height / 2);
         font_.draw(batch_, String.valueOf(score_), (width_ - scoreText.width - score.width) / 2 + scoreText.width, ((height_ + gameHeight_) / 2) + score.height / 2);
         batch_.end();
-    }
-
-    private BitmapFont generateFont(String fontFile, Color color, int Size) {
-        FreeTypeFontGenerator.setMaxTextureSize(FreeTypeFontGenerator.NO_MAXIMUM);
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));;
-        FreeTypeFontParameter fontParameters = new FreeTypeFontParameter();
-
-        float densityIndependentSize = Size * Gdx.graphics.getDensity();
-        int scaledSize = Math.round(densityIndependentSize );
-        fontParameters.color = color;
-        fontParameters.size = scaledSize;
-
-        BitmapFont font = fontGenerator.generateFont(fontParameters);
-        fontGenerator.dispose();
-        return font;
     }
 
 
