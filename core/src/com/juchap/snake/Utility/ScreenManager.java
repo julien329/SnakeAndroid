@@ -2,6 +2,7 @@ package com.juchap.snake.Utility;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.juchap.snake.Screens.AbstractScreen;
 
 
 public class ScreenManager {
@@ -38,7 +39,7 @@ public class ScreenManager {
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public com.juchap.snake.Screens.AbstractScreen getScreen() { return currentScreen; }
+    public AbstractScreen getScreen() { return currentScreen; }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,6 +47,6 @@ public class ScreenManager {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static ScreenManager instance;
-    private com.juchap.snake.Screens.AbstractScreen currentScreen;
+    private AbstractScreen currentScreen;
     private Game game;
 }

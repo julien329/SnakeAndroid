@@ -2,12 +2,14 @@ package com.juchap.snake.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.GameScene.Food;
 import com.juchap.snake.GameScene.GameUI;
 import com.juchap.snake.GameScene.Snake;
+import com.juchap.snake.Utility.GlobalVars;
+import com.juchap.snake.Utility.ScreenEnum;
+import com.juchap.snake.Utility.ScreenManager;
 
 
 public class GameScreen extends AbstractScreen {
@@ -24,17 +26,13 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	public void buildStage() {
-		PART_SIZE = Gdx.graphics.getWidth() / 38;
-		screenOffsetX_ = (Gdx.graphics.getWidth() % PART_SIZE) / 2;
-		screenOffsetY_ = (Gdx.graphics.getHeight() % PART_SIZE) / 2;
+		gameUI_ = new GameUI();
 
-		gameUI_ = new GameUI(screenOffsetX_, screenOffsetY_, PART_SIZE, Color.WHITE);
+		int centerX = (int)(Math.floor((Gdx.graphics.getWidth() / GlobalVars.UNIT_SIZE) * (1.0/2.0)) * GlobalVars.UNIT_SIZE) + GlobalVars.GRID_OFFSET_X;
+		int centerY = (int)(Math.floor((Gdx.graphics.getHeight() / GlobalVars.UNIT_SIZE) * (3.0/7.0)) * GlobalVars.UNIT_SIZE) + GlobalVars.GRID_OFFSET_Y;
+		snake_ = new Snake(centerX, centerY);
 
-		int centerX = (int)(Math.floor((Gdx.graphics.getWidth() / PART_SIZE) * (1.0/2.0)) * PART_SIZE) + screenOffsetX_;
-		int centerY = (int)(Math.floor((Gdx.graphics.getHeight() / PART_SIZE) * (3.0/7.0)) * PART_SIZE) + screenOffsetY_;
-		snake_ = new Snake(centerX, centerY, screenOffsetX_, screenOffsetY_, gameUI_.getGameHeight(), PART_SIZE);
-
-		food_ = new Food(screenOffsetX_, screenOffsetY_, gameUI_.getGameHeight(), PART_SIZE, Color.RED);
+		food_ = new Food();
 		food_.spawnFood();
 	}
 
@@ -54,7 +52,7 @@ public class GameScreen extends AbstractScreen {
 
 	private void gameOver() {
 		timer_.clear();
-		com.juchap.snake.Utility.ScreenManager.getInstance().showScreen(com.juchap.snake.Utility.ScreenEnum.GAME);
+		ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
 	}
 
 
@@ -110,7 +108,6 @@ public class GameScreen extends AbstractScreen {
 	/// VARIABLES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private int PART_SIZE;
 	private static final float INTERVAL_EASY = 0.125f;
 
 	private Snake snake_;
@@ -118,7 +115,5 @@ public class GameScreen extends AbstractScreen {
 	private Food food_;
 
 	private float updatePosInterval_;
-	private int screenOffsetX_;
-	private int screenOffsetY_;
 	private Timer timer_;
 }

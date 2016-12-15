@@ -5,30 +5,28 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.juchap.snake.Screens.GameScreen;
+import com.juchap.snake.Utility.GlobalVars;
+import com.juchap.snake.Utility.ScreenManager;
+
 import java.util.Random;
 import java.util.ArrayList;
 
 public class Food {
 
-    public Food(int screenOffsetX, int screenOffsetY, int gameHeight, int size, Color color) {
+    public Food() {
         shape_ = new ShapeRenderer();
-        size_ = size;
-        gameHeight_ = gameHeight;
-        color_ = color;
-        screenOffsetX_ = screenOffsetX;
-        screenOffsetY_ = screenOffsetY;
     }
 
     public void spawnFood() {
-        int maxX = (Gdx.graphics.getWidth() / size_) - 2;
-        int maxY = (gameHeight_ / size_) - 2;
+        int maxX = (Gdx.graphics.getWidth() / GlobalVars.UNIT_SIZE) - 2;
+        int maxY = (GlobalVars.GAME_GRID_HEIGHT / GlobalVars.UNIT_SIZE) - 2;
 
         Random random = new Random();
         int randX, randY;
 
         do {
-            randX = (random.nextInt(maxX) + 1) * size_ + screenOffsetX_;
-            randY = (random.nextInt(maxY) + 1) * size_ + screenOffsetY_;
+            randX = (random.nextInt(maxX) + 1) * GlobalVars.UNIT_SIZE + GlobalVars.GRID_OFFSET_X;
+            randY = (random.nextInt(maxY) + 1) * GlobalVars.UNIT_SIZE + GlobalVars.GRID_OFFSET_Y;
         } while (!authorizedPos(randX, randY));
 
         posX_ = randX;
@@ -37,13 +35,13 @@ public class Food {
 
     public void render() {
         shape_.begin(ShapeRenderer.ShapeType.Filled);
-        shape_.setColor(color_.r, color_.g, color_.b, color_.a);
-        shape_.rect(posX_, posY_, size_, size_);
+        shape_.setColor(Color.RED);
+        shape_.rect(posX_, posY_, GlobalVars.UNIT_SIZE, GlobalVars.UNIT_SIZE);
         shape_.end();
     }
 
     private boolean authorizedPos(int posX, int posY) {
-        ArrayList<BodyPart> bodyParts = ((GameScreen) com.juchap.snake.Utility.ScreenManager.getInstance().getScreen()).getSnake().getBodyParts();
+        ArrayList<BodyPart> bodyParts = ((GameScreen) ScreenManager.getInstance().getScreen()).getSnake().getBodyParts();
         for(BodyPart part : bodyParts) {
             if(posX == part.getPos().x && posY == part.getPos().y)
                 return false;
@@ -65,11 +63,6 @@ public class Food {
 
     private ShapeRenderer shape_;
 
-    private Color color_;
     private int posX_;
     private int posY_;
-    private int size_;
-    private int screenOffsetX_;
-    private int screenOffsetY_;
-    private int gameHeight_;
 }

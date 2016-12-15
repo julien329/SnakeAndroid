@@ -33,7 +33,7 @@ public class FontManager {
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static BitmapFont audimatMonoB(){
+    public static BitmapFont audimatMonoB_64(){
         return fonts.get(audimatMonoB);
     }
 
