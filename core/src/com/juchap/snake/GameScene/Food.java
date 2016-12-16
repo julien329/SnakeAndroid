@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Food {
 
     public Food() {
-        shape_ = new ShapeRenderer();
+        shape = new ShapeRenderer();
     }
 
     public void spawnFood() {
@@ -29,15 +29,15 @@ public class Food {
             randY = (random.nextInt(maxY) + 1) * GlobalVars.UNIT_SIZE + GlobalVars.GRID_OFFSET_Y;
         } while (!authorizedPos(randX, randY));
 
-        posX_ = randX;
-        posY_ = randY;
+        posX = randX;
+        posY = randY;
     }
 
     public void render() {
-        shape_.begin(ShapeRenderer.ShapeType.Filled);
-        shape_.setColor(Color.RED);
-        shape_.rect(posX_, posY_, GlobalVars.UNIT_SIZE, GlobalVars.UNIT_SIZE);
-        shape_.end();
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        shape.setColor(Color.RED);
+        shape.rect(posX, posY, GlobalVars.UNIT_SIZE, GlobalVars.UNIT_SIZE);
+        shape.end();
     }
 
     private boolean authorizedPos(int posX, int posY) {
@@ -54,15 +54,15 @@ public class Food {
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Vector2 getPos() { return new Vector2(posX_, posY_); }
+    public Vector2 getPos() { return new Vector2(posX, posY); }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private ShapeRenderer shape_;
+    private ShapeRenderer shape;
 
-    private int posX_;
-    private int posY_;
+    private int posX;
+    private int posY;
 }

@@ -3,23 +3,23 @@ package com.juchap.snake.GameScene;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.juchap.snake.Utility.GlobalVars;
 
 
 public class BodyPart {
 
-    public BodyPart(int posX, int posY, int size, Color color) {
-        shape_ = new ShapeRenderer();
-        posX_ = posX;
-        posY_ = posY;
-        size_ = size;
-        color_ = color;
+    public BodyPart(int posX, int posY, Color color) {
+        shape = new ShapeRenderer();
+        this.posX = posX;
+        this.posY = posY;
+        this.color = color;
     }
 
     public void render() {
-        shape_.begin(ShapeRenderer.ShapeType.Filled);
-        shape_.setColor(color_.r, color_.g, color_.b, color_.a);
-        shape_.rect(posX_, posY_, size_, size_);
-        shape_.end();
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        shape.setColor(color);
+        shape.rect(posX, posY, GlobalVars.UNIT_SIZE, GlobalVars.UNIT_SIZE);
+        shape.end();
     }
 
 
@@ -27,33 +27,32 @@ public class BodyPart {
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void setNext(BodyPart next) { next_ = next; }
-    public void setPrevious(BodyPart previous) { previous_ = previous; }
+    public void setNext(BodyPart next) { this.next = next; }
+    public void setPrevious(BodyPart previous) { this.previous = previous; }
     public void setPos(int posX, int posY) {
-        lastPosX_ = posX_;
-        lastPosY_ = posY_;
-        posX_ = posX;
-        posY_ = posY;
+        lastposX = this.posX;
+        lastposY = this.posY;
+        this.posX = posX;
+        this.posY = posY;
     }
 
-    public Vector2 getPos() { return new Vector2(posX_, posY_); }
-    public Vector2 getLastPos() { return new Vector2(lastPosX_, lastPosY_); }
-    public BodyPart getPrevious() { return previous_; }
-    public BodyPart getNext() { return next_; }
+    public Vector2 getPos() { return new Vector2(posX, posY); }
+    public Vector2 getLastPos() { return new Vector2(lastposX, lastposY); }
+    public BodyPart getPrevious() { return previous; }
+    public BodyPart getNext() { return next; }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private BodyPart next_;
-    private BodyPart previous_;
-    private ShapeRenderer shape_;
+    private BodyPart next;
+    private BodyPart previous;
+    private ShapeRenderer shape;
 
-    private Color color_;
-    private int posX_;
-    private int posY_;
-    private int lastPosX_;
-    private int lastPosY_;
-    private int size_;
+    private Color color;
+    private int posX;
+    private int posY;
+    private int lastposX;
+    private int lastposY;
 }
