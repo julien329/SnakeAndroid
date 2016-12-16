@@ -70,7 +70,7 @@ public class MainMenuScreen extends AbstractScreen {
 
     private void drawTitle() {
         // Prepare text GlyphLayout
-        BitmapFont titleFont = FontManager.audimatMonoB(128);
+        BitmapFont titleFont = FontManager.fontCustom(Color.WHITE, 128);
         GlyphLayout titleText = new GlyphLayout();
         titleText.setText(titleFont, "SNAKE");
 
@@ -82,7 +82,7 @@ public class MainMenuScreen extends AbstractScreen {
 
     private void initButtonSkin() {
         // Init
-        BitmapFont font = FontManager.menuButtons();
+        BitmapFont font = FontManager.fontMedium(Color.BLACK);
         buttonSkin = new Skin();
         buttonSkin.add("default", font);
 
@@ -100,6 +100,7 @@ public class MainMenuScreen extends AbstractScreen {
         textButtonStyle.checked = buttonSkin.newDrawable("background", Color.WHITE);
         textButtonStyle.over = buttonSkin.newDrawable("background", Color.WHITE);
         textButtonStyle.font = buttonSkin.getFont("default");
+        textButtonStyle.fontColor = Color.BLACK;
         buttonSkin.add("default", textButtonStyle);
     }
 

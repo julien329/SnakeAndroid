@@ -15,7 +15,7 @@ public class GameUI {
         score = 0;
         border = new ShapeRenderer();
         batch = new SpriteBatch();
-        font = FontManager.audimatMonoB(64);
+        font = FontManager.fontLarge(Color.WHITE);
     }
 
     public void render() {
