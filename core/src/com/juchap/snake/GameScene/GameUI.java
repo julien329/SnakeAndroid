@@ -34,13 +34,13 @@ public class GameUI {
         // Prepare score text GlyphLayout
         GlyphLayout scoreText = new GlyphLayout();
         scoreText.setText(font, "SCORE ");
-        GlyphLayout score = new GlyphLayout();
-        score.setText(font, String.valueOf(score));
+        GlyphLayout scorePoints = new GlyphLayout();
+        scorePoints.setText(font, String.valueOf(score));
 
         // Draw score text
         batch.begin();
-        font.draw(batch, scoreText, (GlobalVars.GRID_WIDTH - scoreText.width - score.width) / 2, ((GlobalVars.GRID_HEIGHT + GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE) / 2) + scoreText.height / 2);
-        font.draw(batch, String.valueOf(score), (GlobalVars.GRID_WIDTH - scoreText.width - score.width) / 2 + scoreText.width, ((GlobalVars.GRID_HEIGHT + GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE) / 2) + score.height / 2);
+        font.draw(batch, scoreText, (GlobalVars.GRID_WIDTH - scoreText.width - scorePoints.width) / 2, ((GlobalVars.GRID_HEIGHT + GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE) / 2) + scoreText.height / 2);
+        font.draw(batch, String.valueOf(score), (GlobalVars.GRID_WIDTH - scoreText.width - scorePoints.width) / 2 + scoreText.width, ((GlobalVars.GRID_HEIGHT + GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE) / 2) + scorePoints.height / 2);
         batch.end();
     }
 
