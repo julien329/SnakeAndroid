@@ -52,7 +52,7 @@ public class GameScreen extends AbstractScreen {
 
 	private void gameOver() {
 		timer_.clear();
-		ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
+		ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
 	}
 
 

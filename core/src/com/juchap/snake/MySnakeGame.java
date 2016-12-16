@@ -3,6 +3,8 @@ package com.juchap.snake;
 import com.badlogic.gdx.Game;
 import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
+import com.juchap.snake.Utility.ScreenEnum;
+import com.juchap.snake.Utility.ScreenManager;
 
 
 public class MySnakeGame extends Game {
@@ -11,7 +13,7 @@ public class MySnakeGame extends Game {
         FontManager.initAllFonts();
         GlobalVars.initVars();
 
-        com.juchap.snake.Utility.ScreenManager.getInstance().initialize(this);
-        com.juchap.snake.Utility.ScreenManager.getInstance().showScreen( com.juchap.snake.Utility.ScreenEnum.GAME );
+        ScreenManager.getInstance().initialize(this);
+        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
     }
 }

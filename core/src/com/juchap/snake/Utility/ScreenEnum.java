@@ -1,18 +1,19 @@
 package com.juchap.snake.Utility;
 
 import com.juchap.snake.Screens.AbstractScreen;
+import com.juchap.snake.Screens.GameScreen;
+import com.juchap.snake.Screens.MainMenuScreen;
 
 
 public enum ScreenEnum {
     MAIN_MENU {
-        public com.juchap.snake.Screens.AbstractScreen getScreen() {
-            //return new MainMenuScreen();
-            return null;
+        public AbstractScreen getScreen() {
+            return new MainMenuScreen();
         }
     },
     GAME {
-        public com.juchap.snake.Screens.AbstractScreen getScreen() {
-            return new com.juchap.snake.Screens.GameScreen();
+        public AbstractScreen getScreen() {
+            return new GameScreen();
         }
     };
 

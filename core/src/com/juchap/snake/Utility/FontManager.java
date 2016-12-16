@@ -11,7 +11,10 @@ public class FontManager {
 
     public static void initAllFonts() {
         fonts = new HashMap<String, BitmapFont>();
+
+        initFont(audimatMonoB, Color.BLACK, 32);
         initFont(audimatMonoB, Color.WHITE, 64);
+        audimatMonoBSize = 64;
     }
 
     private static void initFont(String fontName, Color color, int size) {
@@ -24,7 +27,7 @@ public class FontManager {
         fontParameters.color = color;
         fontParameters.size = scaledSize;
 
-        fonts.put(fontName, fontGenerator.generateFont(fontParameters));
+        fonts.put(fontName + "_" + color.toString(), fontGenerator.generateFont(fontParameters));
         fontGenerator.dispose();
     }
 
@@ -33,8 +36,14 @@ public class FontManager {
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static BitmapFont audimatMonoB_64(){
-        return fonts.get(audimatMonoB);
+    public static BitmapFont audimatMonoB(float size) {
+        BitmapFont font = fonts.get(audimatMonoB + "_" + Color.WHITE.toString());
+        font.getData().setScale(size/audimatMonoBSize, size/audimatMonoBSize);
+        return font;
+    }
+
+    public static BitmapFont menuButtons() {
+        return fonts.get(audimatMonoB + "_" + Color.BLACK.toString());
     }
 
 
@@ -44,4 +53,5 @@ public class FontManager {
 
     private static HashMap<String, BitmapFont> fonts;
     private static String audimatMonoB = "audimatMonoB";
+    private static float audimatMonoBSize;
 }
