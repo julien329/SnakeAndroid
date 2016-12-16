@@ -112,17 +112,30 @@ public class GameScreen extends AbstractScreen {
 
 	public class GestureManager extends GestureDetector.GestureAdapter {
 		@Override
-		public boolean fling(float velocityX, float velocityY, int button) {
-			if(Math.abs(velocityX) >= Math.abs(velocityY) && snake.getDir().x == 0) {
-				snake.setDir((int) Math.signum(velocityX), 0);
+		public boolean touchDown(float x, float y, int pointer, int button) {
+			deltaX = deltaY = 0;
+			return true;
+		}
+		@Override
+		public boolean pan(float x, float y, float deltaX, float deltaY) {
+			this.deltaX += deltaX;
+			this.deltaY += deltaY;
+
+			if (Math.abs(this.deltaX) >= distToTravel && snake.getDir().x == 0) {
+				snake.setDir((int) Math.signum(this.deltaX), 0);
+				this.deltaX = this.deltaY = 0;
 				return true;
-			}
-			else if (Math.abs(velocityX) < Math.abs(velocityY) && snake.getDir().y == 0){
-				snake.setDir(0, (int) Math.signum(-velocityY));
+			} else if (Math.abs(this.deltaY) >= distToTravel && snake.getDir().y == 0) {
+				snake.setDir(0, (int) Math.signum(-this.deltaY));
+				this.deltaX = this.deltaY = 0;
 				return true;
 			}
 			return false;
 		}
+
+		private float deltaX = 0;
+		private float deltaY = 0;
+		private final float distToTravel = Gdx.graphics.getWidth() / 16.0f;
 	}
 
 	public class PausedInputs extends InputAdapter {
