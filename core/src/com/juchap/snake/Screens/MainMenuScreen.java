@@ -1,6 +1,7 @@
 package com.juchap.snake.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -46,6 +47,7 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+
         drawBorders();
         drawTitle();
     }
@@ -55,6 +57,14 @@ public class MainMenuScreen extends AbstractScreen {
         super.dispose();
         borders.dispose();
         batch.dispose();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
+            Gdx.app.exit();
+        }
+        return false;
     }
 
     private void drawBorders() {

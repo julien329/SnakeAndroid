@@ -12,9 +12,9 @@ public class ScreenManager {
     }
 
     public static ScreenManager getInstance() {
-        if (instance == null) {
+        if (instance == null)
             instance = new ScreenManager();
-        }
+
         return instance;
     }
 

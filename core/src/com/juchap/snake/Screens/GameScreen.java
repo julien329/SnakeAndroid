@@ -1,7 +1,10 @@
 package com.juchap.snake.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.GameScene.Food;
@@ -17,11 +20,11 @@ public class GameScreen extends AbstractScreen {
 	public GameScreen() {
 		super();
 
-		Gdx.input.setInputProcessor(new InputManager());
+		pausedInputs = new PausedInputs();
+		inputMultiplexer = new InputMultiplexer(this, new GestureDetector(new GestureManager()));
+		Gdx.input.setInputProcessor(inputMultiplexer);
 
-		timer = new Timer();
-		updatePosInterval = INTERVAL_EASY;
-		timer.scheduleTask(new MoveSnake(), updatePosInterval, updatePosInterval);
+		isPaused = false;
 	}
 
 	@Override
@@ -34,6 +37,10 @@ public class GameScreen extends AbstractScreen {
 
 		food = new Food();
 		food.spawnFood();
+
+		updatePosInterval = INTERVAL_EASY;
+		Timer.schedule(new MoveSnake(), updatePosInterval, updatePosInterval);
+		Timer.instance().start();
 	}
 
 	@Override
@@ -43,16 +50,36 @@ public class GameScreen extends AbstractScreen {
 		snake.render();
 		gameUI.render();
 		food.render();
+
+		if(isPaused)
+			gameUI.renderPause();
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
+		Timer.instance().clear();
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
+			Timer.instance().stop();
+			ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+			return true;
+		}
+		return false;
 	}
 
 	private void gameOver() {
-		timer.clear();
+		Timer.instance().stop();
 		ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+	}
+
+	public void	pauseGame() {
+		Timer.instance().stop();
+		isPaused = true;
+		Gdx.input.setInputProcessor(pausedInputs);
 	}
 
 
@@ -83,13 +110,38 @@ public class GameScreen extends AbstractScreen {
 		}
 	}
 
+	public class GestureManager extends GestureDetector.GestureAdapter {
+		@Override
+		public boolean fling(float velocityX, float velocityY, int button) {
+			if(Math.abs(velocityX) >= Math.abs(velocityY) && snake.getDir().x == 0) {
+				snake.setDir((int) Math.signum(velocityX), 0);
+				return true;
+			}
+			else if (Math.abs(velocityX) < Math.abs(velocityY) && snake.getDir().y == 0){
+				snake.setDir(0, (int) Math.signum(-velocityY));
+				return true;
+			}
+			return false;
+		}
+	}
+
+	public class PausedInputs extends InputAdapter {
+		@Override
+		public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+			Gdx.input.setInputProcessor(inputMultiplexer);
+			isPaused = false;
+			Timer.instance().start();
+			return true;
+		}
+	}
+
 	public class MoveSnake extends Timer.Task {
 		@Override
 		public void run() {
 			snake.move();
 			snake.tryEat();
 
-			if(snake.checkCollisions())
+			if (snake.checkCollisions())
 				gameOver();
 		}
 	}
@@ -115,5 +167,8 @@ public class GameScreen extends AbstractScreen {
 	private Food food;
 
 	private float updatePosInterval;
-	private Timer timer;
+
+	private InputMultiplexer inputMultiplexer;
+	private PausedInputs pausedInputs;
+	private boolean isPaused;
 }

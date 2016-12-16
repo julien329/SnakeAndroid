@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.graphics.glutils.PixmapTextureData;
 import com.badlogic.gdx.utils.Array;
 import com.juchap.snake.Tools.BitmapFontWriter;
-
 import java.util.HashMap;
 
 
@@ -116,16 +115,16 @@ public class FontManager {
         int scaledSize = Math.round(fontSize * Gdx.graphics.getDensity());
         int referenceSize = -1;
 
-        if(scaledSize < (scaledSmall + scaledMedium) / 2)
+        if(scaledSize <= scaledSmall)
             referenceSize = scaledSmall;
-        else if (scaledSize > (scaledLarge + scaledMedium) / 2)
-            referenceSize = scaledLarge;
-        else {
+        else if (scaledSize <= scaledMedium)
             referenceSize = scaledMedium;
+        else {
+            referenceSize = scaledLarge;
         }
 
         BitmapFont font = fonts.get(referenceSize + "_" + AUDIMAT_MONO_B);
-        font.getData().setScale(scaledSize/referenceSize, scaledSize/referenceSize);
+        font.getData().setScale((float)scaledSize/referenceSize, (float)scaledSize/referenceSize);
         font.setColor(color);
 
         return font;
