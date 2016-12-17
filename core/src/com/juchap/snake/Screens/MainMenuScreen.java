@@ -28,6 +28,11 @@ public class MainMenuScreen extends AbstractScreen {
         borders = new ShapeRenderer();
         batch = new SpriteBatch();
 
+        leftBorderX = GlobalVars.GRID_OFFSET_X;
+        rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
+        bottomBorderY = GlobalVars.GRID_OFFSET_Y;
+        topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
+
         initButtonSkin();
     }
 
@@ -71,10 +76,10 @@ public class MainMenuScreen extends AbstractScreen {
         // Draw screen borders
         borders.begin(ShapeRenderer.ShapeType.Filled);
         borders.setColor(Color.WHITE);
-        borders.rect(GlobalVars.GRID_OFFSET_X, GlobalVars.GRID_OFFSET_Y, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        borders.rect(GlobalVars.GRID_OFFSET_X, GlobalVars.GRID_OFFSET_Y, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(GlobalVars.GRID_OFFSET_X, GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE, GlobalVars.GRID_OFFSET_Y, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        borders.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        borders.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        borders.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
         borders.end();
     }
 
@@ -86,7 +91,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         // Draw score text
         batch.begin();
-        titleFont.draw(batch, titleText, (GlobalVars.GRID_WIDTH - titleText.width) / 2, Gdx.graphics.getHeight() - (3 * GlobalVars.UNIT_SIZE));
+        titleFont.draw(batch, titleText, (Gdx.graphics.getWidth() - titleText.width) / 2, Gdx.graphics.getHeight() - (3 * GlobalVars.UNIT_SIZE));
         batch.end();
     }
 
@@ -123,4 +128,9 @@ public class MainMenuScreen extends AbstractScreen {
     private SpriteBatch batch;
     private TextButton playButton;
     private Skin buttonSkin;
+
+    private int leftBorderX;
+    private int rightBorderX;
+    private int topBorderY;
+    private int bottomBorderY;
 }
