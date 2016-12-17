@@ -34,9 +34,9 @@ public class FontManager {
 
     private static void initFont(FileHandle fontFile, String fontName, int scaledSize) {
         BitmapFont font = null;
-        FileHandle savedFileHandle = Gdx.files.local(fontDir + scaledSize + "_" + fontName + FNT_TYPE).exists() ? Gdx.files.local(fontDir + scaledSize + "_" + fontName + FNT_TYPE) : null;
+        FileHandle savedFileHandle = Gdx.files.local(fontDir + scaledSize + "_" + fontName + FNT_TYPE);
 
-        if(savedFileHandle != null)
+        if(savedFileHandle.exists())
             font = new BitmapFont(savedFileHandle);
         else
             font = createFont(fontFile, fontName, scaledSize);
