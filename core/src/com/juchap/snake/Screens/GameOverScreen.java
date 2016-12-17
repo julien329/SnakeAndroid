@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
+import com.juchap.snake.Utility.HighScoreManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
 
@@ -28,7 +29,9 @@ public class GameOverScreen extends AbstractScreen {
         bottomBorderY = GlobalVars.GRID_OFFSET_Y;
         topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
 
+        HighScoreManager.addScore(score);
         this.score = score;
+        this.best = HighScoreManager.getBest();
     }
 
     @Override
@@ -92,7 +95,7 @@ public class GameOverScreen extends AbstractScreen {
         scoreText.setText(fontMedium, "SCORE " + score);
         float ScoreY = gameOverY - 4 * GlobalVars.UNIT_SIZE - scoreText.height;
         GlyphLayout bestScoreText = new GlyphLayout();
-        bestScoreText.setText(fontMedium, "BEST 0");
+        bestScoreText.setText(fontMedium, "BEST " + best);
         float bestScoreY = ScoreY - GlobalVars.UNIT_SIZE - bestScoreText.height;
 
         batch.begin();
@@ -121,5 +124,7 @@ public class GameOverScreen extends AbstractScreen {
     private int rightBorderX;
     private int topBorderY;
     private int bottomBorderY;
+
     private int score;
+    private int best;
 }
