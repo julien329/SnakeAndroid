@@ -71,6 +71,11 @@ public class GameScreen extends AbstractScreen {
 		return false;
 	}
 
+	@Override
+	public void pause() {
+		pauseGame();
+	}
+
 	private void gameOver() {
 		Timer.instance().stop();
 		ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
