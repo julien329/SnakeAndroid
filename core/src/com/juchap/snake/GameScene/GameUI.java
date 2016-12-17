@@ -122,7 +122,7 @@ public class GameUI {
     /// CLASSES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public class pauseButtonListener extends InputListener {
+    private class pauseButtonListener extends InputListener {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             return true;
@@ -140,6 +140,7 @@ public class GameUI {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void addScore() { score++; }
+    public int getScore() { return score; }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

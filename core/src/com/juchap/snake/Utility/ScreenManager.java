@@ -23,10 +23,10 @@ public class ScreenManager {
     }
 
 
-    public void showScreen(ScreenEnum screenEnum) {
+    public void showScreen(ScreenEnum screenEnum, Object... params) {
         Screen oldScreen = game.getScreen();
 
-        currentScreen = screenEnum.getScreen();
+        currentScreen = screenEnum.getScreen(params);
         currentScreen.buildStage();
         game.setScreen(currentScreen);
 

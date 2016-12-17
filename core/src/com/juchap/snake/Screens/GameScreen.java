@@ -78,7 +78,7 @@ public class GameScreen extends AbstractScreen {
 
 	private void gameOver() {
 		Timer.instance().stop();
-		ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+		ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER, gameUI.getScore());
 	}
 
 	public void	pauseGame() {
@@ -92,7 +92,7 @@ public class GameScreen extends AbstractScreen {
 	/// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public class InputManager extends InputAdapter {
+	private class InputManager extends InputAdapter {
 		@Override
 		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 			Vector2 pos = snake.getHeadPos();
@@ -115,7 +115,7 @@ public class GameScreen extends AbstractScreen {
 		}
 	}
 
-	public class GestureManager extends GestureDetector.GestureAdapter {
+	private class GestureManager extends GestureDetector.GestureAdapter {
 		@Override
 		public boolean touchDown(float x, float y, int pointer, int button) {
 			deltaX = deltaY = 0;
@@ -147,7 +147,7 @@ public class GameScreen extends AbstractScreen {
 		private final float distToTravel = Gdx.graphics.getWidth() / 32.0f;
 	}
 
-	public class PausedInputs extends InputAdapter {
+	private class PausedInputs extends InputAdapter {
 		@Override
 		public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 			Gdx.input.setInputProcessor(inputMultiplexer);
@@ -155,9 +155,18 @@ public class GameScreen extends AbstractScreen {
 			Timer.instance().start();
 			return true;
 		}
+		@Override
+		public boolean keyUp(int keycode) {
+			if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
+				Timer.instance().stop();
+				ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+				return true;
+			}
+			return false;
+		}
 	}
 
-	public class MoveSnake extends Timer.Task {
+	private class MoveSnake extends Timer.Task {
 		@Override
 		public void run() {
 			snake.move();

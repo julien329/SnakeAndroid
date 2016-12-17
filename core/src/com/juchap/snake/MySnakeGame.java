@@ -15,7 +15,6 @@ public class MySnakeGame extends Game {
         GlobalVars.initVars();
 
         Gdx.input.setCatchBackKey(true);
-
         ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
     }
