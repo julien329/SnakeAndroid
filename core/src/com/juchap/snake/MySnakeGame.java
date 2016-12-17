@@ -13,11 +13,25 @@ public class MySnakeGame extends Game {
     @Override
     public void create () {
         HighScoreManager.initHighScore();
-        FontManager.initAllFonts();
         GlobalVars.initVars();
+        FontManager.initManager();
 
         Gdx.input.setCatchBackKey(true);
         ScreenManager.getInstance().initialize(this);
-        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
+        ScreenManager.getInstance().showScreen( ScreenEnum.SPLASH );
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FontManager.createAllFont();
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        FontManager.loadAllFont();
+                        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
+                    }
+                });
+            }
+        }).start();
     }
 }

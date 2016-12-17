@@ -22,7 +22,6 @@ public class ScreenManager {
         this.game = game;
     }
 
-
     public void showScreen(ScreenEnum screenEnum, Object... params) {
         Screen oldScreen = game.getScreen();
 

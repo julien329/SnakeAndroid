@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 public class FontManager {
 
-    public static void initAllFonts() {
+    public static void initManager() {
         fonts = new HashMap<String, BitmapFont>();
         scaleFactor = 0.0025f * Gdx.graphics.getWidth();
 
@@ -26,25 +26,27 @@ public class FontManager {
         scaledMedium = Math.round(MEDIUM * scaleFactor);
         scaledLarge = Math.round(LARGE * scaleFactor);
 
-        FileHandle audimatHandle = Gdx.files.internal(AUDIMAT_MONO_B_TTF);
-        initFont(audimatHandle, AUDIMAT_MONO_B, scaledSmall);
-        initFont(audimatHandle, AUDIMAT_MONO_B, scaledMedium);
-        initFont(audimatHandle, AUDIMAT_MONO_B, scaledLarge);
+        audimatHandle = Gdx.files.internal(AUDIMAT_MONO_B_TTF);
     }
 
-    private static void initFont(FileHandle fontFile, String fontName, int scaledSize) {
-        BitmapFont font = null;
+    public static void createAllFont() {
+        createFont(audimatHandle, AUDIMAT_MONO_B, scaledSmall);
+        createFont(audimatHandle, AUDIMAT_MONO_B, scaledMedium);
+        createFont(audimatHandle, AUDIMAT_MONO_B, scaledLarge);
+    }
+
+    public static void loadAllFont() {
+        loadFont(AUDIMAT_MONO_B, scaledSmall);
+        loadFont(AUDIMAT_MONO_B, scaledMedium);
+        loadFont(AUDIMAT_MONO_B, scaledLarge);
+    }
+
+    private static void createFont(FileHandle fontFile, String fontName, int scaledSize)  {
         FileHandle savedFileHandle = Gdx.files.local(fontDir + scaledSize + "_" + fontName + FNT_TYPE);
 
         if(savedFileHandle.exists())
-            font = new BitmapFont(savedFileHandle);
-        else
-            font = createFont(fontFile, fontName, scaledSize);
+            return;
 
-        fonts.put(scaledSize + "_" + fontName, font);
-    }
-
-    private static BitmapFont createFont(FileHandle fontFile, String fontName, int scaledSize)  {
         FreeTypeFontGenerator.setMaxTextureSize(FreeTypeFontGenerator.NO_MAXIMUM);
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(fontFile);
 
@@ -78,8 +80,12 @@ public class FontManager {
 
         fontGenerator.dispose();
         packer.dispose();
+    }
 
-        return font;
+    private static void loadFont(String fontName, int scaledSize) {
+        FileHandle savedFileHandle = Gdx.files.local(fontDir + scaledSize + "_" + fontName + FNT_TYPE);
+        BitmapFont font = new BitmapFont(savedFileHandle);
+        fonts.put(scaledSize + "_" + fontName, font);
     }
 
     private static void saveFontToFile(BitmapFont font, String fontName, int scaledSize, PixmapPacker packer) {
@@ -137,6 +143,7 @@ public class FontManager {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static HashMap<String, BitmapFont> fonts;
+    private static FileHandle audimatHandle;
     private static int scaledSmall;
     private static int scaledMedium;
     private static int scaledLarge;

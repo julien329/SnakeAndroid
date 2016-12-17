@@ -4,6 +4,7 @@ import com.juchap.snake.Screens.AbstractScreen;
 import com.juchap.snake.Screens.GameOverScreen;
 import com.juchap.snake.Screens.GameScreen;
 import com.juchap.snake.Screens.MainMenuScreen;
+import com.juchap.snake.Screens.SplashScreen;
 
 
 public enum ScreenEnum {
@@ -20,6 +21,11 @@ public enum ScreenEnum {
     GAME_OVER {
         public AbstractScreen getScreen(Object... params) {
             return new GameOverScreen((Integer)params[0]);
+        }
+    },
+    SPLASH {
+        public AbstractScreen getScreen(Object... params) {
+            return new SplashScreen();
         }
     };
 
