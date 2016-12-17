@@ -114,27 +114,31 @@ public class GameScreen extends AbstractScreen {
 		@Override
 		public boolean touchDown(float x, float y, int pointer, int button) {
 			deltaX = deltaY = 0;
+			moved = false;
 			return true;
 		}
 		@Override
 		public boolean pan(float x, float y, float deltaX, float deltaY) {
-			this.deltaX += deltaX;
-			this.deltaY += deltaY;
+			if(!moved) {
+				this.deltaX += deltaX;
+				this.deltaY += deltaY;
 
-			if (Math.abs(this.deltaX) >= distToTravel && snake.getDir().x == 0) {
-				snake.setDir((int) Math.signum(this.deltaX), 0);
-				this.deltaX = this.deltaY = 0;
-				return true;
-			} else if (Math.abs(this.deltaY) >= distToTravel && snake.getDir().y == 0) {
-				snake.setDir(0, (int) Math.signum(-this.deltaY));
-				this.deltaX = this.deltaY = 0;
-				return true;
+				if (Math.abs(this.deltaX) >= distToTravel && snake.getDir().x == 0) {
+					snake.setDir((int) Math.signum(this.deltaX), 0);
+					moved = true;
+					return true;
+				} else if (Math.abs(this.deltaY) >= distToTravel && snake.getDir().y == 0) {
+					snake.setDir(0, (int) Math.signum(-this.deltaY));
+					moved = true;
+					return true;
+				}
 			}
 			return false;
 		}
 
 		private float deltaX = 0;
 		private float deltaY = 0;
+		private boolean moved = false;
 		private final float distToTravel = Gdx.graphics.getWidth() / 16.0f;
 	}
 
