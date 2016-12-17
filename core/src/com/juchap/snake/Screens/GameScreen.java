@@ -139,7 +139,7 @@ public class GameScreen extends AbstractScreen {
 		private float deltaX = 0;
 		private float deltaY = 0;
 		private boolean moved = false;
-		private final float distToTravel = Gdx.graphics.getWidth() / 16.0f;
+		private final float distToTravel = Gdx.graphics.getWidth() / 32.0f;
 	}
 
 	public class PausedInputs extends InputAdapter {
