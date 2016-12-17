@@ -20,10 +20,11 @@ public class FontManager {
 
     public static void initAllFonts() {
         fonts = new HashMap<String, BitmapFont>();
+        scaleFactor = 0.0025f * Gdx.graphics.getWidth();
 
-        scaledSmall = Math.round(SMALL * Gdx.graphics.getDensity());
-        scaledMedium = Math.round(MEDIUM * Gdx.graphics.getDensity());
-        scaledLarge = Math.round(LARGE * Gdx.graphics.getDensity());
+        scaledSmall = Math.round(SMALL * scaleFactor);
+        scaledMedium = Math.round(MEDIUM * scaleFactor);
+        scaledLarge = Math.round(LARGE * scaleFactor);
 
         FileHandle audimatHandle = Gdx.files.internal(AUDIMAT_MONO_B_TTF);
         initFont(audimatHandle, AUDIMAT_MONO_B, scaledSmall);
@@ -112,7 +113,7 @@ public class FontManager {
     }
 
     public static BitmapFont fontCustom(Color color, int fontSize) {
-        int scaledSize = Math.round(fontSize * Gdx.graphics.getDensity());
+        int scaledSize = Math.round(fontSize * scaleFactor);
         int referenceSize = -1;
 
         if(scaledSize <= scaledSmall)
@@ -139,6 +140,7 @@ public class FontManager {
     private static int scaledSmall;
     private static int scaledMedium;
     private static int scaledLarge;
+    private static float scaleFactor;
 
     private static final String fontDir = "bitmapFonts/";
     private static final String AUDIMAT_MONO_B_TTF = "Fonts/audimatMonoB.ttf";
