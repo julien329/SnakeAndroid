@@ -2,7 +2,6 @@ package com.juchap.snake.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -15,9 +14,9 @@ import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
 
 
-public class GameOverScreen extends AbstractScreen {
+public class HighScoreScreen extends AbstractScreen {
 
-    public GameOverScreen(Integer score) {
+    public HighScoreScreen() {
         super();
         Gdx.input.setInputProcessor(this);
 
@@ -28,10 +27,6 @@ public class GameOverScreen extends AbstractScreen {
         rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
         bottomBorderY = GlobalVars.GRID_OFFSET_Y;
         topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
-
-        HighScoreManager.addScore(score);
-        this.score = score;
-        this.best = HighScoreManager.getScore(0);
     }
 
     @Override
@@ -42,16 +37,14 @@ public class GameOverScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-
-        drawBorders();
         drawText();
+        drawBorders();
     }
 
     @Override
     public void dispose() {
         super.dispose();
         borders.dispose();
-        batch.dispose();
     }
 
     @Override
@@ -80,27 +73,28 @@ public class GameOverScreen extends AbstractScreen {
     }
 
     private void drawText() {
-        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
-        GlyphLayout gameOverText = new GlyphLayout();
-        gameOverText.setText(fontLarge, "GAME OVER");
-        float gameOverY = (2.0f * Gdx.graphics.getHeight() / 3.0f);
+        BitmapFont fontTitle = FontManager.fontCustom(Color.WHITE, 54);
+        GlyphLayout highScoreText = new GlyphLayout();
+        highScoreText.setText(fontTitle, "HIGH SCORES");
+        float textPosY = ( 4 * Gdx.graphics.getHeight()) / 5;
 
         batch.begin();
-        fontLarge.draw(batch, gameOverText, (Gdx.graphics.getWidth() - gameOverText.width) / 2, gameOverY + (gameOverText.height / 2));
+        fontTitle.draw(batch, highScoreText, (Gdx.graphics.getWidth() - highScoreText.width) / 2, textPosY);
         batch.end();
 
-        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
-        GlyphLayout scoreText = new GlyphLayout();
-        scoreText.setText(fontMedium, "SCORE " + score);
-        float ScoreY = gameOverY - 4 * GlobalVars.UNIT_SIZE - scoreText.height;
-        GlyphLayout bestScoreText = new GlyphLayout();
-        bestScoreText.setText(fontMedium, "BEST " + best);
-        float bestScoreY = ScoreY - GlobalVars.UNIT_SIZE - bestScoreText.height;
+        textPosY -= (6 * GlobalVars.UNIT_SIZE);
 
-        batch.begin();
-        fontMedium.draw(batch, scoreText, (Gdx.graphics.getWidth() - scoreText.width) / 2, ScoreY);
-        fontMedium.draw(batch, bestScoreText, (Gdx.graphics.getWidth() - bestScoreText.width) / 2, bestScoreY);
-        batch.end();
+        for(int i = 0; i < TABLE_SIZE; i++) {
+            BitmapFont fontScores = FontManager.fontMedium(Color.WHITE);
+            GlyphLayout score = new GlyphLayout();
+            String scoreText = formatScore(HighScoreManager.getScore(i));
+            score.setText(fontScores, RANKS[i] + "    " + scoreText);
+            textPosY -= (2 * GlobalVars.UNIT_SIZE);
+
+            batch.begin();
+            fontScores.draw(batch, score, (Gdx.graphics.getWidth() - score.width) / 2, textPosY);
+            batch.end();
+        }
 
         BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
         GlyphLayout continueText = new GlyphLayout();
@@ -111,10 +105,24 @@ public class GameOverScreen extends AbstractScreen {
         batch.end();
     }
 
+    private String formatScore(int score) {
+        String scoreText = String.valueOf(score);
+        String zeros = "";
+
+        for(int i = 0; i < 4 - scoreText.length(); i++) {
+            zeros += "0";
+        }
+
+        return zeros + scoreText;
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private static final int TABLE_SIZE = 9;
+    private static final String[] RANKS = {"1ST", "2ND", "3RD", "4TH", "5TH", "6TH", "7TH", "8TH", "9TH"};
 
     private ShapeRenderer borders;
     private SpriteBatch batch;
@@ -123,7 +131,4 @@ public class GameOverScreen extends AbstractScreen {
     private int rightBorderX;
     private int topBorderY;
     private int bottomBorderY;
-
-    private int score;
-    private int best;
 }

@@ -33,13 +33,17 @@ public class MainMenuScreen extends AbstractScreen {
         bottomBorderY = GlobalVars.GRID_OFFSET_Y;
         topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
 
+        buttonWidth = Gdx.graphics.getWidth() / 2;
+        buttonHeight = Gdx.graphics.getHeight() / 10;
+
         initButtonSkin();
     }
 
     @Override
     public void buildStage() {
-        playButton = new TextButton("PLAY", buttonSkin);
-        playButton.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8, Gdx.graphics.getHeight() / 2);
+        int buttonPosY = Gdx.graphics.getHeight() / 2;
+        TextButton playButton = new TextButton("PLAY", buttonSkin);
+        playButton.setPosition((Gdx.graphics.getWidth() - buttonWidth) / 2, buttonPosY);
         playButton.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -47,6 +51,17 @@ public class MainMenuScreen extends AbstractScreen {
             };
         });
         this.addActor(playButton);
+
+        buttonPosY -= (buttonHeight + 2 * GlobalVars.UNIT_SIZE);
+        TextButton highScoresButton = new TextButton("HIGH SCORES", buttonSkin);
+        highScoresButton.setPosition((Gdx.graphics.getWidth() - buttonWidth) / 2, buttonPosY);
+        highScoresButton.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenManager.getInstance().showScreen(ScreenEnum.HIGH_SCORE);
+            };
+        });
+        this.addActor(highScoresButton);
     }
 
     @Override
@@ -102,7 +117,7 @@ public class MainMenuScreen extends AbstractScreen {
         buttonSkin.add("default", font);
 
         // Create texture
-        Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 10, Pixmap.Format.RGB888);
+        Pixmap pixmap = new Pixmap(buttonWidth, buttonHeight, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         buttonSkin.add("background",new Texture(pixmap));
@@ -126,11 +141,13 @@ public class MainMenuScreen extends AbstractScreen {
 
     private ShapeRenderer borders;
     private SpriteBatch batch;
-    private TextButton playButton;
     private Skin buttonSkin;
 
     private int leftBorderX;
     private int rightBorderX;
     private int topBorderY;
     private int bottomBorderY;
+
+    private int buttonWidth;
+    private int buttonHeight;
 }

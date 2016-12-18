@@ -28,7 +28,6 @@ public class SplashScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-
         drawBorders();
     }
 
@@ -37,7 +36,6 @@ public class SplashScreen extends AbstractScreen {
         super.dispose();
         borders.dispose();
     }
-
 
     private void drawBorders() {
         // Draw screen borders

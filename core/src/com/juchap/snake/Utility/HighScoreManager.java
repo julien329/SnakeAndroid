@@ -43,8 +43,8 @@ public class HighScoreManager {
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static int getBest() {
-        return highScores.get(0);
+    public static int getScore(int rank) {
+        return highScores.get(rank);
     }
 
     public static void addScore(int newScore) {
@@ -52,6 +52,7 @@ public class HighScoreManager {
             if(highScores.get(i) < newScore) {
                 highScores.add(i, newScore);
                 highScores.remove(highScores.size() - 1);
+                break;
             }
         }
         saveToPrefs();
@@ -65,6 +66,6 @@ public class HighScoreManager {
     private static ArrayList<Integer> highScores;
     private static Preferences scorePrefs;
 
-    private static final int TABLE_SIZE = 10;
+    private static final int TABLE_SIZE = 9;
     private static final String PREFS_NAME = "HighScore";
 }
