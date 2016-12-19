@@ -109,9 +109,19 @@ public class GameUI {
         BitmapFont font = FontManager.fontLarge(Color.WHITE);
         GlyphLayout pauseText = new GlyphLayout();
         pauseText.setText(font, "PAUSED");
+        float pauseTextY = (Gdx.graphics.getHeight() + pauseText.height) / 2;
 
         batch.begin();
-        font.draw(batch, pauseText, (Gdx.graphics.getWidth() / 2) - (pauseText.width / 2), (Gdx.graphics.getHeight() / 2) + (pauseText.height / 2));
+        font.draw(batch, pauseText, (Gdx.graphics.getWidth()  - pauseText.width) / 2, pauseTextY);
+        batch.end();
+
+        BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
+        GlyphLayout continueText = new GlyphLayout();
+        continueText.setText(fontSmall, "TOUCH TO CONTINUE");
+        float continueTextY = pauseTextY - pauseText.height - GlobalVars.UNIT_SIZE;
+
+        batch.begin();
+        fontSmall.draw(batch, continueText, (Gdx.graphics.getWidth() - continueText.width) / 2, continueTextY);
         batch.end();
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
@@ -148,10 +158,10 @@ public class GameUI {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private ShapeRenderer border;
-    private int score;
     private SpriteBatch batch;
     private TextButton pauseButton;
     private Skin buttonSkin;
+    private int score;
 
     private int leftBorderX;
     private int rightBorderX;
