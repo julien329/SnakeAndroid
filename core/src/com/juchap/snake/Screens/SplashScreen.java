@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.GameScene.BodyPart;
 import com.juchap.snake.GameScene.Snake;
+import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 
 import java.util.ArrayList;
@@ -37,7 +38,9 @@ public class SplashScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
         drawBorders();
-        snake.render();
+
+        if(showSnake)
+            snake.render();
     }
 
     @Override
@@ -60,6 +63,8 @@ public class SplashScreen extends AbstractScreen {
 
     private void setSnake() {
         trajectoryIndex = 0;
+        showSnake = !FontManager.allFilesExist();
+
         int partX = (Gdx.graphics.getWidth() - GlobalVars.UNIT_SIZE) / 2 - 2 * GlobalVars.UNIT_SIZE;
         int partY = (Gdx.graphics.getHeight() + GlobalVars.UNIT_SIZE) / 2 + 2 * GlobalVars.UNIT_SIZE;
         snake = new Snake(partX, partY);
@@ -108,6 +113,7 @@ public class SplashScreen extends AbstractScreen {
     private final float MOVE_INTERVAL = 0.125f;
 
     private int trajectoryIndex;
+    private boolean showSnake;
 
     private int leftBorderX;
     private int rightBorderX;

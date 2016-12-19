@@ -41,6 +41,14 @@ public class FontManager {
         loadFont(AUDIMAT_MONO_B, scaledLarge);
     }
 
+    public static boolean allFilesExist() {
+        FileHandle handleSmall = Gdx.files.local(fontDir + scaledSmall + "_" + AUDIMAT_MONO_B + FNT_TYPE);
+        FileHandle handleMedium = Gdx.files.local(fontDir + scaledMedium + "_" + AUDIMAT_MONO_B + FNT_TYPE);
+        FileHandle handleLarge = Gdx.files.local(fontDir + scaledLarge + "_" + AUDIMAT_MONO_B + FNT_TYPE);
+
+        return (handleSmall.exists() && handleMedium.exists() && handleLarge.exists());
+    }
+
     private static void createFont(FileHandle fontFile, String fontName, int scaledSize)  {
         FileHandle savedFileHandle = Gdx.files.local(fontDir + scaledSize + "_" + fontName + FNT_TYPE);
 
