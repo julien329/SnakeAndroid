@@ -2,12 +2,12 @@ package com.juchap.snake.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.HighScoreManager;
@@ -32,11 +32,19 @@ public class GameOverScreen extends AbstractScreen {
         HighScoreManager.addScore(score);
         this.score = score;
         this.best = HighScoreManager.getScore(0);
+
+        canTouch = false;
     }
 
     @Override
     public void buildStage() {
-
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                canTouch = true;
+            }
+        }, WAIT_TIME);
+        Timer.instance().start();
     }
 
     @Override
@@ -57,6 +65,7 @@ public class GameOverScreen extends AbstractScreen {
     @Override
     public boolean keyDown(int keycode) {
         if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
+            Timer.instance().clear();
             ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
         }
         return false;
@@ -64,7 +73,10 @@ public class GameOverScreen extends AbstractScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+        if(canTouch) {
+            Timer.instance().clear();
+            ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+        }
         return true;
     }
 
@@ -102,19 +114,23 @@ public class GameOverScreen extends AbstractScreen {
         fontMedium.draw(batch, bestScoreText, (Gdx.graphics.getWidth() - bestScoreText.width) / 2, bestScoreY);
         batch.end();
 
-        BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
-        GlyphLayout continueText = new GlyphLayout();
-        continueText.setText(fontSmall, "TOUCH TO RETURN TO MENU");
+        if(canTouch) {
+            BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
+            GlyphLayout continueText = new GlyphLayout();
+            continueText.setText(fontSmall, "TOUCH TO RETURN TO MENU");
 
-        batch.begin();
-        fontSmall.draw(batch, continueText, (Gdx.graphics.getWidth() - continueText.width) / 2, GlobalVars.GRID_OFFSET_Y + 2 * GlobalVars.UNIT_SIZE + continueText.height);
-        batch.end();
+            batch.begin();
+            fontSmall.draw(batch, continueText, (Gdx.graphics.getWidth() - continueText.width) / 2, GlobalVars.GRID_OFFSET_Y + 2 * GlobalVars.UNIT_SIZE + continueText.height);
+            batch.end();
+        }
     }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private final int WAIT_TIME = 1;
 
     private ShapeRenderer borders;
     private SpriteBatch batch;
@@ -126,4 +142,5 @@ public class GameOverScreen extends AbstractScreen {
 
     private int score;
     private int best;
+    private boolean canTouch;
 }

@@ -58,13 +58,12 @@ public class GameScreen extends AbstractScreen {
 	@Override
 	public void dispose() {
 		super.dispose();
-		Timer.instance().clear();
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
 		if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
-			Timer.instance().stop();
+			Timer.instance().clear();
 			ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
 			return true;
 		}
@@ -77,7 +76,7 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	private void gameOver() {
-		Timer.instance().stop();
+		Timer.instance().clear();
 		ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER, gameUI.getScore());
 	}
 
@@ -158,7 +157,7 @@ public class GameScreen extends AbstractScreen {
 		@Override
 		public boolean keyUp(int keycode) {
 			if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
-				Timer.instance().stop();
+				Timer.instance().clear();
 				ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
 				return true;
 			}
@@ -191,7 +190,7 @@ public class GameScreen extends AbstractScreen {
 	/// VARIABLES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final float INTERVAL_EASY = 0.125f;
+	private final float INTERVAL_EASY = 0.125f;
 
 	private Snake snake;
 	private GameUI gameUI;
