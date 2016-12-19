@@ -171,6 +171,8 @@ public class GameScreen extends AbstractScreen {
 			snake.move();
 			snake.tryEat();
 
+			Gdx.graphics.requestRendering();
+
 			if (snake.checkCollisions())
 				gameOver();
 		}

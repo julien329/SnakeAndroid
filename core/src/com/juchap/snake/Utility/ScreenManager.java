@@ -1,6 +1,7 @@
 package com.juchap.snake.Utility;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.juchap.snake.Screens.AbstractScreen;
 
@@ -20,6 +21,7 @@ public class ScreenManager {
 
     public void initialize(Game game) {
         this.game = game;
+        Gdx.graphics.setContinuousRendering(false);
     }
 
     public void showScreen(ScreenEnum screenEnum, Object... params) {
