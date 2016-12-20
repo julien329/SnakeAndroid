@@ -157,8 +157,9 @@ public class GameScreen extends AbstractScreen {
 		@Override
 		public boolean keyUp(int keycode) {
 			if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
-				Timer.instance().clear();
-				ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+				Gdx.input.setInputProcessor(inputMultiplexer);
+				isPaused = false;
+				Timer.instance().start();
 				return true;
 			}
 			return false;
