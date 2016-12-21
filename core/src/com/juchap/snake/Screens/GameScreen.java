@@ -15,6 +15,7 @@ import com.juchap.snake.GameScene.Food;
 import com.juchap.snake.GameScene.GameUI;
 import com.juchap.snake.GameScene.Snake;
 import com.juchap.snake.Utility.GlobalVars;
+import com.juchap.snake.Utility.InputManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
 import com.juchap.snake.Utility.SoundManager;
@@ -26,8 +27,8 @@ public class GameScreen extends AbstractScreen {
 	public GameScreen() {
 		super();
 
-		pausedInputs = new PausedInputs();
-		inputMultiplexer = new InputMultiplexer(this, new GestureDetector(new GestureManager()));
+		pausedInputs = new InputPause();
+		inputMultiplexer = new InputMultiplexer(this, (InputManager.isSwipe()) ? new GestureDetector(new InputSwipe()) : new InputTouch());
 		Gdx.input.setInputProcessor(inputMultiplexer);
 
 		isPaused = false;
@@ -112,7 +113,7 @@ public class GameScreen extends AbstractScreen {
 	/// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private class InputManager extends InputAdapter {
+	private class InputTouch extends InputAdapter {
 		@Override
 		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 			Vector2 pos = snake.getHeadPos();
@@ -135,7 +136,7 @@ public class GameScreen extends AbstractScreen {
 		}
 	}
 
-	private class GestureManager extends GestureDetector.GestureAdapter {
+	private class InputSwipe extends GestureDetector.GestureAdapter {
 		@Override
 		public boolean touchDown(float x, float y, int pointer, int button) {
 			deltaX = deltaY = 0;
@@ -167,7 +168,7 @@ public class GameScreen extends AbstractScreen {
 		private final float distToTravel = Gdx.graphics.getWidth() / 32.0f;
 	}
 
-	private class PausedInputs extends InputAdapter {
+	private class InputPause extends InputAdapter {
 		@Override
 		public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 			Gdx.input.setInputProcessor(inputMultiplexer);
@@ -223,6 +224,6 @@ public class GameScreen extends AbstractScreen {
 	private float updatePosInterval;
 
 	private InputMultiplexer inputMultiplexer;
-	private PausedInputs pausedInputs;
+	private InputPause pausedInputs;
 	private boolean isPaused;
 }

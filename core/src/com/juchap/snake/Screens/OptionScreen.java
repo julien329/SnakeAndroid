@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
+import com.juchap.snake.Utility.InputManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
 import com.juchap.snake.Utility.SoundManager;
@@ -37,7 +38,7 @@ public class OptionScreen extends AbstractScreen {
         titleY = (int)(5 * Gdx.graphics.getHeight()) / 6;
         textY = titleY - (int)(12 * GlobalVars.PADDING_Y);
 
-        controlIndex = 0;
+        controlIndex = InputManager.getType();
         difficultyIndex = 0;
 
         initGlyphs();
@@ -56,12 +57,13 @@ public class OptionScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 controlIndex = (controlIndex + 1) % CONTROL_TYPES.length;
+                InputManager.setType(controlIndex);
             };
         });
         this.addActor(controlsButton);
 
         buttonPosY -= (3 * separatorText.height);
-        buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width + difficultyValueText.width);
+        /*buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width + difficultyValueText.width);
         TextButton difficultyButton = new TextButton(CHANGE_VALUE, buttonSkin);
         difficultyButton.setSize(changeValueText.width, changeValueText.height);
         difficultyButton.setPosition(buttonPosX, buttonPosY);
@@ -72,7 +74,7 @@ public class OptionScreen extends AbstractScreen {
                 difficultyIndex = (difficultyIndex + 1) % DIFFICULTY_LEVELS.length;
             };
         });
-        this.addActor(difficultyButton);
+        this.addActor(difficultyButton);*/
 
         buttonPosY -= (3 * separatorText.height);
         buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width);
@@ -164,7 +166,7 @@ public class OptionScreen extends AbstractScreen {
 
         BitmapFont fontText = FontManager.fontCustom(Color.WHITE, 24);
         controlsValueText.setText(fontText, CONTROL_TYPES[controlIndex]);
-        difficultyValueText.setText(fontText, DIFFICULTY_LEVELS[difficultyIndex]);
+        difficultyValueText.setText(fontText, DIFFICULTY_LEVELS[1]);
         int centerX = (Gdx.graphics.getWidth() / 2);
         textPosY = textY;
 
