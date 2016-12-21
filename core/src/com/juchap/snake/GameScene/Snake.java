@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.juchap.snake.Screens.GameScreen;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenManager;
+import com.juchap.snake.Utility.SoundManager;
+import com.juchap.snake.Utility.VibrationManager;
 
 
 public class Snake {
@@ -65,6 +67,9 @@ public class Snake {
             bodyParts.add(newPart);
             food.spawnFood();
             ((GameScreen) ScreenManager.getInstance().getScreen()).getGameUI().addScore();
+
+            VibrationManager.vibrateShort();
+            SoundManager.playEat();
         }
     }
 

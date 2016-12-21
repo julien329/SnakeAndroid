@@ -6,6 +6,10 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.AfterAction;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.GameScene.Food;
 import com.juchap.snake.GameScene.GameUI;
@@ -13,6 +17,8 @@ import com.juchap.snake.GameScene.Snake;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
+import com.juchap.snake.Utility.SoundManager;
+import com.juchap.snake.Utility.VibrationManager;
 
 
 public class GameScreen extends AbstractScreen {
@@ -77,7 +83,22 @@ public class GameScreen extends AbstractScreen {
 
 	private void gameOver() {
 		Timer.instance().clear();
-		ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER, gameUI.getScore());
+		VibrationManager.vibrateLong();
+		SoundManager.playGameOver();
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				long time = System.currentTimeMillis();
+				while (System.currentTimeMillis() < time + VibrationManager.LONG){}
+				Gdx.app.postRunnable(new Runnable() {
+					@Override
+					public void run() {
+						ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER, gameUI.getScore());
+					}
+				});
+			}
+		}).start();
 	}
 
 	public void	pauseGame() {

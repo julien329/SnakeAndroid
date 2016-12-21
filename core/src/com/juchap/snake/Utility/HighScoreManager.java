@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class HighScoreManager {
 
-    public static void initHighScore() {
+    public static void initManager() {
         boolean exist = true;
         scorePrefs = Gdx.app.getPreferences(PREFS_NAME);
 
