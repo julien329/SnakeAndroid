@@ -12,6 +12,7 @@ public class GlobalVars {
         GRID_OFFSET_X = (Gdx.graphics.getWidth() % UNIT_SIZE) / 2;
         GRID_OFFSET_Y = (Gdx.graphics.getHeight() % UNIT_SIZE) / 2;
         GAME_GRID_HEIGHT = (int)(Math.floor((Gdx.graphics.getHeight() / UNIT_SIZE) * (5.0/6.0)) * UNIT_SIZE) + UNIT_SIZE;
+        PADDING_Y = Gdx.graphics.getHeight() / 64;
     }
 
 
@@ -25,6 +26,7 @@ public class GlobalVars {
     public static int GRID_OFFSET_X;
     public static int GRID_OFFSET_Y;
     public static int GAME_GRID_HEIGHT;
+    public static int PADDING_Y;
 
 
 }
