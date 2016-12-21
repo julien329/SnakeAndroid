@@ -5,6 +5,7 @@ import com.juchap.snake.Screens.GameOverScreen;
 import com.juchap.snake.Screens.GameScreen;
 import com.juchap.snake.Screens.HighScoreScreen;
 import com.juchap.snake.Screens.MainMenuScreen;
+import com.juchap.snake.Screens.OptionScreen;
 import com.juchap.snake.Screens.SplashScreen;
 
 
@@ -32,6 +33,11 @@ public enum ScreenEnum {
     HIGH_SCORE {
         public AbstractScreen getScreen(Object... params) {
             return new HighScoreScreen();
+        }
+    },
+    OPTIONS {
+        public AbstractScreen getScreen(Object... params) {
+            return new OptionScreen();
         }
     };
 

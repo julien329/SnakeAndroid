@@ -52,7 +52,7 @@ public class MainMenuScreen extends AbstractScreen {
         });
         this.addActor(playButton);
 
-        buttonPosY -= (buttonHeight + 2 * GlobalVars.UNIT_SIZE);
+        buttonPosY -= (buttonHeight + GlobalVars.UNIT_SIZE);
         TextButton highScoresButton = new TextButton("HIGH SCORES", buttonSkin);
         highScoresButton.setPosition((Gdx.graphics.getWidth() - buttonWidth) / 2, buttonPosY);
         highScoresButton.addListener( new ClickListener() {
@@ -62,6 +62,17 @@ public class MainMenuScreen extends AbstractScreen {
             };
         });
         this.addActor(highScoresButton);
+
+        buttonPosY -= (buttonHeight + GlobalVars.UNIT_SIZE);
+        TextButton optionsButton = new TextButton("OPTIONS", buttonSkin);
+        optionsButton.setPosition((Gdx.graphics.getWidth() - buttonWidth) / 2, buttonPosY);
+        optionsButton.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenManager.getInstance().showScreen(ScreenEnum.OPTIONS);
+            };
+        });
+        this.addActor(optionsButton);
     }
 
     @Override

@@ -83,9 +83,9 @@ public class HighScoreScreen extends AbstractScreen {
         batch.end();
 
         textPosY -= (6 * GlobalVars.UNIT_SIZE);
+        BitmapFont fontScores = FontManager.fontMedium(Color.WHITE);
 
         for(int i = 0; i < TABLE_SIZE; i++) {
-            BitmapFont fontScores = FontManager.fontMedium(Color.WHITE);
             GlyphLayout score = new GlyphLayout();
             String scoreText = formatScore(HighScoreManager.getScore(i));
             score.setText(fontScores, RANKS[i] + "    " + scoreText);
