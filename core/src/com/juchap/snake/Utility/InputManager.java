@@ -3,6 +3,7 @@ package com.juchap.snake.Utility;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+
 public class InputManager {
 
     public static void initManager() {
@@ -24,6 +25,7 @@ public class InputManager {
         inputPrefs.putInteger(KEY_NAME, inputType);
         inputPrefs.flush();
     }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// GET / SET

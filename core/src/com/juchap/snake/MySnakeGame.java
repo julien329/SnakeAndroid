@@ -2,6 +2,7 @@ package com.juchap.snake;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.juchap.snake.Utility.DifficultyManager;
 import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.HighScoreManager;
@@ -16,6 +17,7 @@ public class MySnakeGame extends Game {
     @Override
     public void create () {
         GlobalVars.initVars();
+        DifficultyManager.initManager();
         InputManager.initManager();
         VibrationManager.initManager();
         SoundManager.initManager();

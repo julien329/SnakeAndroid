@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.juchap.snake.Utility.DifficultyManager;
 import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.InputManager;
@@ -39,7 +40,7 @@ public class OptionScreen extends AbstractScreen {
         textY = titleY - (int)(12 * GlobalVars.PADDING_Y);
 
         controlIndex = InputManager.getType();
-        difficultyIndex = 0;
+        difficultyIndex = DifficultyManager.getDifficulty();
 
         initGlyphs();
         initButtonSkin();
@@ -63,7 +64,7 @@ public class OptionScreen extends AbstractScreen {
         this.addActor(controlsButton);
 
         buttonPosY -= (3 * separatorText.height);
-        /*buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width + difficultyValueText.width);
+        buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width + difficultyValueText.width);
         TextButton difficultyButton = new TextButton(CHANGE_VALUE, buttonSkin);
         difficultyButton.setSize(changeValueText.width, changeValueText.height);
         difficultyButton.setPosition(buttonPosX, buttonPosY);
@@ -72,9 +73,10 @@ public class OptionScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 difficultyIndex = (difficultyIndex + 1) % DIFFICULTY_LEVELS.length;
+                DifficultyManager.setDifficulty(difficultyIndex);
             };
         });
-        this.addActor(difficultyButton);*/
+        this.addActor(difficultyButton);
 
         buttonPosY -= (3 * separatorText.height);
         buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width);
@@ -166,7 +168,7 @@ public class OptionScreen extends AbstractScreen {
 
         BitmapFont fontText = FontManager.fontCustom(Color.WHITE, 24);
         controlsValueText.setText(fontText, CONTROL_TYPES[controlIndex]);
-        difficultyValueText.setText(fontText, DIFFICULTY_LEVELS[1]);
+        difficultyValueText.setText(fontText, DIFFICULTY_LEVELS[difficultyIndex]);
         int centerX = (Gdx.graphics.getWidth() / 2);
         textPosY = textY;
 

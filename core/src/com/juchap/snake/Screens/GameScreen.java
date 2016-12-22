@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.GameScene.Food;
 import com.juchap.snake.GameScene.GameUI;
 import com.juchap.snake.GameScene.Snake;
+import com.juchap.snake.Utility.DifficultyManager;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.InputManager;
 import com.juchap.snake.Utility.ScreenEnum;
@@ -45,7 +46,7 @@ public class GameScreen extends AbstractScreen {
 		food = new Food();
 		food.spawnFood();
 
-		updatePosInterval = INTERVAL_EASY;
+		updatePosInterval = DifficultyManager.getInterval();
 		Timer.schedule(new MoveSnake(), updatePosInterval, updatePosInterval);
 		Timer.instance().start();
 	}
@@ -214,8 +215,6 @@ public class GameScreen extends AbstractScreen {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	/// VARIABLES
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	private final float INTERVAL_EASY = 0.125f;
 
 	private Snake snake;
 	private GameUI gameUI;
