@@ -28,7 +28,7 @@ public class GameScreen extends AbstractScreen {
 	public GameScreen() {
 		super();
 
-		pausedInputs = new InputPause();
+		pausedInputs = new InputPaused();
 		inputMultiplexer = new InputMultiplexer(this, (InputManager.isSwipe()) ? new GestureDetector(new InputSwipe()) : new InputTouch());
 		Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -71,8 +71,7 @@ public class GameScreen extends AbstractScreen {
 	@Override
 	public boolean keyUp(int keycode) {
 		if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
-			Timer.instance().clear();
-			ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
+			pauseGame();
 			return true;
 		}
 		return false;
@@ -169,7 +168,7 @@ public class GameScreen extends AbstractScreen {
 		private final float distToTravel = Gdx.graphics.getWidth() / 32.0f;
 	}
 
-	private class InputPause extends InputAdapter {
+	private class InputPaused extends InputAdapter {
 		@Override
 		public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 			Gdx.input.setInputProcessor(inputMultiplexer);
@@ -180,9 +179,8 @@ public class GameScreen extends AbstractScreen {
 		@Override
 		public boolean keyUp(int keycode) {
 			if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
-				Gdx.input.setInputProcessor(inputMultiplexer);
-				isPaused = false;
-				Timer.instance().start();
+				Timer.instance().clear();
+				ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
 				return true;
 			}
 			return false;
@@ -220,9 +218,8 @@ public class GameScreen extends AbstractScreen {
 	private GameUI gameUI;
 	private Food food;
 
-	private float updatePosInterval;
-
 	private InputMultiplexer inputMultiplexer;
-	private InputPause pausedInputs;
+	private InputPaused pausedInputs;
 	private boolean isPaused;
+	private float updatePosInterval;
 }

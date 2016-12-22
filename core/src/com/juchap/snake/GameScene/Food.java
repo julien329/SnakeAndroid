@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.juchap.snake.Screens.GameScreen;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenManager;
-
 import java.util.Random;
 import java.util.ArrayList;
+
 
 public class Food {
 
