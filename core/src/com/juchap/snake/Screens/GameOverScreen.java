@@ -105,14 +105,18 @@ public class GameOverScreen extends AbstractScreen {
         BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
         GlyphLayout scoreText = new GlyphLayout();
         scoreText.setText(fontMedium, "SCORE " + score);
-        float ScoreY = gameOverY - 4 * GlobalVars.UNIT_SIZE - scoreText.height;
+        float ScoreY = gameOverY - 4 * GlobalVars.PADDING_Y - scoreText.height;
         GlyphLayout bestScoreText = new GlyphLayout();
         bestScoreText.setText(fontMedium, "BEST " + best);
-        float bestScoreY = ScoreY - GlobalVars.UNIT_SIZE - bestScoreText.height;
+        float bestScoreY = ScoreY - GlobalVars.PADDING_Y - bestScoreText.height;
+        GlyphLayout difficultyText = new GlyphLayout();
+        difficultyText.setText(fontMedium, DIFFICULTY_LEVELS[DifficultyManager.getDifficulty()]);
+        float difficultyY = bestScoreY - 4 * GlobalVars.PADDING_Y - difficultyText.height;
 
         batch.begin();
         fontMedium.draw(batch, scoreText, (Gdx.graphics.getWidth() - scoreText.width) / 2, ScoreY);
         fontMedium.draw(batch, bestScoreText, (Gdx.graphics.getWidth() - bestScoreText.width) / 2, bestScoreY);
+        fontMedium.draw(batch, difficultyText, (Gdx.graphics.getWidth() - difficultyText.width) / 2, difficultyY);
         batch.end();
 
         if(canTouch) {
@@ -132,6 +136,7 @@ public class GameOverScreen extends AbstractScreen {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static final int WAIT_TIME = 1;
+    private static final String[] DIFFICULTY_LEVELS = { "EASY", "MEDIUM", "HARD" };
 
     private ShapeRenderer borders;
     private SpriteBatch batch;
