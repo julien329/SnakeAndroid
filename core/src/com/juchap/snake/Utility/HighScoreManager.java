@@ -2,7 +2,7 @@ package com.juchap.snake.Utility;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class HighScoreManager {
@@ -11,11 +11,14 @@ public class HighScoreManager {
         boolean exist = true;
         scorePrefs = Gdx.app.getPreferences(PREFS_NAME);
 
-        highScores = new ArrayList<Integer>();
-        for (int i = 0; i < TABLE_SIZE; i++) {
-            highScores.add(0);
-            if(!scorePrefs.contains(String.valueOf(i)))
-                exist = false;
+        highScores = new HashMap<String, Integer>();
+        for (String difficulty : DIFFICULTY_LEVELS) {
+            for (int i = 0; i < TABLE_SIZE; i++) {
+                String keyVal = difficulty + String.valueOf(i);
+                highScores.put(keyVal, 0);
+                if (!scorePrefs.contains(keyVal))
+                    exist = false;
+            }
         }
 
         if(exist)
@@ -26,14 +29,20 @@ public class HighScoreManager {
 
     private static void loadFromPrefs() {
         highScores.clear();
-        for (int i = 0; i < TABLE_SIZE; i++) {
-            highScores.add(i, scorePrefs.getInteger(String.valueOf(i)));
+        for (String difficulty : DIFFICULTY_LEVELS) {
+            for (int i = 0; i < TABLE_SIZE; i++) {
+                String keyVal = difficulty + String.valueOf(i);
+                highScores.put(keyVal, scorePrefs.getInteger(keyVal));
+            }
         }
     }
 
     private static void saveToPrefs() {
-        for (int i = 0; i < TABLE_SIZE; i++) {
-            scorePrefs.putInteger(String.valueOf(i), highScores.get(i));
+        for (String difficulty : DIFFICULTY_LEVELS) {
+            for (int i = 0; i < TABLE_SIZE; i++) {
+                String keyVal = difficulty + String.valueOf(i);
+                scorePrefs.putInteger(keyVal, highScores.get(keyVal));
+            }
         }
         scorePrefs.flush();
     }
@@ -43,15 +52,18 @@ public class HighScoreManager {
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static int getScore(int rank) {
-        return highScores.get(rank);
+    public static int getScore(int rank, int difficulty) {
+        return highScores.get(DIFFICULTY_LEVELS[difficulty] + String.valueOf(rank));
     }
 
-    public static void addScore(int newScore) {
+    public static void addScore(int newScore, int difficulty) {
         for (int i = 0; i < TABLE_SIZE; i++) {
-            if(highScores.get(i) < newScore) {
-                highScores.add(i, newScore);
-                highScores.remove(highScores.size() - 1);
+            String keyVal = DIFFICULTY_LEVELS[difficulty] + String.valueOf(i);
+            if(highScores.get(keyVal) < newScore) {
+                for (int j = TABLE_SIZE - 1; j > i; j--) {
+                    highScores.put(DIFFICULTY_LEVELS[difficulty] + String.valueOf(j), highScores.get(DIFFICULTY_LEVELS[difficulty] + String.valueOf(j - 1)));
+                }
+                highScores.put(keyVal, newScore);
                 break;
             }
         }
@@ -63,9 +75,10 @@ public class HighScoreManager {
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static ArrayList<Integer> highScores;
+    private static HashMap<String, Integer> highScores;
     private static Preferences scorePrefs;
 
     private static final int TABLE_SIZE = 9;
     private static final String PREFS_NAME = "HighScore";
+    private static final String[] DIFFICULTY_LEVELS = {"E", "M", "H"};
 }

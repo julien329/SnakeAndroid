@@ -220,11 +220,11 @@ public class OptionScreen extends AbstractScreen {
 
         // Create checkBox style
         TextButton.TextButtonStyle checkBoxStyle = new TextButton.TextButtonStyle();
-        checkBoxStyle.up = buttonSkin.newDrawable("background", Color.WHITE);
-        checkBoxStyle.down = buttonSkin.newDrawable("background", Color.WHITE);
-        checkBoxStyle.checked = buttonSkin.newDrawable("background", Color.WHITE);
-        checkBoxStyle.over = buttonSkin.newDrawable("background", Color.WHITE);
-        checkBoxStyle.font = buttonSkin.getFont("default");
+        checkBoxStyle.up = checkBoxSkin.newDrawable("background", Color.WHITE);
+        checkBoxStyle.down = checkBoxSkin.newDrawable("background", Color.WHITE);
+        checkBoxStyle.checked = checkBoxSkin.newDrawable("background", Color.WHITE);
+        checkBoxStyle.over = checkBoxSkin.newDrawable("background", Color.WHITE);
+        checkBoxStyle.font = checkBoxSkin.getFont("default");
         checkBoxStyle.fontColor = Color.BLACK;
         checkBoxStyle.overFontColor = Color.GRAY;
         checkBoxStyle.checkedFontColor = Color.WHITE;
@@ -232,11 +232,11 @@ public class OptionScreen extends AbstractScreen {
 
         // Create exit button style
         TextButton.TextButtonStyle exitButtonStyle = new TextButton.TextButtonStyle();
-        exitButtonStyle.up = buttonSkin.newDrawable("background", Color.WHITE);
-        exitButtonStyle.down = buttonSkin.newDrawable("background", Color.LIGHT_GRAY);
-        exitButtonStyle.checked = buttonSkin.newDrawable("background", Color.WHITE);
-        exitButtonStyle.over = buttonSkin.newDrawable("background", Color.WHITE);
-        exitButtonStyle.font = buttonSkin.getFont("default");
+        exitButtonStyle.up = exitSkin.newDrawable("background", Color.WHITE);
+        exitButtonStyle.down = exitSkin.newDrawable("background", Color.LIGHT_GRAY);
+        exitButtonStyle.checked = exitSkin.newDrawable("background", Color.WHITE);
+        exitButtonStyle.over = exitSkin.newDrawable("background", Color.WHITE);
+        exitButtonStyle.font = exitSkin.getFont("default");
         exitButtonStyle.fontColor = Color.BLACK;
         exitSkin.add("default", exitButtonStyle);
     }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Timer;
+import com.juchap.snake.Utility.DifficultyManager;
 import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.HighScoreManager;
@@ -29,9 +30,9 @@ public class GameOverScreen extends AbstractScreen {
         bottomBorderY = GlobalVars.GRID_OFFSET_Y;
         topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
 
-        HighScoreManager.addScore(score);
+        HighScoreManager.addScore(score, DifficultyManager.getDifficulty());
         this.score = score;
-        this.best = HighScoreManager.getScore(0);
+        this.best = HighScoreManager.getScore(0, DifficultyManager.getDifficulty());
 
         canTouch = false;
     }
