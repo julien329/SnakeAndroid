@@ -1,0 +1,13 @@
+Try this retro-style snake game on your mobile device!
+
+From the old classic snake game that everyone remembers, with some new unique features :
+
+★ Customizable inputs : Choose between swipe or touch to change direction.
+★ Challenge yourself with three levels of difficulty.
+★ Retro-inspired minimalist graphics.
+★ Keep your high scores safe with the auto-save after each game.
+★ Full optimized so you don't have to worry about you battery.
+★ Almost non-existent loading times.
+★ Play without interruptions from pesky ads.
+★ Memory friendly with its very small app size.
+★ No internet connection required to play.
