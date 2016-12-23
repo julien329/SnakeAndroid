@@ -35,7 +35,7 @@ public class HighScoreScreen extends AbstractScreen {
         rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
         bottomBorderY = GlobalVars.GRID_OFFSET_Y;
         topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
-        difficultyIndex = 1;
+        difficultyIndex = 0;
 
         initButtonSkin();
         arrowLeftButton = new TextButton(ARROW_LEFT, arrowSkin);
@@ -56,6 +56,7 @@ public class HighScoreScreen extends AbstractScreen {
         int buttonPosX = GlobalVars.GRID_OFFSET_X + GlobalVars.UNIT_SIZE;
         arrowLeftButton.setSize(buttonWidth, buttonHeight);
         arrowLeftButton.setPosition(buttonPosX, buttonPosY);
+        arrowLeftButton.setVisible(false);
         arrowLeftButton.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
