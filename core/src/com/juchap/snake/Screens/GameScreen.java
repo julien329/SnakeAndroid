@@ -229,10 +229,10 @@ public class GameScreen extends AbstractScreen {
 	private Snake snake;
 	private GameUI gameUI;
 	private Food food;
-
 	private InputMultiplexer inputMultiplexer;
 	private InputPaused pausedInputs;
+	private ArrayList<Vector2> freeSpaces;
+
 	private boolean isPaused;
 	private float updatePosInterval;
-	private ArrayList<Vector2> freeSpaces;
 }

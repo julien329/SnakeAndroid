@@ -60,12 +60,13 @@ public class VibrationManager {
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static boolean vibrationEnabled;
-    private static Preferences vibrationPrefs;
-
     private static final String PREFS_NAME = "Vibration";
     private static final String KEY_NAME = "isEnabled";
     private static final int SHORT = 128;
     private static final int MEDIUM = 258;
     public static final int LONG = 512;
+
+    private static Preferences vibrationPrefs;
+
+    private static boolean vibrationEnabled;
 }

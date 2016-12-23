@@ -45,11 +45,12 @@ public class InputManager {
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static int inputType;
-    private static Preferences inputPrefs;
-
     private static final String PREFS_NAME = "Input";
     private static final String KEY_NAME = "type";
     private static final int TYPE_SWIPE = 0;
     private static final int TYPE_TOUCH = 1;
+
+    private static Preferences inputPrefs;
+
+    private static int inputType;
 }

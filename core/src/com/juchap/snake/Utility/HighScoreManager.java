@@ -75,10 +75,10 @@ public class HighScoreManager {
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static HashMap<String, Integer> highScores;
-    private static Preferences scorePrefs;
-
     private static final int TABLE_SIZE = 9;
     private static final String PREFS_NAME = "HighScore";
     private static final String[] DIFFICULTY_LEVELS = {"E", "M", "H"};
+
+    private static HashMap<String, Integer> highScores;
+    private static Preferences scorePrefs;
 }

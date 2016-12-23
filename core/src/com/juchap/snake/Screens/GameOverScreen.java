@@ -131,7 +131,7 @@ public class GameOverScreen extends AbstractScreen {
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private final int WAIT_TIME = 1;
+    private static final int WAIT_TIME = 1;
 
     private ShapeRenderer borders;
     private SpriteBatch batch;
@@ -140,7 +140,6 @@ public class GameOverScreen extends AbstractScreen {
     private int rightBorderX;
     private int topBorderY;
     private int bottomBorderY;
-
     private int score;
     private int best;
     private boolean canTouch;

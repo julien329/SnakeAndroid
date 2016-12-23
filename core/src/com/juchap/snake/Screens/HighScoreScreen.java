@@ -232,7 +232,6 @@ public class HighScoreScreen extends AbstractScreen {
 
     final TextButton arrowLeftButton;
     final TextButton arrowRightButton;
-
     private ShapeRenderer borders;
     private SpriteBatch batch;
     private Skin arrowSkin;

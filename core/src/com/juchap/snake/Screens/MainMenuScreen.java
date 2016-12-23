@@ -158,7 +158,6 @@ public class MainMenuScreen extends AbstractScreen {
     private int rightBorderX;
     private int topBorderY;
     private int bottomBorderY;
-
     private int buttonWidth;
     private int buttonHeight;
 }

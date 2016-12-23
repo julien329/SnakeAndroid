@@ -289,7 +289,6 @@ public class OptionScreen extends AbstractScreen {
     private Skin buttonSkin;
     private Skin checkBoxSkin;
     private Skin exitSkin;
-
     private GlyphLayout separatorText;
     private GlyphLayout changeValueText;
     private GlyphLayout checkedText;
@@ -303,7 +302,6 @@ public class OptionScreen extends AbstractScreen {
 
     private int controlIndex;
     private int difficultyIndex;
-
     private int leftBorderX;
     private int rightBorderX;
     private int topBorderY;

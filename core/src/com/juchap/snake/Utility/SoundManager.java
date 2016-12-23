@@ -65,15 +65,16 @@ public class SoundManager {
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static boolean soundEnabled;
-    private static Preferences soundPrefs;
-    private static Sound eatSound;
-    private static Sound activateSound;
-    private static Sound gameOverSound;
-
     private static final String PREFS_NAME = "Sound";
     private static final String KEY_NAME = "isEnabled";
     private static final String EAT_PATH = "Sounds/Eat.wav";
     private static final String ACTIVATE_PATH = "Sounds/ActivateSounds.wav";
     private static final String GAME_OVER_PATH = "Sounds/GameOver.wav";
+
+    private static Preferences soundPrefs;
+    private static Sound eatSound;
+    private static Sound activateSound;
+    private static Sound gameOverSound;
+
+    private static boolean soundEnabled;
 }

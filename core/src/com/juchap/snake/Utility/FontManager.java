@@ -150,13 +150,6 @@ public class FontManager {
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static HashMap<String, BitmapFont> fonts;
-    private static FileHandle audimatHandle;
-    private static int scaledSmall;
-    private static int scaledMedium;
-    private static int scaledLarge;
-    private static float scaleFactor;
-
     private static final String fontDir = "bitmapFonts/";
     private static final String AUDIMAT_MONO_B_TTF = "Fonts/audimatMonoB.ttf";
     private static final String AUDIMAT_MONO_B = "audimatMonoB";
@@ -165,4 +158,11 @@ public class FontManager {
     private static final int MEDIUM = 32;
     private static final int LARGE = 64;
 
+    private static HashMap<String, BitmapFont> fonts;
+    private static FileHandle audimatHandle;
+
+    private static int scaledSmall;
+    private static int scaledMedium;
+    private static int scaledLarge;
+    private static float scaleFactor;
 }

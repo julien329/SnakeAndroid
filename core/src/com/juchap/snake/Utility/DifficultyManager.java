@@ -55,9 +55,6 @@ public class DifficultyManager {
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static int difficultyLevel;
-    private static Preferences difficultyPrefs;
-
     private static final String KEY_NAME = "difficultyLevel";
     private static final String PREFS_NAME = "Difficulty";
     private static final int EASY = 0;
@@ -66,4 +63,8 @@ public class DifficultyManager {
     private static final float INTERVAL_EASY = 0.125f;
     private static final float INTERVAL_MEDIUM = 0.1f;
     private static final float INTERVAL_HARD = 0.075f;
+
+    private static Preferences difficultyPrefs;
+
+    private static int difficultyLevel;
 }

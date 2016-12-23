@@ -103,18 +103,17 @@ public class SplashScreen extends AbstractScreen {
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    private static final int[] SNAKE_BUILD_X = new int[] { 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0 };
+    private static final int[] SNAKE_BUILD_Y = new int[] {-1,-1,-1,-1, 0, 0, 0, 0, 1, 1, 1, 1 };
+    private static final int[] SNAKE_TRAJECTORY_X = new int[] {1, 1, 1, 1, 0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0 };
+    private static final int[] SNAKE_TRAJECTORY_Y = new int[] {0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0, 1, 1, 1, 1 };
+    private static final float MOVE_INTERVAL = 0.125f;
+
     private ShapeRenderer borders;
     private Snake snake;
 
-    private final int[] SNAKE_BUILD_X = new int[] { 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0 };
-    private final int[] SNAKE_BUILD_Y = new int[] {-1,-1,-1,-1, 0, 0, 0, 0, 1, 1, 1, 1 };
-    private final int[] SNAKE_TRAJECTORY_X = new int[] {1, 1, 1, 1, 0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0 };
-    private final int[] SNAKE_TRAJECTORY_Y = new int[] {0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0, 1, 1, 1, 1 };
-    private final float MOVE_INTERVAL = 0.125f;
-
-    private int trajectoryIndex;
     private boolean showSnake;
-
+    private int trajectoryIndex;
     private int leftBorderX;
     private int rightBorderX;
     private int topBorderY;
