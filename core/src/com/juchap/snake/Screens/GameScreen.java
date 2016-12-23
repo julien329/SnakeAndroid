@@ -22,6 +22,8 @@ import com.juchap.snake.Utility.ScreenManager;
 import com.juchap.snake.Utility.SoundManager;
 import com.juchap.snake.Utility.VibrationManager;
 
+import java.util.ArrayList;
+
 
 public class GameScreen extends AbstractScreen {
 
@@ -33,6 +35,13 @@ public class GameScreen extends AbstractScreen {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 
 		isPaused = false;
+
+		freeSpaces = new ArrayList<Vector2>();
+		for(int i = GlobalVars.GRID_OFFSET_X + GlobalVars.UNIT_SIZE ; i < GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE; i += GlobalVars.UNIT_SIZE) {
+			for(int j = GlobalVars.GRID_OFFSET_Y + GlobalVars.UNIT_SIZE ; j < GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE; j += GlobalVars.UNIT_SIZE) {
+				freeSpaces.add(new Vector2(i, j));
+			}
+		}
 	}
 
 	@Override
@@ -41,6 +50,7 @@ public class GameScreen extends AbstractScreen {
 
 		int centerX = (int)(Math.floor((Gdx.graphics.getWidth() / GlobalVars.UNIT_SIZE) * (1.0/2.0)) * GlobalVars.UNIT_SIZE) + GlobalVars.GRID_OFFSET_X;
 		int centerY = (int)(Math.floor((Gdx.graphics.getHeight() / GlobalVars.UNIT_SIZE) * (3.0/7.0)) * GlobalVars.UNIT_SIZE) + GlobalVars.GRID_OFFSET_Y;
+		freeSpaces.remove(new Vector2(centerX, centerY));
 		snake = new Snake(centerX, centerY);
 
 		food = new Food();
@@ -131,7 +141,6 @@ public class GameScreen extends AbstractScreen {
 					snake.setDir(0, (int) Math.signum(distY));
 				}
 			}
-
 			return true;
 		}
 	}
@@ -191,7 +200,9 @@ public class GameScreen extends AbstractScreen {
 		@Override
 		public void run() {
 			snake.move();
-			snake.tryEat();
+			freeSpaces.remove(snake.getHeadPos());
+			if (!snake.tryEat() && snake.getDir() != Vector2.Zero)
+				freeSpaces.add(snake.getEndLastPos());
 
 			Gdx.graphics.requestRendering();
 
@@ -208,6 +219,7 @@ public class GameScreen extends AbstractScreen {
 	public Snake getSnake() { return snake; }
 	public GameUI getGameUI() { return gameUI; }
 	public Food getFood() { return food; }
+	public ArrayList<Vector2> getFreeSpaces() { return freeSpaces; }
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -222,4 +234,5 @@ public class GameScreen extends AbstractScreen {
 	private InputPaused pausedInputs;
 	private boolean isPaused;
 	private float updatePosInterval;
+	private ArrayList<Vector2> freeSpaces;
 }

@@ -1,6 +1,5 @@
 package com.juchap.snake.GameScene;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -18,19 +17,12 @@ public class Food {
     }
 
     public void spawnFood() {
-        int maxX = (Gdx.graphics.getWidth() / GlobalVars.UNIT_SIZE) - 2;
-        int maxY = (GlobalVars.GAME_GRID_HEIGHT / GlobalVars.UNIT_SIZE) - 2;
-
+        ArrayList<Vector2> freeSpaces = ((GameScreen)ScreenManager.getInstance().getScreen()).getFreeSpaces();
         Random random = new Random();
-        int randX, randY;
+        Vector2 pos = freeSpaces.get(random.nextInt(freeSpaces.size()));
 
-        do {
-            randX = (random.nextInt(maxX) + 1) * GlobalVars.UNIT_SIZE + GlobalVars.GRID_OFFSET_X;
-            randY = (random.nextInt(maxY) + 1) * GlobalVars.UNIT_SIZE + GlobalVars.GRID_OFFSET_Y;
-        } while (!authorizedPos(randX, randY));
-
-        posX = randX;
-        posY = randY;
+        posX = (int)pos.x;
+        posY = (int)pos.y;
     }
 
     public void render() {
@@ -38,15 +30,6 @@ public class Food {
         shape.setColor(Color.RED);
         shape.rect(posX, posY, GlobalVars.UNIT_SIZE, GlobalVars.UNIT_SIZE);
         shape.end();
-    }
-
-    private boolean authorizedPos(int posX, int posY) {
-        ArrayList<BodyPart> bodyParts = ((GameScreen) ScreenManager.getInstance().getScreen()).getSnake().getBodyParts();
-        for(BodyPart part : bodyParts) {
-            if(posX == part.getPos().x && posY == part.getPos().y)
-                return false;
-        }
-        return true;
     }
 
 
@@ -62,7 +45,6 @@ public class Food {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private ShapeRenderer shape;
-
     private int posX;
     private int posY;
 }

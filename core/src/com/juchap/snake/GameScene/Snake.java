@@ -25,7 +25,7 @@ public class Snake {
 
     public void move() {
         BodyPart part = bodyParts.get(0);
-        part.setPos((int)(part.getPos().x + dirX * GlobalVars.UNIT_SIZE), (int)(part.getPos().y + dirY * GlobalVars.UNIT_SIZE));
+        part.setPos((int)part.getPos().x + dirX * GlobalVars.UNIT_SIZE, (int)part.getPos().y + dirY * GlobalVars.UNIT_SIZE);
 
         while (part.getPrevious() != null) {
             part = part.getPrevious();
@@ -55,7 +55,7 @@ public class Snake {
         return false;
     }
 
-    public void tryEat() {
+    public boolean tryEat() {
         BodyPart head = bodyParts.get(0);
         Food food = ((GameScreen) ScreenManager.getInstance().getScreen()).getFood();
 
@@ -70,7 +70,10 @@ public class Snake {
 
             VibrationManager.vibrateShort();
             SoundManager.playEat();
+            return true;
         }
+
+        return false;
     }
 
 
@@ -88,6 +91,7 @@ public class Snake {
 
     public Vector2 getDir() { return new Vector2(dirX, dirY); }
     public Vector2 getHeadPos() { return bodyParts.get(0).getPos(); }
+    public Vector2 getEndLastPos() { return bodyParts.get(bodyParts.size() - 1).getLastPos(); }
     public ArrayList<BodyPart> getBodyParts() { return bodyParts; }
 
 
