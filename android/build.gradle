@@ -19,7 +19,7 @@ android {
     }
     defaultConfig {
         applicationId "com.juchap.snake"
-        minSdkVersion 9
+        minSdkVersion 15
         targetSdkVersion 25
     }
 }
