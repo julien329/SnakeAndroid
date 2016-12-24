@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_id">543515090072</string>
+    <string name="package_name">com.juchap.snake</string>
+    <string name="achievement_worm">CgkImLmY4OgPEAIQAQ</string>
+    <string name="achievement_snake">CgkImLmY4OgPEAIQAg</string>
+    <string name="achievement_anaconda">CgkImLmY4OgPEAIQAw</string>
+    <string name="achievement_snack">CgkImLmY4OgPEAIQBA</string>
+    <string name="achievement_meal">CgkImLmY4OgPEAIQBQ</string>
+    <string name="achievement_feast">CgkImLmY4OgPEAIQBg</string>
+    <string name="leaderboard_easy">CgkImLmY4OgPEAIQBw</string>
+    <string name="leaderboard_medium">CgkImLmY4OgPEAIQCA</string>
+    <string name="leaderboard_hard">CgkImLmY4OgPEAIQCQ</string>
+</resources>
