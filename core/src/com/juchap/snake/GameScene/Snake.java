@@ -42,7 +42,7 @@ public class Snake {
         BodyPart head = bodyParts.get(0);
         if(head.getPos().x < (GlobalVars.GRID_OFFSET_X + GlobalVars.UNIT_SIZE) || head.getPos().x > maxX)
             return true;
-        if(head.getPos().y < (GlobalVars.GRID_OFFSET_X + GlobalVars.UNIT_SIZE) || head.getPos().y > maxY)
+        if(head.getPos().y < (GlobalVars.GRID_OFFSET_Y + GlobalVars.UNIT_SIZE) || head.getPos().y > maxY)
             return true;
 
         BodyPart body = head.getPrevious();
