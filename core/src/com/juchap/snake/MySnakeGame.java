@@ -2,6 +2,7 @@ package com.juchap.snake;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.juchap.snake.Services.PlayServices;
 import com.juchap.snake.Utility.DifficultyManager;
 import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
@@ -14,6 +15,11 @@ import com.juchap.snake.Utility.VibrationManager;
 
 
 public class MySnakeGame extends Game {
+
+    public MySnakeGame(PlayServices playServices) {
+        this.playServices = playServices;
+    }
+
     @Override
     public void create () {
         GlobalVars.initVars();
@@ -36,10 +42,25 @@ public class MySnakeGame extends Game {
                     @Override
                     public void run() {
                         FontManager.loadAllFont();
+                        playServices.signIn();
                         ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
                     }
                 });
             }
         }).start();
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /// GET / SET
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public PlayServices getPlayServices() { return playServices; }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /// VARIABLES
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private PlayServices playServices;
 }

@@ -3,6 +3,7 @@ package com.juchap.snake.Utility;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.juchap.snake.MySnakeGame;
 import com.juchap.snake.Screens.AbstractScreen;
 
 
@@ -19,7 +20,7 @@ public class ScreenManager {
         return instance;
     }
 
-    public void initialize(Game game) {
+    public void initialize(MySnakeGame game) {
         this.game = game;
         Gdx.graphics.setContinuousRendering(false);
     }
@@ -35,6 +36,15 @@ public class ScreenManager {
             oldScreen.dispose();
     }
 
+    public void signIn() { game.getPlayServices().signIn(); }
+    public void signOut() { game.getPlayServices().signOut(); }
+    public void rateGame() { game.getPlayServices().rateGame(); }
+    public void unlockAchievement(String achievement) { game.getPlayServices().unlockAchievement(achievement); }
+    public void incrementAchievement(String achievement, int amount) { game.getPlayServices().incrementAchievement(achievement, amount); }
+    public void submitScore(String difficulty, int score) { game.getPlayServices().submitScore(difficulty, score); }
+    public void showAchievements() { game.getPlayServices().showAchievements(); }
+    public void showScores(String difficulty) { game.getPlayServices().showScores(difficulty); }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// GET / SET
@@ -49,5 +59,5 @@ public class ScreenManager {
 
     private static ScreenManager instance;
     private AbstractScreen currentScreen;
-    private Game game;
+    private MySnakeGame game;
 }
