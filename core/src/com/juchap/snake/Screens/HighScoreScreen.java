@@ -20,6 +20,7 @@ import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.HighScoreManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
+import com.juchap.snake.Utility.StringManager;
 
 
 public class HighScoreScreen extends AbstractScreen {
@@ -231,8 +232,8 @@ public class HighScoreScreen extends AbstractScreen {
     private static final String ARROW_LEFT = " < ";
     private static final String EXIT = "EXIT";
 
-    final TextButton arrowLeftButton;
-    final TextButton arrowRightButton;
+    private final TextButton arrowLeftButton;
+    private final TextButton arrowRightButton;
     private ShapeRenderer borders;
     private SpriteBatch batch;
     private Skin arrowSkin;

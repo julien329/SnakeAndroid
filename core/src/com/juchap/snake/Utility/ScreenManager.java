@@ -43,7 +43,7 @@ public class ScreenManager {
     public void incrementAchievement(String achievement, int amount) { game.getPlayServices().incrementAchievement(achievement, amount); }
     public void submitScore(String difficulty, int score) { game.getPlayServices().submitScore(difficulty, score); }
     public void showAchievements() { game.getPlayServices().showAchievements(); }
-    public void showScores(String difficulty) { game.getPlayServices().showScores(difficulty); }
+    public void showScores() { game.getPlayServices().showScores(); }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -9,6 +9,6 @@ public interface PlayServices {
     void incrementAchievement(String achievement, int amount);
     void submitScore(String difficulty, int score);
     void showAchievements();
-    void showScores(String difficulty);
+    void showScores();
     boolean isSignedIn();
 }

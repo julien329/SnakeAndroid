@@ -3,12 +3,20 @@
     <string name="app_id">543515090072</string>
     <string name="package_name">com.juchap.snake</string>
     <string name="achievement_worm">CgkImLmY4OgPEAIQAQ</string>
-    <string name="achievement_snake">CgkImLmY4OgPEAIQAg</string>
+    <string name="achievement_boa">CgkImLmY4OgPEAIQAg</string>
+    <string name="achievement_python">CgkImLmY4OgPEAIQDw</string>
     <string name="achievement_anaconda">CgkImLmY4OgPEAIQAw</string>
+    <string name="achievement_bite">CgkImLmY4OgPEAIQDg</string>
     <string name="achievement_snack">CgkImLmY4OgPEAIQBA</string>
     <string name="achievement_meal">CgkImLmY4OgPEAIQBQ</string>
     <string name="achievement_feast">CgkImLmY4OgPEAIQBg</string>
-    <string name="leaderboard_easy">CgkImLmY4OgPEAIQBw</string>
-    <string name="leaderboard_medium">CgkImLmY4OgPEAIQCA</string>
-    <string name="leaderboard_hard">CgkImLmY4OgPEAIQCQ</string>
+    <string name="achievement_gluttony">CgkImLmY4OgPEAIQDQ</string>
+    <string name="achievement_scaredy_cat">CgkImLmY4OgPEAIQEA</string>
+    <string name="achievement_adventurous">CgkImLmY4OgPEAIQEQ</string>
+    <string name="achievement_presumptuous">CgkImLmY4OgPEAIQEg</string>
+    <string name="achievement_premature">CgkImLmY4OgPEAIQEw</string>
+    <string name="achievement_slow_down">CgkImLmY4OgPEAIQFQ</string>
+    <string name="achievement_looking_good">CgkImLmY4OgPEAIQFg</string>
+    <string name="achievement_my_man">CgkImLmY4OgPEAIQFA</string>
+    <string name="leaderboard_easy">CgkImLmY4OgPEAIQFw</string>
 </resources>

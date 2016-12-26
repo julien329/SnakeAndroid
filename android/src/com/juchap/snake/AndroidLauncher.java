@@ -10,8 +10,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.BaseGameUtils;
 import com.google.example.games.basegameutils.GameHelper;
 import com.juchap.snake.Services.PlayServices;
+import com.juchap.snake.Utility.StringManager;
 
 
 public class AndroidLauncher extends AndroidApplication implements PlayServices {
@@ -77,12 +79,14 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
 	@Override
 	public void unlockAchievement(String achievement) {
-		Games.Achievements.unlock(gameHelper.getApiClient(), achievement);
+		if(isSignedIn())
+			Games.Achievements.unlock(gameHelper.getApiClient(), achievement);
 	}
 
 	@Override
 	public void incrementAchievement(String achievement, int amount) {
-		Games.Achievements.increment(gameHelper.getApiClient(), achievement, amount);
+		if(isSignedIn())
+			Games.Achievements.increment(gameHelper.getApiClient(), achievement, amount);
 	}
 
 	@Override
@@ -100,9 +104,12 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	}
 
 	@Override
-	public void showScores(String difficulty) {
-		if (isSignedIn())
-			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), difficulty), requestCode);
+	public void showScores() {
+		if (isSignedIn()) {
+			gameHelper.getApiClient().connect();
+			if(gameHelper.getApiClient().isConnected());
+				startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), getString(R.string.leaderboard_easy)), requestCode);
+		}
 		else
 			signIn();
 	}

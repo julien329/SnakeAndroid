@@ -14,6 +14,7 @@ import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.HighScoreManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
+import com.juchap.snake.Utility.StringManager;
 
 
 public class GameOverScreen extends AbstractScreen {
@@ -35,6 +36,9 @@ public class GameOverScreen extends AbstractScreen {
         this.best = HighScoreManager.getScore(0, DifficultyManager.getDifficulty());
 
         canTouch = false;
+
+        checkAchievements(score, DifficultyManager.getDifficulty());
+        ScreenManager.getInstance().submitScore(DifficultyManager.getLeaderboard(), score);
     }
 
     @Override
@@ -128,6 +132,44 @@ public class GameOverScreen extends AbstractScreen {
             fontSmall.draw(batch, continueText, (Gdx.graphics.getWidth() - continueText.width) / 2, GlobalVars.GRID_OFFSET_Y + 2 * GlobalVars.UNIT_SIZE + continueText.height);
             batch.end();
         }
+    }
+
+    private void checkAchievements(int score, int difficulty) {
+        ScreenManager playServices = ScreenManager.getInstance();
+
+        // Increment score achievements
+        if (score > 0) {
+            playServices.incrementAchievement(StringManager.ACHIEVEMENT_BITE, score);
+            playServices.incrementAchievement(StringManager.ACHIEVEMENT_SNACK, score);
+            playServices.incrementAchievement(StringManager.ACHIEVEMENT_MEAL, score);
+            playServices.incrementAchievement(StringManager.ACHIEVEMENT_FEAST, score);
+            playServices.incrementAchievement(StringManager.ACHIEVEMENT_GLUTONY, score);
+        }
+
+        // Increment nb game played achievements
+        playServices.incrementAchievement(StringManager.ACHIEVEMENT_SLOW_DOWN, 1);
+        playServices.incrementAchievement(StringManager.ACHIEVEMENT_LOOKING_GOOD, 1);
+        playServices.incrementAchievement(StringManager.ACHIEVEMENT_MY_MAN, 1);
+
+        // Check for difficulty achievementss
+        if (difficulty == DifficultyManager.EASY)
+            playServices.unlockAchievement(StringManager.ACHIEVEMENT_SCAREDY_CAT);
+        else if (difficulty == DifficultyManager.MEDIUM)
+            playServices.unlockAchievement(StringManager.ACHIEVEMENT_ADVENTUROUS);
+        else if (difficulty == DifficultyManager.HARD)
+            playServices.unlockAchievement(StringManager.ACHIEVEMENT_PRESUMPTUOUS);
+
+        // Check for score milestone achievements
+        if(score == 0)
+            playServices.unlockAchievement(StringManager.ACHIEVEMENT_PRESUMATURE);
+        if(score >= 50)
+            playServices.unlockAchievement(StringManager.ACHIEVEMENT_WORM);
+        if(score >= 100)
+            playServices.unlockAchievement(StringManager.ACHIEVEMENT_BOA);
+        if(score >= 250)
+            playServices.unlockAchievement(StringManager.ACHIEVEMENT_PYTHON);
+        if(score >= 500)
+            playServices.unlockAchievement(StringManager.ACHIEVEMENT_ANACONDA);
     }
 
 

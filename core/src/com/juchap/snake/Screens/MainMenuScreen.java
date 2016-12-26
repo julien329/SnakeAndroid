@@ -73,6 +73,40 @@ public class MainMenuScreen extends AbstractScreen {
             };
         });
         this.addActor(optionsButton);
+
+        buttonPosY -= (buttonHeight + 2 * GlobalVars.UNIT_SIZE);
+        TextButton achievementButton = new TextButton("A", buttonSkin);
+        achievementButton.setPosition((Gdx.graphics.getWidth() - (Gdx.graphics.getWidth() / 8)) / 2 - Gdx.graphics.getWidth() / 6, buttonPosY);
+        achievementButton.setSize(Gdx.graphics.getWidth() / 8, Gdx.graphics.getWidth() / 8);
+        achievementButton.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenManager.getInstance().showAchievements();
+            };
+        });
+        this.addActor(achievementButton);
+
+        TextButton rateButton = new TextButton("R", buttonSkin);
+        rateButton.setPosition((Gdx.graphics.getWidth() - (Gdx.graphics.getWidth() / 8)) / 2, buttonPosY);
+        rateButton.setSize(Gdx.graphics.getWidth() / 8, Gdx.graphics.getWidth() / 8);
+        rateButton.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenManager.getInstance().rateGame();
+            };
+        });
+        this.addActor(rateButton);
+
+        TextButton leaderboardButton = new TextButton("L", buttonSkin);
+        leaderboardButton.setPosition((Gdx.graphics.getWidth() - (Gdx.graphics.getWidth() / 8)) / 2 + Gdx.graphics.getWidth() / 6, buttonPosY);
+        leaderboardButton.setSize(Gdx.graphics.getWidth() / 8, Gdx.graphics.getWidth() / 8);
+        leaderboardButton.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenManager.getInstance().showScores();
+            };
+        });
+        this.addActor(leaderboardButton);
     }
 
     @Override

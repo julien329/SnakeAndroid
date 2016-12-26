@@ -32,6 +32,7 @@ public class DifficultyManager {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static int getDifficulty() { return difficultyLevel; }
+
     public static float getInterval() {
         float interval = -1;
 
@@ -43,6 +44,19 @@ public class DifficultyManager {
             interval = INTERVAL_HARD;
 
         return interval;
+    }
+
+    public static String getLeaderboard() {
+        String leaderboard = null;
+
+        if(difficultyLevel == EASY)
+            leaderboard = StringManager.LEADERBOARD_EASY;
+        else if(difficultyLevel == MEDIUM)
+            leaderboard = StringManager.LEADERBOARD_MEDIUM;
+        else if(difficultyLevel == HARD)
+            leaderboard = StringManager.LEADERBOARD_HARD;
+
+        return leaderboard;
     }
 
     public static void setDifficulty(int level) {
@@ -57,9 +71,9 @@ public class DifficultyManager {
 
     private static final String KEY_NAME = "difficultyLevel";
     private static final String PREFS_NAME = "Difficulty";
-    private static final int EASY = 0;
-    private static final int MEDIUM = 1;
-    private static final int HARD = 2;
+    public static final int EASY = 0;
+    public static final int MEDIUM = 1;
+    public static final int HARD = 2;
     private static final float INTERVAL_EASY = 0.125f;
     private static final float INTERVAL_MEDIUM = 0.1f;
     private static final float INTERVAL_HARD = 0.075f;
