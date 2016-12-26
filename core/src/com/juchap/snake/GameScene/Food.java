@@ -14,11 +14,11 @@ public class Food {
 
     public Food() {
         shape = new ShapeRenderer();
+        freeSpaces = ((GameScreen)ScreenManager.getInstance().getScreen()).getFreeSpaces();
+        random = new Random();
     }
 
     public void spawnFood() {
-        ArrayList<Vector2> freeSpaces = ((GameScreen)ScreenManager.getInstance().getScreen()).getFreeSpaces();
-        Random random = new Random();
         Vector2 pos = freeSpaces.get(random.nextInt(freeSpaces.size()));
 
         posX = (int)pos.x;
@@ -45,6 +45,9 @@ public class Food {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private ShapeRenderer shape;
+    private ArrayList<Vector2> freeSpaces;
+    private Random random;
+
     private int posX;
     private int posY;
 }

@@ -106,9 +106,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	@Override
 	public void showScores() {
 		if (isSignedIn()) {
-			gameHelper.getApiClient().connect();
-			if(gameHelper.getApiClient().isConnected());
-				startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), getString(R.string.leaderboard_easy)), requestCode);
+			startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(gameHelper.getApiClient()), requestCode);
 		}
 		else
 			signIn();

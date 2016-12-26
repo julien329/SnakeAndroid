@@ -38,7 +38,9 @@ public class GameOverScreen extends AbstractScreen {
         canTouch = false;
 
         checkAchievements(score, DifficultyManager.getDifficulty());
-        ScreenManager.getInstance().submitScore(DifficultyManager.getLeaderboard(), score);
+
+        if(score > 0)
+            ScreenManager.getInstance().submitScore(DifficultyManager.getLeaderboard(), score);
     }
 
     @Override
