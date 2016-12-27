@@ -80,9 +80,16 @@ public class MainMenuScreen extends AbstractScreen {
         achievementButton.setSize(Gdx.graphics.getWidth() / 8, Gdx.graphics.getWidth() / 8);
         achievementButton.addListener( new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
+                Gdx.graphics.setContinuousRendering(true);
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
+                Gdx.graphics.setContinuousRendering(false);
                 ScreenManager.getInstance().showAchievements();
-            };
+
+            }
         });
         this.addActor(achievementButton);
 
@@ -102,9 +109,16 @@ public class MainMenuScreen extends AbstractScreen {
         leaderboardButton.setSize(Gdx.graphics.getWidth() / 8, Gdx.graphics.getWidth() / 8);
         leaderboardButton.addListener( new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
+                Gdx.graphics.setContinuousRendering(true);
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
+                Gdx.graphics.setContinuousRendering(false);
                 ScreenManager.getInstance().showScores();
-            };
+
+            }
         });
         this.addActor(leaderboardButton);
     }
