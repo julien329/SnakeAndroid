@@ -6,14 +6,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.games.Games;
-import com.google.example.games.basegameutils.BaseGameUtils;
 import com.google.example.games.basegameutils.GameHelper;
 import com.juchap.snake.Services.PlayServices;
-import com.juchap.snake.Utility.StringManager;
 
 
 public class AndroidLauncher extends AndroidApplication implements PlayServices {
@@ -21,6 +20,8 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		offlineData = new OfflineData(getContext(), BuildConfig.APPLICATION_ID, Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID));
 
 		gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
 		gameHelper.enableDebugLog(true);
@@ -79,26 +80,31 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
 	@Override
 	public void unlockAchievement(String achievement) {
+		offlineData.saveAchievementUnlock(achievement);
 		if(isSignedIn())
-			Games.Achievements.unlock(gameHelper.getApiClient(), achievement);
+			offlineData.sendOnline(gameHelper.getApiClient(), this);
 	}
 
 	@Override
 	public void incrementAchievement(String achievement, int amount) {
+		offlineData.saveAchievementIncrement(achievement, amount);
 		if(isSignedIn())
-			Games.Achievements.increment(gameHelper.getApiClient(), achievement, amount);
+			offlineData.sendOnline(gameHelper.getApiClient(), this);
 	}
 
 	@Override
 	public void submitScore(String leaderboard, int score) {
+		offlineData.saveScore(leaderboard, score);
 		if (isSignedIn())
-			Games.Leaderboards.submitScore(gameHelper.getApiClient(), leaderboard, score);
+			offlineData.sendOnline(gameHelper.getApiClient(), this);
 	}
 
 	@Override
 	public void showAchievements() {
-		if (isSignedIn())
+		if (isSignedIn()) {
+			offlineData.sendOnline(gameHelper.getApiClient(), this);
 			startActivityForResult(Games.Achievements.getAchievementsIntent(gameHelper.getApiClient()), requestCode);
+		}
 		else
 			signIn();
 	}
@@ -106,6 +112,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	@Override
 	public void showScores() {
 		if (isSignedIn()) {
+			offlineData.sendOnline(gameHelper.getApiClient(), this);
 			startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(gameHelper.getApiClient()), requestCode);
 		}
 		else
@@ -141,6 +148,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	/// VARIABLES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	private OfflineData offlineData;
 	private GameHelper gameHelper;
 	private final static int requestCode = 1;
 }
