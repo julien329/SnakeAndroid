@@ -50,12 +50,12 @@ public class OfflineData {
         sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_adventurous));
         sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_presumptuous));
         sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_premature));
+        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_worm));
+        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_boa));
+        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_python));
+        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_anaconda));
 
         // Send achivement progress online
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_worm));
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_boa));
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_python));
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_anaconda));
         sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_bite));
         sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_snack));
         sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_meal));
