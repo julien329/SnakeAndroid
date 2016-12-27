@@ -39,7 +39,7 @@ public class GameOverScreen extends AbstractScreen {
 
         checkAchievements(score, DifficultyManager.getDifficulty());
 
-        if(score > 0)
+        if(score > 0 && score < 2048)
             ScreenManager.getInstance().submitScore(DifficultyManager.getLeaderboard(), score);
     }
 

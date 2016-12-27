@@ -105,7 +105,7 @@ public class GameScreen extends AbstractScreen {
 				Gdx.app.postRunnable(new Runnable() {
 					@Override
 					public void run() {
-						ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER, gameUI.getScore());
+						ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER, snake.getBodyParts().size() - 1);
 					}
 				});
 			}
