@@ -54,7 +54,7 @@ public class OfflineData {
         sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_boa));
         sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_python));
         sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_anaconda));
-        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_deserter));
+        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_i_surrender));
 
         // Send achivement progress online
         sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_bite));

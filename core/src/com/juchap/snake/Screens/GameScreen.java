@@ -106,7 +106,8 @@ public class GameScreen extends AbstractScreen {
 				Gdx.app.postRunnable(new Runnable() {
 					@Override
 					public void run() {
-						ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER, snake.getBodyParts().size() - 1);
+						int score = (snake.getBodyParts().size() - 1 == gameUI.getScore()) ? gameUI.getScore() : 0;
+						ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER, score);
 					}
 				});
 			}
@@ -190,7 +191,7 @@ public class GameScreen extends AbstractScreen {
 		public boolean keyUp(int keycode) {
 			if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
 				Timer.instance().clear();
-				ScreenManager.getInstance().unlockAchievement(StringManager.ACHIEVEMENT_DESERTER);
+				ScreenManager.getInstance().unlockAchievement(StringManager.ACHIEVEMENT_I_SURRENDER);
 				ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
 				return true;
 			}
