@@ -56,7 +56,7 @@ public class GameScreen extends AbstractScreen {
 		food = new Food();
 		food.spawnFood();
 
-		updatePosInterval = DifficultyManager.getInterval();
+		float updatePosInterval = DifficultyManager.getInterval();
 		Timer.schedule(new MoveSnake(), updatePosInterval, updatePosInterval);
 		Timer.instance().start();
 	}
@@ -234,5 +234,4 @@ public class GameScreen extends AbstractScreen {
 	private ArrayList<Vector2> freeSpaces;
 
 	private boolean isPaused;
-	private float updatePosInterval;
 }
