@@ -20,6 +20,7 @@ import com.juchap.snake.Utility.InputManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
 import com.juchap.snake.Utility.SoundManager;
+import com.juchap.snake.Utility.StringManager;
 import com.juchap.snake.Utility.VibrationManager;
 
 import java.util.ArrayList;
@@ -189,6 +190,7 @@ public class GameScreen extends AbstractScreen {
 		public boolean keyUp(int keycode) {
 			if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
 				Timer.instance().clear();
+				ScreenManager.getInstance().unlockAchievement(StringManager.ACHIEVEMENT_DESERTER);
 				ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
 				return true;
 			}

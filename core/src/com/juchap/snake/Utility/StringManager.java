@@ -18,6 +18,7 @@ public class StringManager {
     public static final String ACHIEVEMENT_SLOW_DOWN = "CgkImLmY4OgPEAIQFQ";
     public static final String ACHIEVEMENT_LOOKING_GOOD = "CgkImLmY4OgPEAIQFg";
     public static final String ACHIEVEMENT_MY_MAN = "CgkImLmY4OgPEAIQFA";
+    public static final String ACHIEVEMENT_DESERTER = "CgkImLmY4OgPEAIQHA";
     public static final String LEADERBOARD_EASY = "CgkImLmY4OgPEAIQFw";
     public static final String LEADERBOARD_MEDIUM = "CgkImLmY4OgPEAIQGQ";
     public static final String LEADERBOARD_HARD = "CgkImLmY4OgPEAIQGg";
