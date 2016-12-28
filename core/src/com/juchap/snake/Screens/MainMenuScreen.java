@@ -81,7 +81,7 @@ public class MainMenuScreen extends AbstractScreen {
         });
         this.addActor(optionsButton);
 
-        buttonPosY -= (buttonHeight + 4 * GlobalVars.UNIT_SIZE);
+        buttonPosY = 3 * GlobalVars.UNIT_SIZE;
         int iconSize = Gdx.graphics.getWidth() / 8;
 
         achievementTextureUp = new Texture(Gdx.files.internal("Textures/achievements_up.png"));
@@ -210,10 +210,14 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     private void drawTitle() {
-        BitmapFont titleFont = FontManager.fontCustom(Color.WHITE, 128);
-        // Draw score text
+        BitmapFont titleFont1 = FontManager.fontLarge(Color.WHITE);
         batch.begin();
-        titleFont.draw(batch, titleText, (Gdx.graphics.getWidth() - titleText.width) / 2, Gdx.graphics.getHeight() - (3 * GlobalVars.UNIT_SIZE));
+        titleFont1.draw(batch, titleText1, (Gdx.graphics.getWidth() - titleText1.width) / 2, Gdx.graphics.getHeight() - (3 * GlobalVars.UNIT_SIZE));
+        batch.end();
+
+        BitmapFont titleFont2 = FontManager.fontCustom(Color.WHITE, 108);
+        batch.begin();
+        titleFont2.draw(batch, titleText2, (Gdx.graphics.getWidth() - titleText2.width) / 2, Gdx.graphics.getHeight() - titleText1.height - (4 * GlobalVars.UNIT_SIZE));
         batch.end();
     }
 
@@ -242,10 +246,13 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     private void initGlyphs() {
-        // Prepare text GlyphLayout
-        BitmapFont titleFont = FontManager.fontCustom(Color.WHITE, 128);
-        titleText = new GlyphLayout();
-        titleText.setText(titleFont, TITLE);
+        BitmapFont titleFont1 = FontManager.fontLarge(Color.WHITE);
+        titleText1 = new GlyphLayout();
+        titleText1.setText(titleFont1, TITLE1);
+
+        BitmapFont titleFont2 = FontManager.fontCustom(Color.WHITE, 108);
+        titleText2 = new GlyphLayout();
+        titleText2.setText(titleFont2, TITLE2);
     }
 
 
@@ -253,7 +260,8 @@ public class MainMenuScreen extends AbstractScreen {
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static final String TITLE = "SNAKE";
+    private static final String TITLE1 = "RETRO";
+    private static final String TITLE2 = "SNAKE";
     private static final String PLAY = "PLAY";
     private static final String HIGH_SCORES = "HIGH SCORES";
     private static final String OPTIONS = "OPTIONS";
@@ -264,7 +272,8 @@ public class MainMenuScreen extends AbstractScreen {
     private ShapeRenderer borders;
     private SpriteBatch batch;
     private Skin buttonSkin;
-    private GlyphLayout titleText;
+    private GlyphLayout titleText1;
+    private GlyphLayout titleText2;
     private Texture achievementTextureUp;
     private Texture achievementTextureDown;
     private Texture leaderboardTextureUp;
