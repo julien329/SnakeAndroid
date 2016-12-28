@@ -44,6 +44,7 @@ public class ScreenManager {
     public void submitScore(String difficulty, int score) { game.getPlayServices().submitScore(difficulty, score); }
     public void showAchievements() { game.getPlayServices().showAchievements(); }
     public void showScores() { game.getPlayServices().showScores(); }
+    public void shareApp() { game.getPlayServices().shareApp(); }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

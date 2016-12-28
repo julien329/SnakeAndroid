@@ -10,5 +10,6 @@ public interface PlayServices {
     void submitScore(String difficulty, int score);
     void showAchievements();
     void showScores();
+    void shareApp();
     boolean isSignedIn();
 }
