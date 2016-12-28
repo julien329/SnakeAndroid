@@ -25,8 +25,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
 		gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
 		gameHelper.enableDebugLog(true);
-		GameHelperListener gameHelperListener = new GameHelperListener();
-		gameHelper.setup(gameHelperListener);
+		gameHelper.setup(new GameHelperListener());
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useCompass = false;
@@ -74,8 +73,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
 	@Override
 	public void rateGame() {
-		String str = "market://details?id=" + getContext().getPackageName();
-		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(str)));
+		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(MARKET + getContext().getPackageName())));
 	}
 
 	@Override
@@ -103,7 +101,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	public void showAchievements() {
 		if (isSignedIn()) {
 			offlineData.sendOnline(gameHelper.getApiClient(), this);
-			startActivityForResult(Games.Achievements.getAchievementsIntent(gameHelper.getApiClient()), requestCode);
+			startActivityForResult(Games.Achievements.getAchievementsIntent(gameHelper.getApiClient()), REQUEST_ACHIEVEMENTS);
 		}
 		else
 			signIn();
@@ -113,10 +111,20 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	public void showScores() {
 		if (isSignedIn()) {
 			offlineData.sendOnline(gameHelper.getApiClient(), this);
-			startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(gameHelper.getApiClient()), requestCode);
+			startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(gameHelper.getApiClient()), REQUEST_SCORES);
 		}
 		else
 			signIn();
+	}
+
+	@Override
+	public void shareApp() {
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_SEND);
+		intent.setType(SHARE_TYPE);
+		intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+		intent.putExtra(Intent.EXTRA_TEXT, SHARE_EXTRA + MARKET + getContext().getPackageName());
+		startActivity(Intent.createChooser(intent, SHARE_WITH));
 	}
 
 	@Override
@@ -148,7 +156,13 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	/// VARIABLES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	private static final int REQUEST_SCORES = 1;
+	private static final int REQUEST_ACHIEVEMENTS = 2;
+	private static final String SHARE_WITH = "Share with";
+	private static final String SHARE_EXTRA = "Try this Retro Snake game, it's very fun :\n\n";
+	private static final String SHARE_TYPE = "text/plain";
+	private static final String MARKET = "market://details?id=";
+
 	private OfflineData offlineData;
 	private GameHelper gameHelper;
-	private final static int requestCode = 1;
 }
