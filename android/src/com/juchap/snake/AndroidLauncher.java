@@ -123,7 +123,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 		intent.setAction(Intent.ACTION_SEND);
 		intent.setType(SHARE_TYPE);
 		intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
-		intent.putExtra(Intent.EXTRA_TEXT, SHARE_EXTRA + MARKET + getContext().getPackageName());
+		intent.putExtra(Intent.EXTRA_TEXT, SHARE_EXTRA + LINK);
 		startActivity(Intent.createChooser(intent, SHARE_WITH));
 	}
 
@@ -162,6 +162,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	private static final String SHARE_EXTRA = "Try this Retro Snake game, it's very fun :\n\n";
 	private static final String SHARE_TYPE = "text/plain";
 	private static final String MARKET = "market://details?id=";
+	private static final String LINK = "https://play.google.com/store/apps/details?id=com.juchap.snake";
 
 	private OfflineData offlineData;
 	private GameHelper gameHelper;
