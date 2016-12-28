@@ -22,6 +22,7 @@ import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
+import com.sun.security.jgss.GSSUtil;
 
 
 public class MainMenuScreen extends AbstractScreen {
@@ -93,16 +94,10 @@ public class MainMenuScreen extends AbstractScreen {
         achievementButton.setSize(iconSize, iconSize);
         achievementButton.addListener( new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
-                Gdx.graphics.setContinuousRendering(true);
-                return true;
-            }
-            @Override
-            public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
-                Gdx.graphics.setContinuousRendering(false);
-                if(x >= 0 && x < achievementButton.getWidth() && y >= 0 && y < achievementButton.getHeight()) {
-                    if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL)
-                        ScreenManager.getInstance().showAchievements();
+            public void clicked(InputEvent event, float x, float y) {
+                if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL) {
+                    Gdx.graphics.setContinuousRendering(true);
+                    ScreenManager.getInstance().showAchievements();
                 }
             }
         });
@@ -118,18 +113,11 @@ public class MainMenuScreen extends AbstractScreen {
         leaderboardButton.setSize(iconSize, iconSize);
         leaderboardButton.addListener( new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
-                Gdx.graphics.setContinuousRendering(true);
-                return true;
-            }
-            @Override
-            public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
-                Gdx.graphics.setContinuousRendering(false);
-                if(x >= 0 && x < leaderboardButton.getWidth() && y >= 0 && y < leaderboardButton.getHeight()) {
-                    if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL)
-                        ScreenManager.getInstance().showScores();
+            public void clicked(InputEvent event, float x, float y) {
+                if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL) {
+                    Gdx.graphics.setContinuousRendering(true);
+                    ScreenManager.getInstance().showScores();
                 }
-
             }
         });
         this.addActor(leaderboardButton);
@@ -144,18 +132,11 @@ public class MainMenuScreen extends AbstractScreen {
         rateButton.setSize(iconSize, iconSize);
         rateButton.addListener( new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
-                Gdx.graphics.setContinuousRendering(true);
-                return true;
-            }
-            @Override
-            public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
-                Gdx.graphics.setContinuousRendering(false);
-                if(x >= 0 && x < rateButton.getWidth() && y >= 0 && y < rateButton.getHeight()) {
-                    if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL)
-                        ScreenManager.getInstance().rateGame();
+            public void clicked(InputEvent event, float x, float y) {
+                if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL) {
+                    Gdx.graphics.setContinuousRendering(true);
+                    ScreenManager.getInstance().rateGame();
                 }
-
             }
         });
         this.addActor(rateButton);
@@ -170,18 +151,11 @@ public class MainMenuScreen extends AbstractScreen {
         shareButton.setSize(iconSize, iconSize);
         shareButton.addListener( new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
-                Gdx.graphics.setContinuousRendering(true);
-                return true;
-            }
-            @Override
-            public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
-                Gdx.graphics.setContinuousRendering(false);
-                if(x >= 0 && x < shareButton.getWidth() && y >= 0 && y < shareButton.getHeight()) {
-                    if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL)
-                        ScreenManager.getInstance().shareApp();
+            public void clicked(InputEvent event, float x, float y) {
+                if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL) {
+                    Gdx.graphics.setContinuousRendering(true);
+                    ScreenManager.getInstance().shareApp();
                 }
-
             }
         });
         this.addActor(shareButton);
@@ -190,6 +164,7 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void resume() {
         lastActivityTime = System.currentTimeMillis();
+        Gdx.graphics.setContinuousRendering(false);
     }
 
     @Override
@@ -284,7 +259,7 @@ public class MainMenuScreen extends AbstractScreen {
     private static final String OPTIONS = "OPTIONS";
     private static final String BACKGROUND = "background";
     private static final String DEFAULT = "default";
-    private static final int ACTIVITY_MIN_INTERVAL = 100;
+    private static final int ACTIVITY_MIN_INTERVAL = 150;
 
     private ShapeRenderer borders;
     private SpriteBatch batch;
