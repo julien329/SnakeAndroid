@@ -6,7 +6,8 @@ From the old classic snake game that everyone remembers, with some new unique fe
 ★ Challenge yourself with three levels of difficulty.
 ★ Retro-inspired minimalist graphics.
 ★ Keep your high scores safe with the auto-save after each game.
-★ Full optimized so you don't have to worry about you battery.
+★ Online leaderboards and achievements.
+★ Full optimized so you don't have to worry about your battery.
 ★ Almost non-existent loading times.
 ★ Play without interruptions from pesky ads.
 ★ Memory friendly with its very small app size.
