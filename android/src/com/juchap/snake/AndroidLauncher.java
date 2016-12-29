@@ -73,7 +73,12 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
 	@Override
 	public void rateGame() {
-		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(MARKET + getContext().getPackageName())));
+		try {
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(MARKET + getContext().getPackageName())));
+		}
+		catch (Exception e) {
+			Gdx.app.log("MainActivity", "Market intent failed: " + e.getMessage() + ".");
+		}
 	}
 
 	@Override
