@@ -234,22 +234,20 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     private void drawTitle() {
-        BitmapFont titleFont1 = FontManager.fontLarge(Color.WHITE);
         batch.begin();
-        titleFont1.draw(batch, titleText1, (Gdx.graphics.getWidth() - titleText1.width) / 2, Gdx.graphics.getHeight() - (3 * GlobalVars.UNIT_SIZE));
-        batch.end();
+        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        fontLarge.draw(batch, titleText1, (Gdx.graphics.getWidth() - titleText1.width) / 2, Gdx.graphics.getHeight() - (3 * GlobalVars.UNIT_SIZE));
 
-        BitmapFont titleFont2 = FontManager.fontCustom(Color.WHITE, 108);
-        batch.begin();
-        titleFont2.draw(batch, titleText2, (Gdx.graphics.getWidth() - titleText2.width) / 2, Gdx.graphics.getHeight() - titleText1.height - (4 * GlobalVars.UNIT_SIZE));
+        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 108);
+        fontCustom.draw(batch, titleText2, (Gdx.graphics.getWidth() - titleText2.width) / 2, Gdx.graphics.getHeight() - titleText1.height - (4 * GlobalVars.UNIT_SIZE));
         batch.end();
     }
 
     private void initButtonSkin() {
         // Init
-        BitmapFont font = FontManager.fontMedium(Color.BLACK);
+        BitmapFont fontMedium = FontManager.fontMedium(Color.BLACK);
         buttonSkin = new Skin();
-        buttonSkin.add(DEFAULT, font);
+        buttonSkin.add(DEFAULT, fontMedium);
 
         // Create texture
         Pixmap pixmap = new Pixmap(buttonWidth, buttonHeight, Pixmap.Format.RGB888);
@@ -270,13 +268,13 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     private void initGlyphs() {
-        BitmapFont titleFont1 = FontManager.fontLarge(Color.WHITE);
+        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
         titleText1 = new GlyphLayout();
-        titleText1.setText(titleFont1, TITLE1);
+        titleText1.setText(fontLarge, TITLE1);
 
-        BitmapFont titleFont2 = FontManager.fontCustom(Color.WHITE, 108);
+        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 108);
         titleText2 = new GlyphLayout();
-        titleText2.setText(titleFont2, TITLE2);
+        titleText2.setText(fontCustom, TITLE2);
     }
 
 

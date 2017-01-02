@@ -102,24 +102,21 @@ public class GameOverScreen extends AbstractScreen {
     }
 
     private void drawText() {
-        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
         batch.begin();
+        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
         fontLarge.draw(batch, gameOverText, gameOverX, gameOverY);
-        batch.end();
 
         BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
-        batch.begin();
         fontMedium.draw(batch, scoreText, scoreX, scoreY);
         fontMedium.draw(batch, bestScoreText, bestScoreX, bestScoreY);
         fontMedium.draw(batch, difficultyText, difficultyX, difficultyY);
-        batch.end();
 
         if(canTouch) {
             BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
-            batch.begin();
             fontSmall.draw(batch, continueText, continueX, continueY);
-            batch.end();
+
         }
+        batch.end();
     }
 
     private void checkAchievements(int score, int difficulty) {

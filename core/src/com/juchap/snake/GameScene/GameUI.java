@@ -98,13 +98,11 @@ public class GameUI {
         border.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         border.end();
 
-        BitmapFont font = FontManager.fontLarge(Color.WHITE);
         batch.begin();
-        font.draw(batch, pauseText, pauseTextX, pauseTextY);
-        batch.end();
+        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        fontLarge.draw(batch, pauseText, pauseTextX, pauseTextY);
 
         BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
-        batch.begin();
         fontSmall.draw(batch, continueText, continueTextX, continueTextY);
         batch.end();
 

@@ -139,21 +139,16 @@ public class HighScoreScreen extends AbstractScreen {
     }
 
     private void drawText() {
-        BitmapFont fontTitle = FontManager.fontCustom(Color.WHITE, 56);
         batch.begin();
-        fontTitle.draw(batch, highScoreText, highScoreX, highScoreY);
-        batch.end();
+        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 56);
+        fontCustom.draw(batch, highScoreText, highScoreX, highScoreY);
 
-        BitmapFont fontScores = FontManager.fontMedium(Color.WHITE);
-        batch.begin();
-        fontScores.draw(batch, difficultyText, difficultyTextX, difficultyTextY);
-        batch.end();
-
+        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
+        fontMedium.draw(batch, difficultyText, difficultyTextX, difficultyTextY);
         for(int i = 0; i < TABLE_SIZE; i++) {
-            batch.begin();
-            fontScores.draw(batch, entriesText[i], entriesX, entriesY[i]);
-            batch.end();
+            fontMedium.draw(batch, entriesText[i], entriesX, entriesY[i]);
         }
+        batch.end();
     }
 
     private StringBuilder formatScore(int score) {
@@ -167,11 +162,11 @@ public class HighScoreScreen extends AbstractScreen {
 
     private void initButtonSkin() {
         // Init
-        BitmapFont font = FontManager.fontMedium(Color.WHITE);
+        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
         arrowSkin = new Skin();
         exitSkin = new Skin();
-        arrowSkin.add(DEFAULT, font);
-        exitSkin.add(DEFAULT, font);
+        arrowSkin.add(DEFAULT, fontMedium);
+        exitSkin.add(DEFAULT, fontMedium);
 
         // Create texture
         Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 8, Pixmap.Format.RGB888);
@@ -204,15 +199,15 @@ public class HighScoreScreen extends AbstractScreen {
     }
 
     private void initGlyphs() {
-        BitmapFont fontTitle = FontManager.fontCustom(Color.WHITE, 56);
+        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 56);
         highScoreText = new GlyphLayout();
-        highScoreText.setText(fontTitle, HIGH_SCORE);
+        highScoreText.setText(fontCustom, HIGH_SCORE);
         highScoreX = (int)(Gdx.graphics.getWidth() - highScoreText.width) / 2;
         highScoreY = (9 * Gdx.graphics.getHeight()) / 10;
 
-        BitmapFont fontScores = FontManager.fontMedium(Color.WHITE);
+        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
         difficultyText = new GlyphLayout();
-        difficultyText.setText(fontScores, DIFFICULTY_LEVELS[difficultyIndex]);
+        difficultyText.setText(fontMedium, DIFFICULTY_LEVELS[difficultyIndex]);
         difficultyTextX = (int)(Gdx.graphics.getWidth() - difficultyText.width) / 2;
         difficultyTextY = highScoreY - (12 * GlobalVars.PADDING_Y);
 
@@ -222,7 +217,7 @@ public class HighScoreScreen extends AbstractScreen {
         for(int i = 0; i < TABLE_SIZE; i++) {
             StringBuilder entryText = new StringBuilder(RANKS[i]).append(SPACE4).append(formatScore(HighScoreManager.getScore(i, difficultyIndex)));
             entriesText[i] = new GlyphLayout();
-            entriesText[i].setText(fontScores, entryText);
+            entriesText[i].setText(fontMedium, entryText);
             textPosY -= (2.5 * GlobalVars.PADDING_Y);
             entriesY[i] = textPosY;
         }

@@ -56,6 +56,7 @@ public class OptionScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 controlIndex = (controlIndex + 1) % CONTROL_TYPES.length;
+                controlsValueText.setText(FontManager.fontCustom(Color.WHITE, 24), CONTROL_TYPES[controlIndex]);
                 InputManager.setType(controlIndex);
             };
         });
@@ -71,6 +72,7 @@ public class OptionScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 difficultyIndex = (difficultyIndex + 1) % DIFFICULTY_LEVELS.length;
+                difficultyValueText.setText(FontManager.fontCustom(Color.WHITE, 24), DIFFICULTY_LEVELS[difficultyIndex]);
                 DifficultyManager.setDifficulty(difficultyIndex);
             };
         });
@@ -157,33 +159,29 @@ public class OptionScreen extends AbstractScreen {
     }
 
     private void drawText() {
-        BitmapFont fontTitle = FontManager.fontLarge(Color.WHITE);
         batch.begin();
-        fontTitle.draw(batch, optionsText, optionX, optionY);
-        batch.end();
+        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        fontLarge.draw(batch, optionsText, optionX, optionY);
 
-        BitmapFont fontText = FontManager.fontCustom(Color.WHITE, 24);
-        controlsValueText.setText(fontText, CONTROL_TYPES[controlIndex]);
-        difficultyValueText.setText(fontText, DIFFICULTY_LEVELS[difficultyIndex]);
-        batch.begin();
-        fontText.draw(batch, controlsText, controlsX, controlsY);
-        fontText.draw(batch, controlsValueText, valuesX, controlsY);
-        fontText.draw(batch, difficultyText, difficultyX, difficultyY);
-        fontText.draw(batch, difficultyValueText, valuesX, difficultyY);
-        fontText.draw(batch, soundsText, soundsX, soundsY);
-        fontText.draw(batch, vibrationsText, vibrationsX, vibrationsY);
+        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 24);
+        fontCustom.draw(batch, controlsText, controlsX, controlsY);
+        fontCustom.draw(batch, controlsValueText, valuesX, controlsY);
+        fontCustom.draw(batch, difficultyText, difficultyX, difficultyY);
+        fontCustom.draw(batch, difficultyValueText, valuesX, difficultyY);
+        fontCustom.draw(batch, soundsText, soundsX, soundsY);
+        fontCustom.draw(batch, vibrationsText, vibrationsX, vibrationsY);
         batch.end();
     }
 
     private void initButtonSkin() {
         // Init
-        BitmapFont font = FontManager.fontMedium(Color.WHITE);
+        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
         buttonSkin = new Skin();
         checkBoxSkin = new Skin();
         exitSkin = new Skin();
-        buttonSkin.add(DEFAULT, font);
-        checkBoxSkin.add(DEFAULT, font);
-        exitSkin.add(DEFAULT, font);
+        buttonSkin.add(DEFAULT, fontMedium);
+        checkBoxSkin.add(DEFAULT, fontMedium);
+        exitSkin.add(DEFAULT, fontMedium);
 
         // Create texture
         Pixmap pixmap = new Pixmap((int)changeValueText.width, (int)changeValueText.height, Pixmap.Format.RGB888);
@@ -240,21 +238,21 @@ public class OptionScreen extends AbstractScreen {
         controlsValueText = new GlyphLayout();
         difficultyValueText = new GlyphLayout();
 
-        BitmapFont fontTitle = FontManager.fontLarge(Color.WHITE);
-        optionsText.setText(fontTitle, TITLE);
+        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        optionsText.setText(fontLarge, TITLE);
 
-        BitmapFont fontButton = FontManager.fontMedium(Color.WHITE);
-        changeValueText.setText(fontButton, CHANGE_VALUE);
-        checkedText.setText(fontButton, CHECK_MARK);
+        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
+        changeValueText.setText(fontMedium, CHANGE_VALUE);
+        checkedText.setText(fontMedium, CHECK_MARK);
 
-        BitmapFont fontText = FontManager.fontCustom(Color.WHITE, 24);
-        separatorText.setText(fontText, SEPARATOR);
-        controlsText.setText(fontText, OPTION_ENTRIES[0]);
-        difficultyText.setText(fontText, OPTION_ENTRIES[1]);
-        soundsText.setText(fontText, OPTION_ENTRIES[2]);
-        vibrationsText.setText(fontText, OPTION_ENTRIES[3]);
-        difficultyValueText.setText(fontText, DIFFICULTY_LEVELS[0]);
-        controlsValueText.setText(fontText, CONTROL_TYPES[0]);
+        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 24);
+        separatorText.setText(fontCustom, SEPARATOR);
+        controlsText.setText(fontCustom, OPTION_ENTRIES[0]);
+        difficultyText.setText(fontCustom, OPTION_ENTRIES[1]);
+        soundsText.setText(fontCustom, OPTION_ENTRIES[2]);
+        vibrationsText.setText(fontCustom, OPTION_ENTRIES[3]);
+        difficultyValueText.setText(fontCustom, DIFFICULTY_LEVELS[0]);
+        controlsValueText.setText(fontCustom, CONTROL_TYPES[0]);
 
         int centerX = (Gdx.graphics.getWidth() / 2);
         optionX = (int)(Gdx.graphics.getWidth() - optionsText.width) / 2;
