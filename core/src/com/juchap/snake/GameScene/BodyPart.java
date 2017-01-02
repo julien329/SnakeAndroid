@@ -26,34 +26,22 @@ public class BodyPart {
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void setNext(BodyPart next) { this.next = next; }
-    public void setPrevious(BodyPart previous) { this.previous = previous; }
     public void setPos(int posX, int posY) {
-        lastPosX = this.posX;
-        lastPosY = this.posY;
         this.posX = posX;
         this.posY = posY;
     }
 
     public int getPosX() { return posX; }
     public int getPosY() { return posY; }
-    public int getLastPosX() { return lastPosX; }
-    public int getLastPosY() { return lastPosY; }
-    public BodyPart getPrevious() { return previous; }
-    public BodyPart getNext() { return next; }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private BodyPart next;
-    private BodyPart previous;
     private ShapeRenderer shape;
     private Color color;
 
     private int posX;
     private int posY;
-    private int lastPosX;
-    private int lastPosY;
 }

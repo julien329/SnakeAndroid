@@ -74,10 +74,7 @@ public class SplashScreen extends AbstractScreen {
             partX += GlobalVars.UNIT_SIZE * SNAKE_BUILD_X[i];
             partY += GlobalVars.UNIT_SIZE * SNAKE_BUILD_Y[i];
 
-            BodyPart last = snakeParts.get(snakeParts.size() - 1);
             BodyPart newPart = new BodyPart(partX, partY, Color.FOREST);
-            newPart.setNext(last);
-            last.setPrevious(newPart);
             snakeParts.add(newPart);
         }
     }

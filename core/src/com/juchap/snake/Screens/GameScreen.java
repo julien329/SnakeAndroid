@@ -199,7 +199,7 @@ public class GameScreen extends AbstractScreen {
 			snake.move();
 			freeSpaces.remove(new Vector2(snake.getHeadPosX(), snake.getHeadPosY()));
 			if (!snake.tryEat() && !(snake.getDirX() == 0 && snake.getDirY() == 0))
-				freeSpaces.add(new Vector2(snake.getEndLastPosX(), snake.getEndLastPosY()));
+				freeSpaces.add(new Vector2(snake.getLastPosX(), snake.getLastPosY()));
 
 			Gdx.graphics.requestRendering();
 

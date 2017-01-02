@@ -23,12 +23,19 @@ public class Snake {
     }
 
     public void move() {
-        BodyPart part = bodyParts.get(0);
-        part.setPos(part.getPosX() + dirX * GlobalVars.UNIT_SIZE, part.getPosY() + dirY * GlobalVars.UNIT_SIZE);
+        BodyPart tail = bodyParts.get(bodyParts.size() - 1);
+        lastPosX = tail.getPosX();
+        lastPosY = tail.getPosY();
 
-        while (part.getPrevious() != null) {
-            part = part.getPrevious();
-            part.setPos(part.getNext().getLastPosX(), part.getNext().getLastPosY());
+        BodyPart head = bodyParts.get(0);
+        int lastHeadposX = head.getPosX();
+        int lastHeadposY = head.getPosY();
+        head.setPos(lastHeadposX + dirX * GlobalVars.UNIT_SIZE, lastHeadposY + dirY * GlobalVars.UNIT_SIZE);
+
+        if (tail != head) {
+            bodyParts.remove(bodyParts.size() - 1);
+            tail.setPos(lastHeadposX, lastHeadposY);
+            bodyParts.add(1, tail);
         }
         
         dirChanged = false;
@@ -44,11 +51,11 @@ public class Snake {
         if(head.getPosY() < (GlobalVars.GRID_OFFSET_Y + GlobalVars.UNIT_SIZE) || head.getPosY() > maxY)
             return true;
 
-        BodyPart body = head.getPrevious();
-        while(body != null) {
+        BodyPart body;
+        for(int i = 1; i < bodyParts.size(); i++) {
+            body = bodyParts.get(i);
             if(body.getPosX() == head.getPosX() && body.getPosY() == head.getPosY())
                 return true;
-            body = body.getPrevious();
         }
 
         return false;
@@ -59,10 +66,7 @@ public class Snake {
         Food food = ((GameScreen) ScreenManager.getInstance().getScreen()).getFood();
 
         if(head.getPosX() == food.getPosX() && head.getPosY() == food.getPosY()) {
-            BodyPart last = bodyParts.get(bodyParts.size() - 1);
-            BodyPart newPart = new BodyPart(last.getLastPosX(), last.getLastPosY(), Color.FOREST);
-            newPart.setNext(last);
-            last.setPrevious(newPart);
+            BodyPart newPart = new BodyPart(lastPosX, lastPosY, Color.FOREST);
             bodyParts.add(newPart);
             food.spawnFood();
             ((GameScreen) ScreenManager.getInstance().getScreen()).getGameUI().addScore();
@@ -92,8 +96,8 @@ public class Snake {
     public int getDirY() { return dirY; }
     public int getHeadPosX() { return bodyParts.get(0).getPosX(); }
     public int getHeadPosY() { return bodyParts.get(0).getPosY(); }
-    public int getEndLastPosX() { return bodyParts.get(bodyParts.size() - 1).getLastPosX(); }
-    public int getEndLastPosY() { return bodyParts.get(bodyParts.size() - 1).getLastPosY(); }
+    public int getLastPosX() { return lastPosX; }
+    public int getLastPosY() { return lastPosY; }
     public ArrayList<BodyPart> getBodyParts() { return bodyParts; }
 
 
@@ -105,5 +109,7 @@ public class Snake {
 
     private int dirX;
     private int dirY;
+    private int lastPosX;
+    private int lastPosY;
     private boolean dirChanged;
 }
