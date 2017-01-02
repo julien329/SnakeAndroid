@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.Utility.DifficultyManager;
 import com.juchap.snake.Utility.FontManager;
@@ -39,8 +40,10 @@ public class GameOverScreen extends AbstractScreen {
 
         checkAchievements(score, DifficultyManager.getDifficulty());
 
-        if(score > 0 && score < 2048)
+        if(score > 0 && score < MAX_SCORE)
             ScreenManager.getInstance().submitScore(DifficultyManager.getLeaderboard(), score);
+
+        initGlyphs();
     }
 
     @Override
@@ -100,38 +103,21 @@ public class GameOverScreen extends AbstractScreen {
 
     private void drawText() {
         BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
-        GlyphLayout gameOverText = new GlyphLayout();
-        gameOverText.setText(fontLarge, "GAME OVER");
-        float gameOverY = (2.0f * Gdx.graphics.getHeight() / 3.0f);
-
         batch.begin();
-        fontLarge.draw(batch, gameOverText, (Gdx.graphics.getWidth() - gameOverText.width) / 2, gameOverY + (gameOverText.height / 2));
+        fontLarge.draw(batch, gameOverText, gameOverX, gameOverY);
         batch.end();
 
         BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
-        GlyphLayout scoreText = new GlyphLayout();
-        scoreText.setText(fontMedium, "SCORE " + score);
-        float ScoreY = gameOverY - 4 * GlobalVars.PADDING_Y - scoreText.height;
-        GlyphLayout bestScoreText = new GlyphLayout();
-        bestScoreText.setText(fontMedium, "BEST " + best);
-        float bestScoreY = ScoreY - GlobalVars.PADDING_Y - bestScoreText.height;
-        GlyphLayout difficultyText = new GlyphLayout();
-        difficultyText.setText(fontMedium, DIFFICULTY_LEVELS[DifficultyManager.getDifficulty()]);
-        float difficultyY = bestScoreY - 4 * GlobalVars.PADDING_Y - difficultyText.height;
-
         batch.begin();
-        fontMedium.draw(batch, scoreText, (Gdx.graphics.getWidth() - scoreText.width) / 2, ScoreY);
-        fontMedium.draw(batch, bestScoreText, (Gdx.graphics.getWidth() - bestScoreText.width) / 2, bestScoreY);
-        fontMedium.draw(batch, difficultyText, (Gdx.graphics.getWidth() - difficultyText.width) / 2, difficultyY);
+        fontMedium.draw(batch, scoreText, scoreX, scoreY);
+        fontMedium.draw(batch, bestScoreText, bestScoreX, bestScoreY);
+        fontMedium.draw(batch, difficultyText, difficultyX, difficultyY);
         batch.end();
 
         if(canTouch) {
             BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
-            GlyphLayout continueText = new GlyphLayout();
-            continueText.setText(fontSmall, "TOUCH TO RETURN TO MENU");
-
             batch.begin();
-            fontSmall.draw(batch, continueText, (Gdx.graphics.getWidth() - continueText.width) / 2, GlobalVars.GRID_OFFSET_Y + 2 * GlobalVars.UNIT_SIZE + continueText.height);
+            fontSmall.draw(batch, continueText, continueX, continueY);
             batch.end();
         }
     }
@@ -168,10 +154,38 @@ public class GameOverScreen extends AbstractScreen {
             playServices.unlockAchievement(StringManager.ACHIEVEMENT_WORM);
         if(score >= 100)
             playServices.unlockAchievement(StringManager.ACHIEVEMENT_BOA);
-        if(score >= 250)
+        if(score >= 150)
             playServices.unlockAchievement(StringManager.ACHIEVEMENT_PYTHON);
-        if(score >= 500)
+        if(score >= 200)
             playServices.unlockAchievement(StringManager.ACHIEVEMENT_ANACONDA);
+    }
+
+    private void initGlyphs() {
+        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        gameOverText = new GlyphLayout();
+        gameOverText.setText(fontLarge, GAME_OVER);
+        gameOverX = (int)(Gdx.graphics.getWidth() - gameOverText.width) / 2;
+        gameOverY = (int)((2.0f * Gdx.graphics.getHeight() / 3.0f) + gameOverText.height / 2);
+
+        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
+        scoreText = new GlyphLayout();
+        scoreText.setText(fontMedium, new StringBuilder(SCORE).append(score));
+        scoreX = (int)(Gdx.graphics.getWidth() - scoreText.width) / 2;
+        scoreY = gameOverY - 4 * GlobalVars.PADDING_Y - (int)scoreText.height;
+        bestScoreText = new GlyphLayout();
+        bestScoreText.setText(fontMedium, new StringBuilder(BEST).append(best));
+        bestScoreX = (int)(Gdx.graphics.getWidth() - bestScoreText.width) / 2;
+        bestScoreY = scoreY - GlobalVars.PADDING_Y - (int)bestScoreText.height;
+        difficultyText = new GlyphLayout();
+        difficultyText.setText(fontMedium, DIFFICULTY_LEVELS[DifficultyManager.getDifficulty()]);
+        difficultyX = (int)(Gdx.graphics.getWidth() - difficultyText.width) / 2;
+        difficultyY = bestScoreY - 4 * GlobalVars.PADDING_Y - (int)difficultyText.height;
+
+        BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
+        continueText = new GlyphLayout();
+        continueText.setText(fontSmall, RETURN);
+        continueX = (int)(Gdx.graphics.getWidth() - continueText.width) / 2;
+        continueY = GlobalVars.GRID_OFFSET_Y + 2 * GlobalVars.UNIT_SIZE + (int)continueText.height;
     }
 
 
@@ -180,15 +194,35 @@ public class GameOverScreen extends AbstractScreen {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static final int WAIT_TIME = 1;
+    private static final int MAX_SCORE = 2048;
+    private static final String GAME_OVER = "GAME OVER";
+    private static final String SCORE = "SCORE ";
+    private static final String BEST = "BEST ";
+    private static final String RETURN = "TOUCH TO RETURN TO MENU";
     private static final String[] DIFFICULTY_LEVELS = { "EASY", "MEDIUM", "HARD" };
 
     private ShapeRenderer borders;
     private SpriteBatch batch;
+    private GlyphLayout gameOverText;
+    private GlyphLayout scoreText;
+    private GlyphLayout bestScoreText;
+    private GlyphLayout difficultyText;
+    private GlyphLayout continueText;
 
     private int leftBorderX;
     private int rightBorderX;
     private int topBorderY;
     private int bottomBorderY;
+    private int gameOverX;
+    private int gameOverY;
+    private int scoreX;
+    private int scoreY;
+    private int bestScoreX;
+    private int bestScoreY;
+    private int difficultyX;
+    private int difficultyY;
+    private int continueX;
+    private int continueY;
     private int score;
     private int best;
     private boolean canTouch;

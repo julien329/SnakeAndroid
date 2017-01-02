@@ -2,7 +2,6 @@ package com.juchap.snake.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,17 +9,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.HighScoreManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
-import com.juchap.snake.Utility.StringManager;
 
 
 public class HighScoreScreen extends AbstractScreen {
@@ -41,6 +39,8 @@ public class HighScoreScreen extends AbstractScreen {
         initButtonSkin();
         arrowLeftButton = new TextButton(ARROW_LEFT, arrowSkin);
         arrowRightButton = new TextButton(ARROW_RIGHT, arrowSkin);
+
+        initGlyphs();
     }
 
     @Override
@@ -67,6 +67,7 @@ public class HighScoreScreen extends AbstractScreen {
                     difficultyIndex = 0;
                     arrowLeftButton.setVisible(false);
                 }
+                initGlyphs();
             };
         });
         this.addActor(arrowLeftButton);
@@ -84,6 +85,7 @@ public class HighScoreScreen extends AbstractScreen {
                     difficultyIndex = DIFFICULTY_LEVELS.length - 1;
                     arrowRightButton.setVisible(false);
                 }
+                initGlyphs();
             };
         });
         this.addActor(arrowRightButton);
@@ -127,7 +129,6 @@ public class HighScoreScreen extends AbstractScreen {
     }
 
     private void drawBorders() {
-        // Draw screen borders
         borders.begin(ShapeRenderer.ShapeType.Filled);
         borders.setColor(Color.WHITE);
         borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
@@ -139,47 +140,29 @@ public class HighScoreScreen extends AbstractScreen {
 
     private void drawText() {
         BitmapFont fontTitle = FontManager.fontCustom(Color.WHITE, 56);
-        GlyphLayout highScoreText = new GlyphLayout();
-        highScoreText.setText(fontTitle, "HIGH SCORES");
-        float textPosY = ( 9 * Gdx.graphics.getHeight()) / 10;
-
         batch.begin();
-        fontTitle.draw(batch, highScoreText, (Gdx.graphics.getWidth() - highScoreText.width) / 2, textPosY);
+        fontTitle.draw(batch, highScoreText, highScoreX, highScoreY);
         batch.end();
-
-        textPosY -= (12 * GlobalVars.PADDING_Y);
 
         BitmapFont fontScores = FontManager.fontMedium(Color.WHITE);
-        GlyphLayout difficultyText= new GlyphLayout();
-        difficultyText.setText(fontScores, DIFFICULTY_LEVELS[difficultyIndex]);
-
         batch.begin();
-        fontScores.draw(batch, difficultyText, (Gdx.graphics.getWidth() - difficultyText.width) / 2, textPosY);
+        fontScores.draw(batch, difficultyText, difficultyTextX, difficultyTextY);
         batch.end();
 
-        textPosY -= (2 * GlobalVars.PADDING_Y);
-
         for(int i = 0; i < TABLE_SIZE; i++) {
-            GlyphLayout score = new GlyphLayout();
-            String scoreText = formatScore(HighScoreManager.getScore(i, difficultyIndex));
-            score.setText(fontScores, RANKS[i] + "    " + scoreText);
-            textPosY -= (2.5 * GlobalVars.PADDING_Y);
-
             batch.begin();
-            fontScores.draw(batch, score, (Gdx.graphics.getWidth() - score.width) / 2, textPosY);
+            fontScores.draw(batch, entriesText[i], entriesX, entriesY[i]);
             batch.end();
         }
     }
 
-    private String formatScore(int score) {
+    private StringBuilder formatScore(int score) {
         String scoreText = String.valueOf(score);
-        String zeros = "";
-
+        StringBuilder scoreFormatted = new StringBuilder();
         for(int i = 0; i < 4 - scoreText.length(); i++) {
-            zeros += "0";
+            scoreFormatted.append(ZERO);
         }
-
-        return zeros + scoreText;
+        return scoreFormatted.append(scoreText);
     }
 
     private void initButtonSkin() {
@@ -187,37 +170,63 @@ public class HighScoreScreen extends AbstractScreen {
         BitmapFont font = FontManager.fontMedium(Color.WHITE);
         arrowSkin = new Skin();
         exitSkin = new Skin();
-        arrowSkin.add("default", font);
-        exitSkin.add("default", font);
+        arrowSkin.add(DEFAULT, font);
+        exitSkin.add(DEFAULT, font);
 
         // Create texture
-        Pixmap pixmap = new Pixmap((int)Gdx.graphics.getWidth() / 3, (int)Gdx.graphics.getHeight() / 8, Pixmap.Format.RGB888);
+        Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 8, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
-        arrowSkin.add("background",new Texture(pixmap));
-        exitSkin.add("background",new Texture(pixmap));
+        arrowSkin.add(BACKGROUND, new Texture(pixmap));
+        exitSkin.add(BACKGROUND, new Texture(pixmap));
         pixmap.dispose();
 
         // Create button style
         TextButton.TextButtonStyle arrowButtonStyle = new TextButton.TextButtonStyle();
-        arrowButtonStyle.up = arrowSkin.newDrawable("background", Color.BLACK);
-        arrowButtonStyle.down = arrowSkin.newDrawable("background", Color.BLACK);
-        arrowButtonStyle.checked = arrowSkin.newDrawable("background", Color.BLACK);
-        arrowButtonStyle.over = arrowSkin.newDrawable("background", Color.BLACK);
-        arrowButtonStyle.font = arrowSkin.getFont("default");
+        arrowButtonStyle.up = arrowSkin.newDrawable(BACKGROUND, Color.BLACK);
+        arrowButtonStyle.down = arrowSkin.newDrawable(BACKGROUND, Color.BLACK);
+        arrowButtonStyle.checked = arrowSkin.newDrawable(BACKGROUND, Color.BLACK);
+        arrowButtonStyle.over = arrowSkin.newDrawable(BACKGROUND, Color.BLACK);
+        arrowButtonStyle.font = arrowSkin.getFont(DEFAULT);
         arrowButtonStyle.fontColor = Color.WHITE;
         arrowButtonStyle.downFontColor = Color.LIGHT_GRAY;
-        arrowSkin.add("default", arrowButtonStyle);
+        arrowSkin.add(DEFAULT, arrowButtonStyle);
 
         // Create exit button style
         TextButton.TextButtonStyle exitButtonStyle = new TextButton.TextButtonStyle();
-        exitButtonStyle.up = exitSkin.newDrawable("background", Color.WHITE);
-        exitButtonStyle.down = exitSkin.newDrawable("background", Color.LIGHT_GRAY);
-        exitButtonStyle.checked = exitSkin.newDrawable("background", Color.WHITE);
-        exitButtonStyle.over = exitSkin.newDrawable("background", Color.WHITE);
-        exitButtonStyle.font = exitSkin.getFont("default");
+        exitButtonStyle.up = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
+        exitButtonStyle.down = exitSkin.newDrawable(BACKGROUND, Color.LIGHT_GRAY);
+        exitButtonStyle.checked = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
+        exitButtonStyle.over = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
+        exitButtonStyle.font = exitSkin.getFont(DEFAULT);
         exitButtonStyle.fontColor = Color.BLACK;
-        exitSkin.add("default", exitButtonStyle);
+        exitSkin.add(DEFAULT, exitButtonStyle);
+    }
+
+    private void initGlyphs() {
+        BitmapFont fontTitle = FontManager.fontCustom(Color.WHITE, 56);
+        highScoreText = new GlyphLayout();
+        highScoreText.setText(fontTitle, HIGH_SCORE);
+        highScoreX = (int)(Gdx.graphics.getWidth() - highScoreText.width) / 2;
+        highScoreY = (9 * Gdx.graphics.getHeight()) / 10;
+
+        BitmapFont fontScores = FontManager.fontMedium(Color.WHITE);
+        difficultyText = new GlyphLayout();
+        difficultyText.setText(fontScores, DIFFICULTY_LEVELS[difficultyIndex]);
+        difficultyTextX = (int)(Gdx.graphics.getWidth() - difficultyText.width) / 2;
+        difficultyTextY = highScoreY - (12 * GlobalVars.PADDING_Y);
+
+        int textPosY = difficultyTextY - (2 * GlobalVars.PADDING_Y);
+        entriesY = new int[TABLE_SIZE];
+        entriesText = new GlyphLayout[TABLE_SIZE];
+        for(int i = 0; i < TABLE_SIZE; i++) {
+            StringBuilder entryText = new StringBuilder(RANKS[i]).append(SPACE4).append(formatScore(HighScoreManager.getScore(i, difficultyIndex)));
+            entriesText[i] = new GlyphLayout();
+            entriesText[i].setText(fontScores, entryText);
+            textPosY -= (2.5 * GlobalVars.PADDING_Y);
+            entriesY[i] = textPosY;
+        }
+        entriesX = (int)(Gdx.graphics.getWidth() - entriesText[0].width) / 2;
     }
 
 
@@ -231,6 +240,11 @@ public class HighScoreScreen extends AbstractScreen {
     private static final String ARROW_RIGHT = " > ";
     private static final String ARROW_LEFT = " < ";
     private static final String EXIT = "EXIT";
+    private static final String SPACE4 = "    ";
+    private static final String HIGH_SCORE = "HIGH SCORES";
+    private static final String DEFAULT = "default";
+    private static final String BACKGROUND = "background";
+    private static final String ZERO = "0";
 
     private final TextButton arrowLeftButton;
     private final TextButton arrowRightButton;
@@ -238,10 +252,19 @@ public class HighScoreScreen extends AbstractScreen {
     private SpriteBatch batch;
     private Skin arrowSkin;
     private Skin exitSkin;
+    private GlyphLayout[] entriesText;
+    private GlyphLayout highScoreText;
+    private GlyphLayout difficultyText;
 
     private int leftBorderX;
     private int rightBorderX;
     private int topBorderY;
     private int bottomBorderY;
     private int difficultyIndex;
+    private int highScoreX;
+    private int highScoreY;
+    private int difficultyTextX;
+    private int difficultyTextY;
+    private int entriesX;
+    private int[] entriesY;
 }

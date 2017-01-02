@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -83,9 +82,9 @@ public class MainMenuScreen extends AbstractScreen {
         buttonPosY = 3 * GlobalVars.UNIT_SIZE;
         int iconSize = Gdx.graphics.getWidth() / 8;
 
-        achievementTextureUp = new Texture(Gdx.files.internal("Textures/achievements_up.png"));
+        achievementTextureUp = new Texture(Gdx.files.internal(ACHIEVEMENT_UP));
         Drawable achievementDrawableUp = new TextureRegionDrawable(new TextureRegion(achievementTextureUp));
-        achievementTextureDown = new Texture(Gdx.files.internal("Textures/achievements_down.png"));
+        achievementTextureDown = new Texture(Gdx.files.internal(ACHIEVEMENT_DOWN));
         Drawable achievementDrawableDown = new TextureRegionDrawable(new TextureRegion(achievementTextureDown));
         final ImageButton achievementButton = new ImageButton(achievementDrawableUp, achievementDrawableDown);
         achievementButton.getImageCell().expand().fill();
@@ -108,9 +107,9 @@ public class MainMenuScreen extends AbstractScreen {
         });
         this.addActor(achievementButton);
 
-        leaderboardTextureUp = new Texture(Gdx.files.internal("Textures/leaderboards_up.png"));
+        leaderboardTextureUp = new Texture(Gdx.files.internal(LEADERBOARD_UP));
         Drawable leaderboardDrawableUp = new TextureRegionDrawable(new TextureRegion(leaderboardTextureUp));
-        leaderboardTextureDown = new Texture(Gdx.files.internal("Textures/leaderboards_down.png"));
+        leaderboardTextureDown = new Texture(Gdx.files.internal(LEADERBOARD_DOWN));
         Drawable leaderboardDrawableDown = new TextureRegionDrawable(new TextureRegion(leaderboardTextureDown));
         final ImageButton leaderboardButton = new ImageButton(leaderboardDrawableUp, leaderboardDrawableDown);
         leaderboardButton.getImageCell().expand().fill();
@@ -134,9 +133,9 @@ public class MainMenuScreen extends AbstractScreen {
         });
         this.addActor(leaderboardButton);
 
-        rateTextureUp = new Texture(Gdx.files.internal("Textures/rate_up.png"));
+        rateTextureUp = new Texture(Gdx.files.internal(RATE_UP));
         Drawable rateDrawableUp = new TextureRegionDrawable(new TextureRegion(rateTextureUp));
-        rateTextureDown = new Texture(Gdx.files.internal("Textures/rate_down.png"));
+        rateTextureDown = new Texture(Gdx.files.internal(RATE_DOWN));
         Drawable rateDrawableDown = new TextureRegionDrawable(new TextureRegion(rateTextureDown));
         final ImageButton rateButton = new ImageButton(rateDrawableUp, rateDrawableDown);
         rateButton.getImageCell().expand().fill();
@@ -160,9 +159,9 @@ public class MainMenuScreen extends AbstractScreen {
         });
         this.addActor(rateButton);
 
-        shareTextureUp = new Texture(Gdx.files.internal("Textures/share_up.png"));
+        shareTextureUp = new Texture(Gdx.files.internal(SHARE_UP));
         Drawable shareDrawableUp = new TextureRegionDrawable(new TextureRegion(shareTextureUp));
-        shareTextureDown = new Texture(Gdx.files.internal("Textures/share_down.png"));
+        shareTextureDown = new Texture(Gdx.files.internal(SHARE_DOWN));
         Drawable shareDrawableDown = new TextureRegionDrawable(new TextureRegion(shareTextureDown));
         final ImageButton shareButton = new ImageButton(shareDrawableUp, shareDrawableDown);
         shareButton.getImageCell().expand().fill();
@@ -292,6 +291,14 @@ public class MainMenuScreen extends AbstractScreen {
     private static final String OPTIONS = "OPTIONS";
     private static final String BACKGROUND = "background";
     private static final String DEFAULT = "default";
+    private static final String ACHIEVEMENT_UP = "Textures/achievements_up.png";
+    private static final String ACHIEVEMENT_DOWN = "Textures/achievements_down.png";
+    private static final String LEADERBOARD_UP = "Textures/leaderboards_up.png";
+    private static final String LEADERBOARD_DOWN = "Textures/leaderboards_down.png";
+    private static final String RATE_UP = "Textures/rate_up.png";
+    private static final String RATE_DOWN = "Textures/rate_down.png";
+    private static final String SHARE_UP = "Textures/share_up.png";
+    private static final String SHARE_DOWN = "Textures/share_down.png";
     private static final int ACTIVITY_MIN_INTERVAL = 100;
 
     private ShapeRenderer borders;

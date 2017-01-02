@@ -36,8 +36,6 @@ public class OptionScreen extends AbstractScreen {
         rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
         bottomBorderY = GlobalVars.GRID_OFFSET_Y;
         topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
-        titleY = (int)(5 * Gdx.graphics.getHeight()) / 6;
-        textY = titleY - (int)(12 * GlobalVars.PADDING_Y);
 
         controlIndex = InputManager.getType();
         difficultyIndex = DifficultyManager.getDifficulty();
@@ -48,7 +46,7 @@ public class OptionScreen extends AbstractScreen {
 
     @Override
     public void buildStage() {
-        int buttonPosY = (int)(textY - separatorText.height - (changeValueText.height - separatorText.height) / 2);
+        int buttonPosY = (int)(controlsY - separatorText.height - (changeValueText.height - separatorText.height) / 2);
         int buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width + controlsValueText.width);
         TextButton controlsButton = new TextButton(CHANGE_VALUE, buttonSkin);
         controlsButton.setSize(changeValueText.width, changeValueText.height);
@@ -160,31 +158,20 @@ public class OptionScreen extends AbstractScreen {
 
     private void drawText() {
         BitmapFont fontTitle = FontManager.fontLarge(Color.WHITE);
-        float textPosY = titleY;
-
         batch.begin();
-        fontTitle.draw(batch, optionsText, (Gdx.graphics.getWidth() - optionsText.width) / 2, textPosY);
+        fontTitle.draw(batch, optionsText, optionX, optionY);
         batch.end();
 
         BitmapFont fontText = FontManager.fontCustom(Color.WHITE, 24);
         controlsValueText.setText(fontText, CONTROL_TYPES[controlIndex]);
         difficultyValueText.setText(fontText, DIFFICULTY_LEVELS[difficultyIndex]);
-        int centerX = (Gdx.graphics.getWidth() / 2);
-        textPosY = textY;
-
         batch.begin();
-        fontText.draw(batch, controlsText, centerX - controlsText.width - 2 * separatorText.width, textPosY);
-        fontText.draw(batch, controlsValueText, centerX + 4 * separatorText.width, textPosY);
-
-        textPosY -= (3 * separatorText.height);
-        fontText.draw(batch, difficultyText, centerX - difficultyText.width - 2 * separatorText.width, textPosY);
-        fontText.draw(batch, difficultyValueText, centerX + 4 * separatorText.width, textPosY);
-
-        textPosY -= (3 * separatorText.height);
-        fontText.draw(batch, soundsText, centerX - soundsText.width - 2 * separatorText.width, textPosY);
-
-        textPosY -= (3 * separatorText.height);
-        fontText.draw(batch, vibrationsText, centerX - vibrationsText.width - 2 * separatorText.width, textPosY);
+        fontText.draw(batch, controlsText, controlsX, controlsY);
+        fontText.draw(batch, controlsValueText, valuesX, controlsY);
+        fontText.draw(batch, difficultyText, difficultyX, difficultyY);
+        fontText.draw(batch, difficultyValueText, valuesX, difficultyY);
+        fontText.draw(batch, soundsText, soundsX, soundsY);
+        fontText.draw(batch, vibrationsText, vibrationsX, vibrationsY);
         batch.end();
     }
 
@@ -194,51 +181,51 @@ public class OptionScreen extends AbstractScreen {
         buttonSkin = new Skin();
         checkBoxSkin = new Skin();
         exitSkin = new Skin();
-        buttonSkin.add("default", font);
-        checkBoxSkin.add("default", font);
-        exitSkin.add("default", font);
+        buttonSkin.add(DEFAULT, font);
+        checkBoxSkin.add(DEFAULT, font);
+        exitSkin.add(DEFAULT, font);
 
         // Create texture
         Pixmap pixmap = new Pixmap((int)changeValueText.width, (int)changeValueText.height, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
-        buttonSkin.add("background",new Texture(pixmap));
-        checkBoxSkin.add("background",new Texture(pixmap));
-        exitSkin.add("background",new Texture(pixmap));
+        buttonSkin.add(BACKGROUND, new Texture(pixmap));
+        checkBoxSkin.add(BACKGROUND, new Texture(pixmap));
+        exitSkin.add(BACKGROUND, new Texture(pixmap));
         pixmap.dispose();
 
         // Create button style
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = buttonSkin.newDrawable("background", Color.BLACK);
-        textButtonStyle.down = buttonSkin.newDrawable("background", Color.BLACK);
-        textButtonStyle.checked = buttonSkin.newDrawable("background", Color.BLACK);
-        textButtonStyle.over = buttonSkin.newDrawable("background", Color.BLACK);
-        textButtonStyle.font = buttonSkin.getFont("default");
+        textButtonStyle.up = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
+        textButtonStyle.down = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
+        textButtonStyle.checked = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
+        textButtonStyle.over = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
+        textButtonStyle.font = buttonSkin.getFont(DEFAULT);
         textButtonStyle.fontColor = Color.WHITE;
         textButtonStyle.downFontColor = Color.LIGHT_GRAY;
-        buttonSkin.add("default", textButtonStyle);
+        buttonSkin.add(DEFAULT, textButtonStyle);
 
         // Create checkBox style
         TextButton.TextButtonStyle checkBoxStyle = new TextButton.TextButtonStyle();
-        checkBoxStyle.up = checkBoxSkin.newDrawable("background", Color.WHITE);
-        checkBoxStyle.down = checkBoxSkin.newDrawable("background", Color.WHITE);
-        checkBoxStyle.checked = checkBoxSkin.newDrawable("background", Color.WHITE);
-        checkBoxStyle.over = checkBoxSkin.newDrawable("background", Color.WHITE);
-        checkBoxStyle.font = checkBoxSkin.getFont("default");
+        checkBoxStyle.up = checkBoxSkin.newDrawable(BACKGROUND, Color.WHITE);
+        checkBoxStyle.down = checkBoxSkin.newDrawable(BACKGROUND, Color.WHITE);
+        checkBoxStyle.checked = checkBoxSkin.newDrawable(BACKGROUND, Color.WHITE);
+        checkBoxStyle.over = checkBoxSkin.newDrawable(BACKGROUND, Color.WHITE);
+        checkBoxStyle.font = checkBoxSkin.getFont(DEFAULT);
         checkBoxStyle.fontColor = Color.BLACK;
         checkBoxStyle.overFontColor = Color.GRAY;
         checkBoxStyle.checkedFontColor = Color.WHITE;
-        checkBoxSkin.add("default", checkBoxStyle);
+        checkBoxSkin.add(DEFAULT, checkBoxStyle);
 
         // Create exit button style
         TextButton.TextButtonStyle exitButtonStyle = new TextButton.TextButtonStyle();
-        exitButtonStyle.up = exitSkin.newDrawable("background", Color.WHITE);
-        exitButtonStyle.down = exitSkin.newDrawable("background", Color.LIGHT_GRAY);
-        exitButtonStyle.checked = exitSkin.newDrawable("background", Color.WHITE);
-        exitButtonStyle.over = exitSkin.newDrawable("background", Color.WHITE);
-        exitButtonStyle.font = exitSkin.getFont("default");
+        exitButtonStyle.up = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
+        exitButtonStyle.down = exitSkin.newDrawable(BACKGROUND, Color.LIGHT_GRAY);
+        exitButtonStyle.checked = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
+        exitButtonStyle.over = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
+        exitButtonStyle.font = exitSkin.getFont(DEFAULT);
         exitButtonStyle.fontColor = Color.BLACK;
-        exitSkin.add("default", exitButtonStyle);
+        exitSkin.add(DEFAULT, exitButtonStyle);
     }
 
     private void initGlyphs() {
@@ -268,6 +255,19 @@ public class OptionScreen extends AbstractScreen {
         vibrationsText.setText(fontText, OPTION_ENTRIES[3]);
         difficultyValueText.setText(fontText, DIFFICULTY_LEVELS[0]);
         controlsValueText.setText(fontText, CONTROL_TYPES[0]);
+
+        int centerX = (Gdx.graphics.getWidth() / 2);
+        optionX = (int)(Gdx.graphics.getWidth() - optionsText.width) / 2;
+        optionY = (5 * Gdx.graphics.getHeight()) / 6;
+        valuesX = (int)(centerX + 4 * separatorText.width);
+        controlsX = (int)(centerX - controlsText.width - 2 * separatorText.width);
+        controlsY = optionY - 12 * GlobalVars.PADDING_Y;
+        difficultyX = (int)(centerX - difficultyText.width - 2 * separatorText.width);
+        difficultyY = (int)(controlsY - 3 * separatorText.height);
+        soundsX = (int)(centerX - soundsText.width - 2 * separatorText.width);
+        soundsY = (int)(difficultyY - 3 * separatorText.height);
+        vibrationsX = (int)(centerX - vibrationsText.width - 2 * separatorText.width);
+        vibrationsY = (int)(soundsY - 3 * separatorText.height);
     }
 
 
@@ -283,6 +283,8 @@ public class OptionScreen extends AbstractScreen {
     private static final String TITLE = "OPTIONS";
     private static final String CHECK_MARK = "x";
     private static final String EXIT = "EXIT";
+    private static final String DEFAULT = "default";
+    private static final String BACKGROUND = "background";
 
     private ShapeRenderer borders;
     private SpriteBatch batch;
@@ -306,6 +308,15 @@ public class OptionScreen extends AbstractScreen {
     private int rightBorderX;
     private int topBorderY;
     private int bottomBorderY;
-    private int titleY;
-    private int textY;
+    private int optionX;
+    private int optionY;
+    private int valuesX;
+    private int controlsX;
+    private int controlsY;
+    private int difficultyX;
+    private int difficultyY;
+    private int soundsX;
+    private int soundsY;
+    private int vibrationsX;
+    private int vibrationsY;
 }

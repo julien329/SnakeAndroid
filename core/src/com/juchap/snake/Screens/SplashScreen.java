@@ -8,7 +8,6 @@ import com.juchap.snake.GameScene.BodyPart;
 import com.juchap.snake.GameScene.Snake;
 import com.juchap.snake.Utility.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
-
 import java.util.ArrayList;
 
 

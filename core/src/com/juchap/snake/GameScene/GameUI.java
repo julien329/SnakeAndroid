@@ -32,43 +32,42 @@ public class GameUI {
         topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
         topGameBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE;
         scoreDividerX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - GlobalVars.UNIT_SIZE;
-        scoreTextY = (GlobalVars.GRID_HEIGHT + GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE) / 2;
-        scorePointsX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - (2 * GlobalVars.UNIT_SIZE);
 
         initButtonSkin();
-        pauseButton = new TextButton("||", buttonSkin);
+        pauseButton = new TextButton(PAUSE_SYMBOL, buttonSkin);
         pauseButton.setPosition(scoreDividerX + GlobalVars.UNIT_SIZE, topGameBorderY + GlobalVars.UNIT_SIZE);
         pauseButton.addListener(new pauseButtonListener());
         pauseButton.getLabel().setFontScale(0.75f, 0.75f);
         ScreenManager.getInstance().getScreen().addActor(pauseButton);
+
+        initGlyphs();
     }
 
     private void initButtonSkin() {
         // Init
         BitmapFont font = FontManager.fontLarge(Color.WHITE);
         buttonSkin = new Skin();
-        buttonSkin.add("default", font);
+        buttonSkin.add(DEFAULT, font);
 
         // Create texture
         Pixmap pixmap = new Pixmap(rightBorderX - scoreDividerX - GlobalVars.UNIT_SIZE, topBorderY - topGameBorderY - GlobalVars.UNIT_SIZE, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
-        buttonSkin.add("background",new Texture(pixmap));
+        buttonSkin.add(BACKGROUND, new Texture(pixmap));
         pixmap.dispose();
 
         // Create button style
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = buttonSkin.newDrawable("background", Color.BLACK);
-        textButtonStyle.down = buttonSkin.newDrawable("background", Color.DARK_GRAY);
-        textButtonStyle.checked = buttonSkin.newDrawable("background", Color.BLACK);
-        textButtonStyle.over = buttonSkin.newDrawable("background", Color.BLACK);
-        textButtonStyle.font = buttonSkin.getFont("default");
+        textButtonStyle.up = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
+        textButtonStyle.down = buttonSkin.newDrawable(BACKGROUND, Color.DARK_GRAY);
+        textButtonStyle.checked = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
+        textButtonStyle.over = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
+        textButtonStyle.font = buttonSkin.getFont(DEFAULT);
         textButtonStyle.fontColor = Color.WHITE;
-        buttonSkin.add("default", textButtonStyle);
+        buttonSkin.add(DEFAULT, textButtonStyle);
     }
 
     public void render() {
-        // Draw screen borders
         border.begin(ShapeRenderer.ShapeType.Filled);
         border.setColor(Color.WHITE);
         // Screen Borders
@@ -81,19 +80,12 @@ public class GameUI {
         border.rect(scoreDividerX, topGameBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT);
         border.end();
 
-        // Prepare score text GlyphLayout
-        BitmapFont font = FontManager.fontCustom(Color.WHITE, 48);
-        GlyphLayout scoreText = new GlyphLayout();
-        scoreText.setText(font, "SCORE");
-        GlyphLayout scorePoints = new GlyphLayout();
-        scorePoints.setText(font, String.valueOf(score));
-        GlyphLayout pause = new GlyphLayout();
-        pause.setText(font, "||");
-
         // Draw score text
+        BitmapFont font = FontManager.fontCustom(Color.WHITE, 48);
+        scorePoints.setText(font, String.valueOf(score));
         batch.begin();
-        font.draw(batch, scoreText, leftBorderX + (2 * GlobalVars.UNIT_SIZE), scoreTextY + (scoreText.height / 2));
-        font.draw(batch, scorePoints, scorePointsX - scorePoints.width, scoreTextY + (scorePoints.height / 2));
+        font.draw(batch, scoreText, scoreTextX, scoreY);
+        font.draw(batch, scorePoints, scorePointsX - scorePoints.width, scoreY);
         batch.end();
     }
 
@@ -107,24 +99,39 @@ public class GameUI {
         border.end();
 
         BitmapFont font = FontManager.fontLarge(Color.WHITE);
-        GlyphLayout pauseText = new GlyphLayout();
-        pauseText.setText(font, "PAUSED");
-        float pauseTextY = (Gdx.graphics.getHeight() + pauseText.height) / 2;
-
         batch.begin();
-        font.draw(batch, pauseText, (Gdx.graphics.getWidth()  - pauseText.width) / 2, pauseTextY);
+        font.draw(batch, pauseText, pauseTextX, pauseTextY);
         batch.end();
 
         BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
-        GlyphLayout continueText = new GlyphLayout();
-        continueText.setText(fontSmall, "TOUCH TO CONTINUE");
-        float continueTextY = pauseTextY - pauseText.height - GlobalVars.UNIT_SIZE;
-
         batch.begin();
-        fontSmall.draw(batch, continueText, (Gdx.graphics.getWidth() - continueText.width) / 2, continueTextY);
+        fontSmall.draw(batch, continueText, continueTextX, continueTextY);
         batch.end();
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
+    }
+
+    private void initGlyphs() {
+        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        pauseText = new GlyphLayout();
+        pauseText.setText(fontLarge, PAUSED);
+        pauseTextX = (int)(Gdx.graphics.getWidth() - pauseText.width) / 2;
+        pauseTextY = (int)(Gdx.graphics.getHeight() + pauseText.height) / 2;
+
+        BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
+        continueText = new GlyphLayout();
+        continueText.setText(fontSmall, CONTINUE);
+        continueTextX = (int)(Gdx.graphics.getWidth() - continueText.width) / 2;
+        continueTextY = pauseTextY - (int)pauseText.height - GlobalVars.UNIT_SIZE;
+
+        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 48);
+        scoreText = new GlyphLayout();
+        scoreText.setText(fontCustom, SCORE);
+        scorePoints = new GlyphLayout();
+        scorePoints.setText(fontCustom, SCORE_INIT);
+        scoreTextX = leftBorderX + (2 * GlobalVars.UNIT_SIZE);
+        scorePointsX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - (2 * GlobalVars.UNIT_SIZE);
+        scoreY = (int)(GlobalVars.GRID_HEIGHT + GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE + scoreText.height) / 2 ;
     }
 
 
@@ -157,18 +164,35 @@ public class GameUI {
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    private static final String PAUSE_SYMBOL = "||";
+    private static final String DEFAULT = "default";
+    private static final String BACKGROUND = "background";
+    private static final String PAUSED = "PAUSED";
+    private static final String CONTINUE = "TOUCH TO CONTINUE";
+    private static final String SCORE = "SCORE";
+    private static final String SCORE_INIT = "0";
+
     private ShapeRenderer border;
     private SpriteBatch batch;
     private TextButton pauseButton;
     private Skin buttonSkin;
-    private int score;
+    private GlyphLayout pauseText;
+    private GlyphLayout continueText;
+    private GlyphLayout scoreText;
+    private GlyphLayout scorePoints;
 
+    private int score;
     private int leftBorderX;
     private int rightBorderX;
     private int topBorderY;
     private int bottomBorderY;
     private int topGameBorderY;
     private int scoreDividerX;
-    private int scoreTextY;
+    private int scoreY;
+    private int scoreTextX;
     private int scorePointsX;
+    private int pauseTextX;
+    private int pauseTextY;
+    private int continueTextX;
+    private int continueTextY;
 }

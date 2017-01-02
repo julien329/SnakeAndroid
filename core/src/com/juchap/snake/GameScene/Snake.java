@@ -2,7 +2,6 @@ package com.juchap.snake.GameScene;
 
 import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import com.juchap.snake.Screens.GameScreen;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenManager;
@@ -25,11 +24,11 @@ public class Snake {
 
     public void move() {
         BodyPart part = bodyParts.get(0);
-        part.setPos((int)part.getPos().x + dirX * GlobalVars.UNIT_SIZE, (int)part.getPos().y + dirY * GlobalVars.UNIT_SIZE);
+        part.setPos(part.getPosX() + dirX * GlobalVars.UNIT_SIZE, part.getPosY() + dirY * GlobalVars.UNIT_SIZE);
 
         while (part.getPrevious() != null) {
             part = part.getPrevious();
-            part.setPos((int)(part.getNext().getLastPos().x), (int)(part.getNext().getLastPos().y));
+            part.setPos(part.getNext().getLastPosX(), part.getNext().getLastPosY());
         }
         
         dirChanged = false;
@@ -40,14 +39,14 @@ public class Snake {
         int maxY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GAME_GRID_HEIGHT - (2 * GlobalVars.UNIT_SIZE);
 
         BodyPart head = bodyParts.get(0);
-        if(head.getPos().x < (GlobalVars.GRID_OFFSET_X + GlobalVars.UNIT_SIZE) || head.getPos().x > maxX)
+        if(head.getPosX() < (GlobalVars.GRID_OFFSET_X + GlobalVars.UNIT_SIZE) || head.getPosX() > maxX)
             return true;
-        if(head.getPos().y < (GlobalVars.GRID_OFFSET_Y + GlobalVars.UNIT_SIZE) || head.getPos().y > maxY)
+        if(head.getPosY() < (GlobalVars.GRID_OFFSET_Y + GlobalVars.UNIT_SIZE) || head.getPosY() > maxY)
             return true;
 
         BodyPart body = head.getPrevious();
         while(body != null) {
-            if(body.getPos().x == head.getPos().x && body.getPos().y == head.getPos().y)
+            if(body.getPosX() == head.getPosX() && body.getPosY() == head.getPosY())
                 return true;
             body = body.getPrevious();
         }
@@ -59,9 +58,9 @@ public class Snake {
         BodyPart head = bodyParts.get(0);
         Food food = ((GameScreen) ScreenManager.getInstance().getScreen()).getFood();
 
-        if(head.getPos().x == food.getPos().x && head.getPos().y == food.getPos().y) {
+        if(head.getPosX() == food.getPosX() && head.getPosY() == food.getPosY()) {
             BodyPart last = bodyParts.get(bodyParts.size() - 1);
-            BodyPart newPart = new BodyPart((int)(last.getLastPos().x), (int)(last.getLastPos().y), Color.FOREST);
+            BodyPart newPart = new BodyPart(last.getLastPosX(), last.getLastPosY(), Color.FOREST);
             newPart.setNext(last);
             last.setPrevious(newPart);
             bodyParts.add(newPart);
@@ -89,9 +88,12 @@ public class Snake {
         }
     }
 
-    public Vector2 getDir() { return new Vector2(dirX, dirY); }
-    public Vector2 getHeadPos() { return bodyParts.get(0).getPos(); }
-    public Vector2 getEndLastPos() { return bodyParts.get(bodyParts.size() - 1).getLastPos(); }
+    public int getDirX() { return dirX; }
+    public int getDirY() { return dirY; }
+    public int getHeadPosX() { return bodyParts.get(0).getPosX(); }
+    public int getHeadPosY() { return bodyParts.get(0).getPosY(); }
+    public int getEndLastPosX() { return bodyParts.get(bodyParts.size() - 1).getLastPosX(); }
+    public int getEndLastPosY() { return bodyParts.get(bodyParts.size() - 1).getLastPosY(); }
     public ArrayList<BodyPart> getBodyParts() { return bodyParts; }
 
 
@@ -100,6 +102,7 @@ public class Snake {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private ArrayList<BodyPart> bodyParts;
+
     private int dirX;
     private int dirY;
     private boolean dirChanged;

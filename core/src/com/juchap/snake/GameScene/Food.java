@@ -19,10 +19,9 @@ public class Food {
     }
 
     public void spawnFood() {
-        Vector2 pos = freeSpaces.get(random.nextInt(freeSpaces.size()));
-
-        posX = (int)pos.x;
-        posY = (int)pos.y;
+        Vector2 newPos = freeSpaces.get(random.nextInt(freeSpaces.size()));
+        posX = (int)newPos.x;
+        posY = (int)newPos.y;
     }
 
     public void render() {
@@ -37,7 +36,8 @@ public class Food {
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Vector2 getPos() { return new Vector2(posX, posY); }
+    public int getPosX() { return posX; }
+    public int getPosY() { return posY; }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

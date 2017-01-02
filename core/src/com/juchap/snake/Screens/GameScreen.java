@@ -6,10 +6,6 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.AfterAction;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.GameScene.Food;
 import com.juchap.snake.GameScene.GameUI;
@@ -22,7 +18,6 @@ import com.juchap.snake.Utility.ScreenManager;
 import com.juchap.snake.Utility.SoundManager;
 import com.juchap.snake.Utility.StringManager;
 import com.juchap.snake.Utility.VibrationManager;
-
 import java.util.ArrayList;
 
 
@@ -128,19 +123,18 @@ public class GameScreen extends AbstractScreen {
 	private class InputTouch extends InputAdapter {
 		@Override
 		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-			Vector2 pos = snake.getHeadPos();
-			int distX = (int) (Gdx.input.getX() - pos.x);
-			int distY = (int) (Gdx.graphics.getHeight() - Gdx.input.getY() - pos.y);
+			int distX = Gdx.input.getX() - snake.getHeadPosX();
+			int distY = Gdx.graphics.getHeight() - Gdx.input.getY() - snake.getHeadPosY();
 
-			if (snake.getDir().x == 0 && snake.getDir().y != 0)
-				snake.setDir((int) Math.signum(distX), 0);
-			else if (snake.getDir().y == 0 && snake.getDir().x != 0)
-				snake.setDir(0, (int) Math.signum(distY));
+			if (snake.getDirX() == 0 && snake.getDirY() != 0)
+				snake.setDir((int)Math.signum(distX), 0);
+			else if (snake.getDirY() == 0 && snake.getDirX() != 0)
+				snake.setDir(0, (int)Math.signum(distY));
 			else {
 				if (Math.abs(distX) >= Math.abs(distY)) {
-					snake.setDir((int) Math.signum(distX), 0);
+					snake.setDir((int)Math.signum(distX), 0);
 				} else {
-					snake.setDir(0, (int) Math.signum(distY));
+					snake.setDir(0, (int)Math.signum(distY));
 				}
 			}
 			return true;
@@ -160,12 +154,12 @@ public class GameScreen extends AbstractScreen {
 				this.deltaX += deltaX;
 				this.deltaY += deltaY;
 
-				if (Math.abs(this.deltaX) >= distToTravel && snake.getDir().x == 0) {
-					snake.setDir((int) Math.signum(this.deltaX), 0);
+				if (Math.abs(this.deltaX) >= distToTravel && snake.getDirX() == 0) {
+					snake.setDir((int)Math.signum(this.deltaX), 0);
 					moved = true;
 					return true;
-				} else if (Math.abs(this.deltaY) >= distToTravel && snake.getDir().y == 0) {
-					snake.setDir(0, (int) Math.signum(-this.deltaY));
+				} else if (Math.abs(this.deltaY) >= distToTravel && snake.getDirY() == 0) {
+					snake.setDir(0, (int)Math.signum(-this.deltaY));
 					moved = true;
 					return true;
 				}
@@ -203,9 +197,9 @@ public class GameScreen extends AbstractScreen {
 		@Override
 		public void run() {
 			snake.move();
-			freeSpaces.remove(snake.getHeadPos());
-			if (!snake.tryEat() && snake.getDir() != Vector2.Zero)
-				freeSpaces.add(snake.getEndLastPos());
+			freeSpaces.remove(new Vector2(snake.getHeadPosX(), snake.getHeadPosY()));
+			if (!snake.tryEat() && !(snake.getDirX() == 0 && snake.getDirY() == 0))
+				freeSpaces.add(new Vector2(snake.getEndLastPosX(), snake.getEndLastPosY()));
 
 			Gdx.graphics.requestRendering();
 
