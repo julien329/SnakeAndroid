@@ -1,7 +1,7 @@
 package com.juchap.snake.Utility;
 
 
-public class StringManager {
+public class GlobalStrings {
     public static final String ACHIEVEMENT_WORM = "CgkImLmY4OgPEAIQAQ";
     public static final String ACHIEVEMENT_BOA = "CgkImLmY4OgPEAIQAg";
     public static final String ACHIEVEMENT_PYTHON = "CgkImLmY4OgPEAIQDw";

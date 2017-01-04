@@ -1,4 +1,4 @@
-package com.juchap.snake.Utility;
+package com.juchap.snake.Managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
