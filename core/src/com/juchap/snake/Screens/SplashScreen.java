@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.GameScene.BodyPart;
 import com.juchap.snake.GameScene.Snake;
-import com.juchap.snake.Utility.FontManager;
+import com.juchap.snake.Managers.ColorManager;
+import com.juchap.snake.Managers.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 import java.util.ArrayList;
 
@@ -52,7 +53,8 @@ public class SplashScreen extends AbstractScreen {
     private void drawBorders() {
         // Draw screen borders
         borders.begin(ShapeRenderer.ShapeType.Filled);
-        borders.setColor(Color.WHITE);
+        Color test = ColorManager.getFrontColor();
+        borders.setColor(ColorManager.getFrontColor());
         borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
         borders.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
         borders.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
@@ -74,7 +76,7 @@ public class SplashScreen extends AbstractScreen {
             partX += GlobalVars.UNIT_SIZE * SNAKE_BUILD_X[i];
             partY += GlobalVars.UNIT_SIZE * SNAKE_BUILD_Y[i];
 
-            BodyPart newPart = new BodyPart(partX, partY, Color.FOREST);
+            BodyPart newPart = new BodyPart(partX, partY, ColorManager.getSnakeBodyColor());
             snakeParts.add(newPart);
         }
     }

@@ -2,18 +2,19 @@ package com.juchap.snake.GameScene;
 
 import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Color;
+import com.juchap.snake.Managers.ColorManager;
 import com.juchap.snake.Screens.GameScreen;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenManager;
-import com.juchap.snake.Utility.SoundManager;
-import com.juchap.snake.Utility.VibrationManager;
+import com.juchap.snake.Managers.SoundManager;
+import com.juchap.snake.Managers.VibrationManager;
 
 
 public class Snake {
 
     public Snake(int posX, int posY) {
         bodyParts = new ArrayList<BodyPart>();
-        bodyParts.add(new BodyPart(posX, posY, Color.GREEN));
+        bodyParts.add(new BodyPart(posX, posY, ColorManager.getSnakeHeadColor()));
     }
 
     public void render() {
@@ -66,7 +67,7 @@ public class Snake {
         Food food = ((GameScreen) ScreenManager.getInstance().getScreen()).getFood();
 
         if(head.getPosX() == food.getPosX() && head.getPosY() == food.getPosY()) {
-            BodyPart newPart = new BodyPart(lastPosX, lastPosY, Color.FOREST);
+            BodyPart newPart = new BodyPart(lastPosX, lastPosY, ColorManager.getSnakeBodyColor());
             bodyParts.add(newPart);
             food.spawnFood();
             ((GameScreen) ScreenManager.getInstance().getScreen()).getGameUI().addScore();

@@ -13,14 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.juchap.snake.Utility.DifficultyManager;
-import com.juchap.snake.Utility.FontManager;
+import com.juchap.snake.Managers.ColorManager;
+import com.juchap.snake.Managers.DifficultyManager;
+import com.juchap.snake.Managers.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
-import com.juchap.snake.Utility.InputManager;
+import com.juchap.snake.Managers.InputManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
-import com.juchap.snake.Utility.SoundManager;
-import com.juchap.snake.Utility.VibrationManager;
+import com.juchap.snake.Managers.SoundManager;
+import com.juchap.snake.Managers.VibrationManager;
 
 
 public class OptionScreen extends AbstractScreen {
@@ -56,7 +57,7 @@ public class OptionScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 controlIndex = (controlIndex + 1) % CONTROL_TYPES.length;
-                controlsValueText.setText(FontManager.fontCustom(Color.WHITE, 24), CONTROL_TYPES[controlIndex]);
+                controlsValueText.setText(FontManager.fontCustom(ColorManager.getFrontColor(), 24), CONTROL_TYPES[controlIndex]);
                 InputManager.setType(controlIndex);
             };
         });
@@ -72,7 +73,7 @@ public class OptionScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 difficultyIndex = (difficultyIndex + 1) % DIFFICULTY_LEVELS.length;
-                difficultyValueText.setText(FontManager.fontCustom(Color.WHITE, 24), DIFFICULTY_LEVELS[difficultyIndex]);
+                difficultyValueText.setText(FontManager.fontCustom(ColorManager.getFrontColor(), 24), DIFFICULTY_LEVELS[difficultyIndex]);
                 DifficultyManager.setDifficulty(difficultyIndex);
             };
         });
@@ -150,7 +151,7 @@ public class OptionScreen extends AbstractScreen {
     private void drawBorders() {
         // Draw screen borders
         borders.begin(ShapeRenderer.ShapeType.Filled);
-        borders.setColor(Color.WHITE);
+        borders.setColor(ColorManager.getFrontColor());
         borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
         borders.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
         borders.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
@@ -160,10 +161,10 @@ public class OptionScreen extends AbstractScreen {
 
     private void drawText() {
         batch.begin();
-        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
         fontLarge.draw(batch, optionsText, optionX, optionY);
 
-        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 24);
+        BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 24);
         fontCustom.draw(batch, controlsText, controlsX, controlsY);
         fontCustom.draw(batch, controlsValueText, valuesX, controlsY);
         fontCustom.draw(batch, difficultyText, difficultyX, difficultyY);
@@ -175,7 +176,7 @@ public class OptionScreen extends AbstractScreen {
 
     private void initButtonSkin() {
         // Init
-        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
+        BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
         buttonSkin = new Skin();
         checkBoxSkin = new Skin();
         exitSkin = new Skin();
@@ -185,7 +186,7 @@ public class OptionScreen extends AbstractScreen {
 
         // Create texture
         Pixmap pixmap = new Pixmap((int)changeValueText.width, (int)changeValueText.height, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
+        pixmap.setColor(ColorManager.getFrontColor());
         pixmap.fill();
         buttonSkin.add(BACKGROUND, new Texture(pixmap));
         checkBoxSkin.add(BACKGROUND, new Texture(pixmap));
@@ -194,35 +195,35 @@ public class OptionScreen extends AbstractScreen {
 
         // Create button style
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
-        textButtonStyle.down = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
-        textButtonStyle.checked = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
-        textButtonStyle.over = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
+        textButtonStyle.up = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        textButtonStyle.down = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        textButtonStyle.checked = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        textButtonStyle.over = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
         textButtonStyle.font = buttonSkin.getFont(DEFAULT);
-        textButtonStyle.fontColor = Color.WHITE;
-        textButtonStyle.downFontColor = Color.LIGHT_GRAY;
+        textButtonStyle.fontColor = ColorManager.getFrontColor();
+        textButtonStyle.downFontColor = ColorManager.getFrontAltColor();
         buttonSkin.add(DEFAULT, textButtonStyle);
 
         // Create checkBox style
         TextButton.TextButtonStyle checkBoxStyle = new TextButton.TextButtonStyle();
-        checkBoxStyle.up = checkBoxSkin.newDrawable(BACKGROUND, Color.WHITE);
-        checkBoxStyle.down = checkBoxSkin.newDrawable(BACKGROUND, Color.WHITE);
-        checkBoxStyle.checked = checkBoxSkin.newDrawable(BACKGROUND, Color.WHITE);
-        checkBoxStyle.over = checkBoxSkin.newDrawable(BACKGROUND, Color.WHITE);
+        checkBoxStyle.up = checkBoxSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        checkBoxStyle.down = checkBoxSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        checkBoxStyle.checked = checkBoxSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        checkBoxStyle.over = checkBoxSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
         checkBoxStyle.font = checkBoxSkin.getFont(DEFAULT);
-        checkBoxStyle.fontColor = Color.BLACK;
-        checkBoxStyle.overFontColor = Color.GRAY;
-        checkBoxStyle.checkedFontColor = Color.WHITE;
+        checkBoxStyle.fontColor = ColorManager.getBackColor();
+        checkBoxStyle.overFontColor = ColorManager.getFrontAltColor();
+        checkBoxStyle.checkedFontColor = ColorManager.getFrontColor();
         checkBoxSkin.add(DEFAULT, checkBoxStyle);
 
         // Create exit button style
         TextButton.TextButtonStyle exitButtonStyle = new TextButton.TextButtonStyle();
-        exitButtonStyle.up = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
-        exitButtonStyle.down = exitSkin.newDrawable(BACKGROUND, Color.LIGHT_GRAY);
-        exitButtonStyle.checked = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
-        exitButtonStyle.over = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
+        exitButtonStyle.up = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        exitButtonStyle.down = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontAltColor());
+        exitButtonStyle.checked = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        exitButtonStyle.over = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
         exitButtonStyle.font = exitSkin.getFont(DEFAULT);
-        exitButtonStyle.fontColor = Color.BLACK;
+        exitButtonStyle.fontColor = ColorManager.getBackColor();
         exitSkin.add(DEFAULT, exitButtonStyle);
     }
 
@@ -238,14 +239,14 @@ public class OptionScreen extends AbstractScreen {
         controlsValueText = new GlyphLayout();
         difficultyValueText = new GlyphLayout();
 
-        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
         optionsText.setText(fontLarge, TITLE);
 
-        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
+        BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
         changeValueText.setText(fontMedium, CHANGE_VALUE);
         checkedText.setText(fontMedium, CHECK_MARK);
 
-        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 24);
+        BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 24);
         separatorText.setText(fontCustom, SEPARATOR);
         controlsText.setText(fontCustom, OPTION_ENTRIES[0]);
         difficultyText.setText(fontCustom, OPTION_ENTRIES[1]);

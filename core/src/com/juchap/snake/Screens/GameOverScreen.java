@@ -9,13 +9,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.Timer;
-import com.juchap.snake.Utility.DifficultyManager;
-import com.juchap.snake.Utility.FontManager;
+import com.juchap.snake.Managers.ColorManager;
+import com.juchap.snake.Managers.DifficultyManager;
+import com.juchap.snake.Managers.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
-import com.juchap.snake.Utility.HighScoreManager;
+import com.juchap.snake.Managers.HighScoreManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
-import com.juchap.snake.Utility.StringManager;
+import com.juchap.snake.Utility.GlobalStrings;
 
 
 public class GameOverScreen extends AbstractScreen {
@@ -93,7 +94,7 @@ public class GameOverScreen extends AbstractScreen {
     private void drawBorders() {
         // Draw screen borders
         borders.begin(ShapeRenderer.ShapeType.Filled);
-        borders.setColor(Color.WHITE);
+        borders.setColor(ColorManager.getFrontColor());
         borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
         borders.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
         borders.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
@@ -103,16 +104,16 @@ public class GameOverScreen extends AbstractScreen {
 
     private void drawText() {
         batch.begin();
-        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
         fontLarge.draw(batch, gameOverText, gameOverX, gameOverY);
 
-        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
+        BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
         fontMedium.draw(batch, scoreText, scoreX, scoreY);
         fontMedium.draw(batch, bestScoreText, bestScoreX, bestScoreY);
         fontMedium.draw(batch, difficultyText, difficultyX, difficultyY);
 
         if(canTouch) {
-            BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
+            BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
             fontSmall.draw(batch, continueText, continueX, continueY);
 
         }
@@ -124,47 +125,47 @@ public class GameOverScreen extends AbstractScreen {
 
         // Increment score achievements
         if (score > 0) {
-            playServices.incrementAchievement(StringManager.ACHIEVEMENT_BITE, score);
-            playServices.incrementAchievement(StringManager.ACHIEVEMENT_SNACK, score);
-            playServices.incrementAchievement(StringManager.ACHIEVEMENT_MEAL, score);
-            playServices.incrementAchievement(StringManager.ACHIEVEMENT_FEAST, score);
-            playServices.incrementAchievement(StringManager.ACHIEVEMENT_GLUTONY, score);
+            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_BITE, score);
+            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_SNACK, score);
+            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_MEAL, score);
+            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_FEAST, score);
+            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_GLUTONY, score);
         }
 
         // Increment nb game played achievements
-        playServices.incrementAchievement(StringManager.ACHIEVEMENT_SLOW_DOWN, 1);
-        playServices.incrementAchievement(StringManager.ACHIEVEMENT_LOOKING_GOOD, 1);
-        playServices.incrementAchievement(StringManager.ACHIEVEMENT_MY_MAN, 1);
+        playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_SLOW_DOWN, 1);
+        playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_LOOKING_GOOD, 1);
+        playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_MY_MAN, 1);
 
         // Check for difficulty achievementss
         if (difficulty == DifficultyManager.EASY)
-            playServices.unlockAchievement(StringManager.ACHIEVEMENT_SCAREDY_CAT);
+            playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_SCAREDY_CAT);
         else if (difficulty == DifficultyManager.MEDIUM)
-            playServices.unlockAchievement(StringManager.ACHIEVEMENT_ADVENTUROUS);
+            playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_ADVENTUROUS);
         else if (difficulty == DifficultyManager.HARD)
-            playServices.unlockAchievement(StringManager.ACHIEVEMENT_PRESUMPTUOUS);
+            playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_PRESUMPTUOUS);
 
         // Check for score milestone achievements
         if(score == 0)
-            playServices.unlockAchievement(StringManager.ACHIEVEMENT_PRESUMATURE);
+            playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_PRESUMATURE);
         if(score >= 50)
-            playServices.unlockAchievement(StringManager.ACHIEVEMENT_WORM);
+            playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_WORM);
         if(score >= 100)
-            playServices.unlockAchievement(StringManager.ACHIEVEMENT_BOA);
+            playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_BOA);
         if(score >= 150)
-            playServices.unlockAchievement(StringManager.ACHIEVEMENT_PYTHON);
+            playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_PYTHON);
         if(score >= 200)
-            playServices.unlockAchievement(StringManager.ACHIEVEMENT_ANACONDA);
+            playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_ANACONDA);
     }
 
     private void initGlyphs() {
-        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
         gameOverText = new GlyphLayout();
         gameOverText.setText(fontLarge, GAME_OVER);
         gameOverX = (int)(Gdx.graphics.getWidth() - gameOverText.width) / 2;
         gameOverY = (int)((2.0f * Gdx.graphics.getHeight() / 3.0f) + gameOverText.height / 2);
 
-        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
+        BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
         scoreText = new GlyphLayout();
         scoreText.setText(fontMedium, new StringBuilder(SCORE).append(score));
         scoreX = (int)(Gdx.graphics.getWidth() - scoreText.width) / 2;
@@ -178,7 +179,7 @@ public class GameOverScreen extends AbstractScreen {
         difficultyX = (int)(Gdx.graphics.getWidth() - difficultyText.width) / 2;
         difficultyY = bestScoreY - 4 * GlobalVars.PADDING_Y - (int)difficultyText.height;
 
-        BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
+        BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
         continueText = new GlyphLayout();
         continueText.setText(fontSmall, RETURN);
         continueX = (int)(Gdx.graphics.getWidth() - continueText.width) / 2;

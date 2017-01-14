@@ -10,14 +10,14 @@ import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.GameScene.Food;
 import com.juchap.snake.GameScene.GameUI;
 import com.juchap.snake.GameScene.Snake;
-import com.juchap.snake.Utility.DifficultyManager;
+import com.juchap.snake.Managers.DifficultyManager;
 import com.juchap.snake.Utility.GlobalVars;
-import com.juchap.snake.Utility.InputManager;
+import com.juchap.snake.Managers.InputManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
-import com.juchap.snake.Utility.SoundManager;
-import com.juchap.snake.Utility.StringManager;
-import com.juchap.snake.Utility.VibrationManager;
+import com.juchap.snake.Managers.SoundManager;
+import com.juchap.snake.Utility.GlobalStrings;
+import com.juchap.snake.Managers.VibrationManager;
 import java.util.ArrayList;
 
 
@@ -185,7 +185,7 @@ public class GameScreen extends AbstractScreen {
 		public boolean keyUp(int keycode) {
 			if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
 				Timer.instance().clear();
-				ScreenManager.getInstance().unlockAchievement(StringManager.ACHIEVEMENT_I_SURRENDER);
+				ScreenManager.getInstance().unlockAchievement(GlobalStrings.ACHIEVEMENT_I_SURRENDER);
 				ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
 				return true;
 			}

@@ -2,6 +2,7 @@ package com.juchap.snake.Managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.juchap.snake.Utility.GlobalStrings;
 
 
 public class DifficultyManager {
@@ -50,11 +51,11 @@ public class DifficultyManager {
         String leaderboard = null;
 
         if(difficultyLevel == EASY)
-            leaderboard = StringManager.LEADERBOARD_EASY;
+            leaderboard = GlobalStrings.LEADERBOARD_EASY;
         else if(difficultyLevel == MEDIUM)
-            leaderboard = StringManager.LEADERBOARD_MEDIUM;
+            leaderboard = GlobalStrings.LEADERBOARD_MEDIUM;
         else if(difficultyLevel == HARD)
-            leaderboard = StringManager.LEADERBOARD_HARD;
+            leaderboard = GlobalStrings.LEADERBOARD_HARD;
 
         return leaderboard;
     }

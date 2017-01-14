@@ -17,7 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.juchap.snake.Utility.FontManager;
+import com.juchap.snake.Managers.ColorManager;
+import com.juchap.snake.Managers.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
@@ -225,7 +226,7 @@ public class MainMenuScreen extends AbstractScreen {
     private void drawBorders() {
         // Draw screen borders
         borders.begin(ShapeRenderer.ShapeType.Filled);
-        borders.setColor(Color.WHITE);
+        borders.setColor(ColorManager.getFrontColor());
         borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
         borders.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
         borders.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
@@ -235,44 +236,44 @@ public class MainMenuScreen extends AbstractScreen {
 
     private void drawTitle() {
         batch.begin();
-        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
         fontLarge.draw(batch, titleText1, (Gdx.graphics.getWidth() - titleText1.width) / 2, Gdx.graphics.getHeight() - (3 * GlobalVars.UNIT_SIZE));
 
-        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 108);
+        BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 108);
         fontCustom.draw(batch, titleText2, (Gdx.graphics.getWidth() - titleText2.width) / 2, Gdx.graphics.getHeight() - titleText1.height - (4 * GlobalVars.UNIT_SIZE));
         batch.end();
     }
 
     private void initButtonSkin() {
         // Init
-        BitmapFont fontMedium = FontManager.fontMedium(Color.BLACK);
+        BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getBackColor());
         buttonSkin = new Skin();
         buttonSkin.add(DEFAULT, fontMedium);
 
         // Create texture
         Pixmap pixmap = new Pixmap(buttonWidth, buttonHeight, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
+        pixmap.setColor(ColorManager.getFrontColor());
         pixmap.fill();
         buttonSkin.add(BACKGROUND,new Texture(pixmap));
         pixmap.dispose();
 
         // Create button style
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = buttonSkin.newDrawable(BACKGROUND, Color.WHITE);
-        textButtonStyle.down = buttonSkin.newDrawable(BACKGROUND, Color.LIGHT_GRAY);
-        textButtonStyle.checked = buttonSkin.newDrawable(BACKGROUND, Color.WHITE);
-        textButtonStyle.over = buttonSkin.newDrawable(BACKGROUND, Color.WHITE);
+        textButtonStyle.up = buttonSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        textButtonStyle.down = buttonSkin.newDrawable(BACKGROUND, ColorManager.getFrontAltColor());
+        textButtonStyle.checked = buttonSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        textButtonStyle.over = buttonSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
         textButtonStyle.font = buttonSkin.getFont(DEFAULT);
-        textButtonStyle.fontColor = Color.BLACK;
+        textButtonStyle.fontColor = ColorManager.getBackColor();
         buttonSkin.add(DEFAULT, textButtonStyle);
     }
 
     private void initGlyphs() {
-        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
         titleText1 = new GlyphLayout();
         titleText1.setText(fontLarge, TITLE1);
 
-        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 108);
+        BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 108);
         titleText2 = new GlyphLayout();
         titleText2.setText(fontCustom, TITLE2);
     }

@@ -13,8 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.juchap.snake.Managers.ColorManager;
 import com.juchap.snake.Screens.GameScreen;
-import com.juchap.snake.Utility.FontManager;
+import com.juchap.snake.Managers.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenManager;
 
@@ -45,31 +46,31 @@ public class GameUI {
 
     private void initButtonSkin() {
         // Init
-        BitmapFont font = FontManager.fontLarge(Color.WHITE);
+        BitmapFont font = FontManager.fontLarge(ColorManager.getFrontColor());
         buttonSkin = new Skin();
         buttonSkin.add(DEFAULT, font);
 
         // Create texture
         Pixmap pixmap = new Pixmap(rightBorderX - scoreDividerX - GlobalVars.UNIT_SIZE, topBorderY - topGameBorderY - GlobalVars.UNIT_SIZE, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
+        pixmap.setColor(ColorManager.getFrontColor());
         pixmap.fill();
         buttonSkin.add(BACKGROUND, new Texture(pixmap));
         pixmap.dispose();
 
         // Create button style
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
-        textButtonStyle.down = buttonSkin.newDrawable(BACKGROUND, Color.DARK_GRAY);
-        textButtonStyle.checked = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
-        textButtonStyle.over = buttonSkin.newDrawable(BACKGROUND, Color.BLACK);
+        textButtonStyle.up = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        textButtonStyle.down = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackAltColor());
+        textButtonStyle.checked = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        textButtonStyle.over = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
         textButtonStyle.font = buttonSkin.getFont(DEFAULT);
-        textButtonStyle.fontColor = Color.WHITE;
+        textButtonStyle.fontColor = ColorManager.getFrontColor();
         buttonSkin.add(DEFAULT, textButtonStyle);
     }
 
     public void render() {
         border.begin(ShapeRenderer.ShapeType.Filled);
-        border.setColor(Color.WHITE);
+        border.setColor(ColorManager.getFrontColor());
         // Screen Borders
         border.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
         border.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
@@ -81,7 +82,7 @@ public class GameUI {
         border.end();
 
         // Draw score text
-        BitmapFont font = FontManager.fontCustom(Color.WHITE, 48);
+        BitmapFont font = FontManager.fontCustom(ColorManager.getFrontColor(), 48);
         scorePoints.setText(font, String.valueOf(score));
         batch.begin();
         font.draw(batch, scoreText, scoreTextX, scoreY);
@@ -99,10 +100,10 @@ public class GameUI {
         border.end();
 
         batch.begin();
-        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
         fontLarge.draw(batch, pauseText, pauseTextX, pauseTextY);
 
-        BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
+        BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
         fontSmall.draw(batch, continueText, continueTextX, continueTextY);
         batch.end();
 
@@ -110,19 +111,19 @@ public class GameUI {
     }
 
     private void initGlyphs() {
-        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
+        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
         pauseText = new GlyphLayout();
         pauseText.setText(fontLarge, PAUSED);
         pauseTextX = (int)(Gdx.graphics.getWidth() - pauseText.width) / 2;
         pauseTextY = (int)(Gdx.graphics.getHeight() + pauseText.height) / 2;
 
-        BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
+        BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
         continueText = new GlyphLayout();
         continueText.setText(fontSmall, CONTINUE);
         continueTextX = (int)(Gdx.graphics.getWidth() - continueText.width) / 2;
         continueTextY = pauseTextY - (int)pauseText.height - GlobalVars.UNIT_SIZE;
 
-        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 48);
+        BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 48);
         scoreText = new GlyphLayout();
         scoreText.setText(fontCustom, SCORE);
         scorePoints = new GlyphLayout();

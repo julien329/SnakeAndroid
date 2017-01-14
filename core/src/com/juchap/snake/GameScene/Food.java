@@ -3,6 +3,7 @@ package com.juchap.snake.GameScene;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.juchap.snake.Managers.ColorManager;
 import com.juchap.snake.Screens.GameScreen;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenManager;
@@ -26,7 +27,7 @@ public class Food {
 
     public void render() {
         shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(Color.RED);
+        shape.setColor(ColorManager.getFoodColor());
         shape.rect(posX, posY, GlobalVars.UNIT_SIZE, GlobalVars.UNIT_SIZE);
         shape.end();
     }

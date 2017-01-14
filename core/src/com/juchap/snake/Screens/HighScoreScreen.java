@@ -14,9 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.StringBuilder;
-import com.juchap.snake.Utility.FontManager;
+import com.juchap.snake.Managers.ColorManager;
+import com.juchap.snake.Managers.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
-import com.juchap.snake.Utility.HighScoreManager;
+import com.juchap.snake.Managers.HighScoreManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
 
@@ -45,7 +46,7 @@ public class HighScoreScreen extends AbstractScreen {
 
     @Override
     public void buildStage() {
-        BitmapFont medium = FontManager.fontMedium(Color.WHITE);
+        BitmapFont medium = FontManager.fontMedium(ColorManager.getFrontColor());
         GlyphLayout arrowText = new GlyphLayout();
         arrowText.setText(medium, ARROW_LEFT);
 
@@ -130,7 +131,7 @@ public class HighScoreScreen extends AbstractScreen {
 
     private void drawBorders() {
         borders.begin(ShapeRenderer.ShapeType.Filled);
-        borders.setColor(Color.WHITE);
+        borders.setColor(ColorManager.getFrontColor());
         borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
         borders.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
         borders.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
@@ -140,10 +141,10 @@ public class HighScoreScreen extends AbstractScreen {
 
     private void drawText() {
         batch.begin();
-        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 56);
+        BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 56);
         fontCustom.draw(batch, highScoreText, highScoreX, highScoreY);
 
-        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
+        BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
         fontMedium.draw(batch, difficultyText, difficultyTextX, difficultyTextY);
         for(int i = 0; i < TABLE_SIZE; i++) {
             fontMedium.draw(batch, entriesText[i], entriesX, entriesY[i]);
@@ -162,7 +163,7 @@ public class HighScoreScreen extends AbstractScreen {
 
     private void initButtonSkin() {
         // Init
-        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
+        BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
         arrowSkin = new Skin();
         exitSkin = new Skin();
         arrowSkin.add(DEFAULT, fontMedium);
@@ -170,7 +171,7 @@ public class HighScoreScreen extends AbstractScreen {
 
         // Create texture
         Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 8, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
+        pixmap.setColor(ColorManager.getFrontColor());
         pixmap.fill();
         arrowSkin.add(BACKGROUND, new Texture(pixmap));
         exitSkin.add(BACKGROUND, new Texture(pixmap));
@@ -178,34 +179,34 @@ public class HighScoreScreen extends AbstractScreen {
 
         // Create button style
         TextButton.TextButtonStyle arrowButtonStyle = new TextButton.TextButtonStyle();
-        arrowButtonStyle.up = arrowSkin.newDrawable(BACKGROUND, Color.BLACK);
-        arrowButtonStyle.down = arrowSkin.newDrawable(BACKGROUND, Color.BLACK);
-        arrowButtonStyle.checked = arrowSkin.newDrawable(BACKGROUND, Color.BLACK);
-        arrowButtonStyle.over = arrowSkin.newDrawable(BACKGROUND, Color.BLACK);
+        arrowButtonStyle.up = arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        arrowButtonStyle.down = arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        arrowButtonStyle.checked = arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        arrowButtonStyle.over = arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
         arrowButtonStyle.font = arrowSkin.getFont(DEFAULT);
-        arrowButtonStyle.fontColor = Color.WHITE;
-        arrowButtonStyle.downFontColor = Color.LIGHT_GRAY;
+        arrowButtonStyle.fontColor = ColorManager.getFrontColor();
+        arrowButtonStyle.downFontColor = ColorManager.getFrontAltColor();
         arrowSkin.add(DEFAULT, arrowButtonStyle);
 
         // Create exit button style
         TextButton.TextButtonStyle exitButtonStyle = new TextButton.TextButtonStyle();
-        exitButtonStyle.up = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
-        exitButtonStyle.down = exitSkin.newDrawable(BACKGROUND, Color.LIGHT_GRAY);
-        exitButtonStyle.checked = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
-        exitButtonStyle.over = exitSkin.newDrawable(BACKGROUND, Color.WHITE);
+        exitButtonStyle.up = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        exitButtonStyle.down = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontAltColor());
+        exitButtonStyle.checked = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        exitButtonStyle.over = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
         exitButtonStyle.font = exitSkin.getFont(DEFAULT);
-        exitButtonStyle.fontColor = Color.BLACK;
+        exitButtonStyle.fontColor = ColorManager.getBackColor();
         exitSkin.add(DEFAULT, exitButtonStyle);
     }
 
     private void initGlyphs() {
-        BitmapFont fontCustom = FontManager.fontCustom(Color.WHITE, 56);
+        BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 56);
         highScoreText = new GlyphLayout();
         highScoreText.setText(fontCustom, HIGH_SCORE);
         highScoreX = (int)(Gdx.graphics.getWidth() - highScoreText.width) / 2;
         highScoreY = (9 * Gdx.graphics.getHeight()) / 10;
 
-        BitmapFont fontMedium = FontManager.fontMedium(Color.WHITE);
+        BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
         difficultyText = new GlyphLayout();
         difficultyText.setText(fontMedium, DIFFICULTY_LEVELS[difficultyIndex]);
         difficultyTextX = (int)(Gdx.graphics.getWidth() - difficultyText.width) / 2;
