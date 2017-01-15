@@ -252,8 +252,8 @@ public class OptionScreen extends AbstractScreen {
         difficultyText.setText(fontCustom, OPTION_ENTRIES[1]);
         soundsText.setText(fontCustom, OPTION_ENTRIES[2]);
         vibrationsText.setText(fontCustom, OPTION_ENTRIES[3]);
-        difficultyValueText.setText(fontCustom, DIFFICULTY_LEVELS[0]);
-        controlsValueText.setText(fontCustom, CONTROL_TYPES[0]);
+        difficultyValueText.setText(fontCustom, DIFFICULTY_LEVELS[difficultyIndex]);
+        controlsValueText.setText(fontCustom, CONTROL_TYPES[controlIndex]);
 
         int centerX = (Gdx.graphics.getWidth() / 2);
         optionX = (int)(Gdx.graphics.getWidth() - optionsText.width) / 2;
