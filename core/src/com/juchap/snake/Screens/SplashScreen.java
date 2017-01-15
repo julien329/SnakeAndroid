@@ -18,8 +18,6 @@ public class SplashScreen extends AbstractScreen {
         super();
         Gdx.input.setInputProcessor(this);
 
-        borders = new ShapeRenderer();
-
         leftBorderX = GlobalVars.GRID_OFFSET_X;
         rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
         bottomBorderY = GlobalVars.GRID_OFFSET_Y;
@@ -46,20 +44,19 @@ public class SplashScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
-        borders.dispose();
         Timer.instance().clear();
     }
 
     private void drawBorders() {
         // Draw screen borders
-        borders.begin(ShapeRenderer.ShapeType.Filled);
+        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
         Color test = ColorManager.getFrontColor();
-        borders.setColor(ColorManager.getFrontColor());
-        borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        borders.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        borders.end();
+        uiRenderer.setColor(ColorManager.getFrontColor());
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.end();
     }
 
     private void setSnake() {
@@ -107,7 +104,6 @@ public class SplashScreen extends AbstractScreen {
     private static final int[] SNAKE_TRAJECTORY_Y = new int[] {0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0, 1, 1, 1, 1 };
     private static final float MOVE_INTERVAL = 0.125f;
 
-    private ShapeRenderer borders;
     private Snake snake;
 
     private boolean showSnake;

@@ -29,8 +29,6 @@ public class MainMenuScreen extends AbstractScreen {
     public MainMenuScreen() {
         super();
         Gdx.input.setInputProcessor(this);
-
-        borders = new ShapeRenderer();
         batch = new SpriteBatch();
 
         leftBorderX = GlobalVars.GRID_OFFSET_X;
@@ -88,6 +86,7 @@ public class MainMenuScreen extends AbstractScreen {
         achievementTextureDown = new Texture(Gdx.files.internal(ACHIEVEMENT_DOWN));
         Drawable achievementDrawableDown = new TextureRegionDrawable(new TextureRegion(achievementTextureDown));
         final ImageButton achievementButton = new ImageButton(achievementDrawableUp, achievementDrawableDown);
+        achievementButton.getImage().setColor(ColorManager.getFrontColor());
         achievementButton.getImageCell().expand().fill();
         achievementButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 - (2 * iconSize), buttonPosY);
         achievementButton.setSize(iconSize, iconSize);
@@ -113,6 +112,7 @@ public class MainMenuScreen extends AbstractScreen {
         leaderboardTextureDown = new Texture(Gdx.files.internal(LEADERBOARD_DOWN));
         Drawable leaderboardDrawableDown = new TextureRegionDrawable(new TextureRegion(leaderboardTextureDown));
         final ImageButton leaderboardButton = new ImageButton(leaderboardDrawableUp, leaderboardDrawableDown);
+        leaderboardButton.getImage().setColor(ColorManager.getFrontColor());
         leaderboardButton.getImageCell().expand().fill();
         leaderboardButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 - (Gdx.graphics.getWidth() / 12), buttonPosY);
         leaderboardButton.setSize(iconSize, iconSize);
@@ -139,6 +139,7 @@ public class MainMenuScreen extends AbstractScreen {
         rateTextureDown = new Texture(Gdx.files.internal(RATE_DOWN));
         Drawable rateDrawableDown = new TextureRegionDrawable(new TextureRegion(rateTextureDown));
         final ImageButton rateButton = new ImageButton(rateDrawableUp, rateDrawableDown);
+        rateButton.getImage().setColor(ColorManager.getFrontColor());
         rateButton.getImageCell().expand().fill();
         rateButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 + (Gdx.graphics.getWidth()) / 12, buttonPosY);
         rateButton.setSize(iconSize, iconSize);
@@ -165,6 +166,7 @@ public class MainMenuScreen extends AbstractScreen {
         shareTextureDown = new Texture(Gdx.files.internal(SHARE_DOWN));
         Drawable shareDrawableDown = new TextureRegionDrawable(new TextureRegion(shareTextureDown));
         final ImageButton shareButton = new ImageButton(shareDrawableUp, shareDrawableDown);
+        shareButton.getImage().setColor(ColorManager.getFrontColor());
         shareButton.getImageCell().expand().fill();
         shareButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 + (2 * iconSize), buttonPosY);
         shareButton.setSize(iconSize, iconSize);
@@ -203,7 +205,6 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
-        borders.dispose();
         batch.dispose();
         achievementTextureUp.dispose();
         achievementTextureDown.dispose();
@@ -225,13 +226,13 @@ public class MainMenuScreen extends AbstractScreen {
 
     private void drawBorders() {
         // Draw screen borders
-        borders.begin(ShapeRenderer.ShapeType.Filled);
-        borders.setColor(ColorManager.getFrontColor());
-        borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        borders.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        borders.end();
+        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        uiRenderer.setColor(ColorManager.getFrontColor());
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.end();
     }
 
     private void drawTitle() {
@@ -300,7 +301,6 @@ public class MainMenuScreen extends AbstractScreen {
     private static final String SHARE_DOWN = "Textures/share_down.png";
     private static final int ACTIVITY_MIN_INTERVAL = 100;
 
-    private ShapeRenderer borders;
     private SpriteBatch batch;
     private Skin buttonSkin;
     private GlyphLayout titleText1;

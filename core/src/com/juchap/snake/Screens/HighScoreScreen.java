@@ -27,8 +27,6 @@ public class HighScoreScreen extends AbstractScreen {
     public HighScoreScreen() {
         super();
         Gdx.input.setInputProcessor(this);
-
-        borders = new ShapeRenderer();
         batch = new SpriteBatch();
 
         leftBorderX = GlobalVars.GRID_OFFSET_X;
@@ -118,7 +116,6 @@ public class HighScoreScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
-        borders.dispose();
     }
 
     @Override
@@ -130,13 +127,13 @@ public class HighScoreScreen extends AbstractScreen {
     }
 
     private void drawBorders() {
-        borders.begin(ShapeRenderer.ShapeType.Filled);
-        borders.setColor(ColorManager.getFrontColor());
-        borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        borders.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        borders.end();
+        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        uiRenderer.setColor(ColorManager.getFrontColor());
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.end();
     }
 
     private void drawText() {
@@ -244,7 +241,6 @@ public class HighScoreScreen extends AbstractScreen {
 
     private final TextButton arrowLeftButton;
     private final TextButton arrowRightButton;
-    private ShapeRenderer borders;
     private SpriteBatch batch;
     private Skin arrowSkin;
     private Skin exitSkin;

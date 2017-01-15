@@ -29,8 +29,6 @@ public class OptionScreen extends AbstractScreen {
     public OptionScreen() {
         super();
         Gdx.input.setInputProcessor(this);
-
-        borders = new ShapeRenderer();
         batch = new SpriteBatch();
 
         leftBorderX = GlobalVars.GRID_OFFSET_X;
@@ -137,7 +135,6 @@ public class OptionScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
-        borders.dispose();
     }
 
     @Override
@@ -150,13 +147,13 @@ public class OptionScreen extends AbstractScreen {
 
     private void drawBorders() {
         // Draw screen borders
-        borders.begin(ShapeRenderer.ShapeType.Filled);
-        borders.setColor(ColorManager.getFrontColor());
-        borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        borders.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        borders.end();
+        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        uiRenderer.setColor(ColorManager.getFrontColor());
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.end();
     }
 
     private void drawText() {
@@ -285,7 +282,6 @@ public class OptionScreen extends AbstractScreen {
     private static final String DEFAULT = "default";
     private static final String BACKGROUND = "background";
 
-    private ShapeRenderer borders;
     private SpriteBatch batch;
     private Skin buttonSkin;
     private Skin checkBoxSkin;

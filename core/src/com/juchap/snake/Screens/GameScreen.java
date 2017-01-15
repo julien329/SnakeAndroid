@@ -42,7 +42,7 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	public void buildStage() {
-		gameUI = new GameUI();
+		gameUI = new GameUI(uiRenderer);
 
 		int centerX = (int)(Math.floor((Gdx.graphics.getWidth() / GlobalVars.UNIT_SIZE) * (1.0/2.0)) * GlobalVars.UNIT_SIZE) + GlobalVars.GRID_OFFSET_X;
 		int centerY = (int)(Math.floor((Gdx.graphics.getHeight() / GlobalVars.UNIT_SIZE) * (3.0/7.0)) * GlobalVars.UNIT_SIZE) + GlobalVars.GRID_OFFSET_Y;

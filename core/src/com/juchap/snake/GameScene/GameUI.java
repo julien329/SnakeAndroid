@@ -22,10 +22,10 @@ import com.juchap.snake.Utility.ScreenManager;
 
 public class GameUI {
 
-    public GameUI() {
+    public GameUI(ShapeRenderer uiRenderer) {
         score = 0;
-        border = new ShapeRenderer();
-        batch = new SpriteBatch();
+        this.uiRenderer = new ShapeRenderer();
+        this.batch = new SpriteBatch();
 
         leftBorderX = GlobalVars.GRID_OFFSET_X;
         rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
@@ -69,17 +69,17 @@ public class GameUI {
     }
 
     public void render() {
-        border.begin(ShapeRenderer.ShapeType.Filled);
-        border.setColor(ColorManager.getFrontColor());
+        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        uiRenderer.setColor(ColorManager.getFrontColor());
         // Screen Borders
-        border.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        border.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        border.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        border.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
         // Score Divider
-        border.rect(leftBorderX, topGameBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        border.rect(scoreDividerX, topGameBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT);
-        border.end();
+        uiRenderer.rect(leftBorderX, topGameBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(scoreDividerX, topGameBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT);
+        uiRenderer.end();
 
         // Draw score text
         BitmapFont font = FontManager.fontCustom(ColorManager.getFrontColor(), 48);
@@ -94,10 +94,10 @@ public class GameUI {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        border.begin(ShapeRenderer.ShapeType.Filled);
-        border.setColor(0, 0, 0, 0.75f);
-        border.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        border.end();
+        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        uiRenderer.setColor(0, 0, 0, 0.75f);
+        uiRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        uiRenderer.end();
 
         batch.begin();
         BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
@@ -171,7 +171,7 @@ public class GameUI {
     private static final String SCORE = "SCORE";
     private static final String SCORE_INIT = "0";
 
-    private ShapeRenderer border;
+    private ShapeRenderer uiRenderer;
     private SpriteBatch batch;
     private TextButton pauseButton;
     private Skin buttonSkin;

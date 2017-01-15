@@ -24,8 +24,6 @@ public class GameOverScreen extends AbstractScreen {
     public GameOverScreen(Integer score) {
         super();
         Gdx.input.setInputProcessor(this);
-
-        borders = new ShapeRenderer();
         batch = new SpriteBatch();
 
         leftBorderX = GlobalVars.GRID_OFFSET_X;
@@ -69,7 +67,6 @@ public class GameOverScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
-        borders.dispose();
         batch.dispose();
     }
 
@@ -93,13 +90,13 @@ public class GameOverScreen extends AbstractScreen {
 
     private void drawBorders() {
         // Draw screen borders
-        borders.begin(ShapeRenderer.ShapeType.Filled);
-        borders.setColor(ColorManager.getFrontColor());
-        borders.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        borders.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        borders.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        borders.end();
+        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        uiRenderer.setColor(ColorManager.getFrontColor());
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.end();
     }
 
     private void drawText() {
@@ -199,7 +196,6 @@ public class GameOverScreen extends AbstractScreen {
     private static final String RETURN = "TOUCH TO RETURN TO MENU";
     private static final String[] DIFFICULTY_LEVELS = { "EASY", "MEDIUM", "HARD" };
 
-    private ShapeRenderer borders;
     private SpriteBatch batch;
     private GlyphLayout gameOverText;
     private GlyphLayout scoreText;

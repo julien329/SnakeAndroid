@@ -39,14 +39,18 @@ public class ColorManager {
         snakeBodyColors = new IntMap<Color>();
         foodColors = new IntMap<Color>();
 
-        addTheme(THEME_RETRO, Color.BLACK, Color.DARK_GRAY, Color.WHITE, Color.LIGHT_GRAY, Color.GREEN, Color.FOREST, Color.RED);
+        addUITheme(THEME_RETRO, Color.BLACK, Color.DARK_GRAY, Color.WHITE, Color.LIGHT_GRAY);
+        addSnakeTheme(THEME_RETRO, Color.GREEN, Color.FOREST, Color.RED);
     }
 
-    private static void addTheme(int themeId, Color backColor, Color backAltColor, Color frontColor, Color frontAltColor, Color snakeHeadColor, Color snakeBodyColor, Color foodColor) {
+    private static void addUITheme(int themeId, Color backColor, Color backAltColor, Color frontColor, Color frontAltColor) {
         backColors.put(themeId, backColor);
         backAltColors.put(themeId, backAltColor);
         frontColors.put(themeId, frontColor);
         frontAltColors.put(themeId, frontAltColor);
+    }
+
+    private static void addSnakeTheme(int themeId, Color snakeHeadColor, Color snakeBodyColor, Color foodColor) {
         snakeHeadColors.put(themeId, snakeHeadColor);
         snakeBodyColors.put(themeId, snakeBodyColor);
         foodColors.put(themeId, foodColor);
