@@ -168,7 +168,7 @@ public class HighScoreScreen extends AbstractScreen {
 
         // Create texture
         Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 8, Pixmap.Format.RGB888);
-        pixmap.setColor(ColorManager.getFrontColor());
+        pixmap.setColor(Color.WHITE);
         pixmap.fill();
         arrowSkin.add(BACKGROUND, new Texture(pixmap));
         exitSkin.add(BACKGROUND, new Texture(pixmap));

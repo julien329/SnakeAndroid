@@ -81,11 +81,9 @@ public class MainMenuScreen extends AbstractScreen {
         buttonPosY = 3 * GlobalVars.UNIT_SIZE;
         int iconSize = Gdx.graphics.getWidth() / 8;
 
-        achievementTextureUp = new Texture(Gdx.files.internal(ACHIEVEMENT_UP));
-        Drawable achievementDrawableUp = new TextureRegionDrawable(new TextureRegion(achievementTextureUp));
-        achievementTextureDown = new Texture(Gdx.files.internal(ACHIEVEMENT_DOWN));
-        Drawable achievementDrawableDown = new TextureRegionDrawable(new TextureRegion(achievementTextureDown));
-        final ImageButton achievementButton = new ImageButton(achievementDrawableUp, achievementDrawableDown);
+        achievementTexture = new Texture(Gdx.files.internal(ACHIEVEMENT_TEXTURE));
+        Drawable achievementDrawableUp = new TextureRegionDrawable(new TextureRegion(achievementTexture));
+        final ImageButton achievementButton = new ImageButton(achievementDrawableUp);
         achievementButton.getImage().setColor(ColorManager.getFrontColor());
         achievementButton.getImageCell().expand().fill();
         achievementButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 - (2 * iconSize), buttonPosY);
@@ -93,11 +91,13 @@ public class MainMenuScreen extends AbstractScreen {
         achievementButton.addListener( new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
+                achievementButton.getImage().setColor(ColorManager.getFrontAltColor());
                 Gdx.graphics.setContinuousRendering(true);
                 return true;
             }
             @Override
             public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
+                achievementButton.getImage().setColor(ColorManager.getFrontColor());
                 Gdx.graphics.setContinuousRendering(false);
                 if(x >= 0 && x < achievementButton.getWidth() && y >= 0 && y < achievementButton.getHeight()) {
                     if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL)
@@ -107,11 +107,9 @@ public class MainMenuScreen extends AbstractScreen {
         });
         this.addActor(achievementButton);
 
-        leaderboardTextureUp = new Texture(Gdx.files.internal(LEADERBOARD_UP));
-        Drawable leaderboardDrawableUp = new TextureRegionDrawable(new TextureRegion(leaderboardTextureUp));
-        leaderboardTextureDown = new Texture(Gdx.files.internal(LEADERBOARD_DOWN));
-        Drawable leaderboardDrawableDown = new TextureRegionDrawable(new TextureRegion(leaderboardTextureDown));
-        final ImageButton leaderboardButton = new ImageButton(leaderboardDrawableUp, leaderboardDrawableDown);
+        leaderboardTexture = new Texture(Gdx.files.internal(LEADERBOARD_TEXTURE));
+        Drawable leaderboardDrawableUp = new TextureRegionDrawable(new TextureRegion(leaderboardTexture));
+        final ImageButton leaderboardButton = new ImageButton(leaderboardDrawableUp);
         leaderboardButton.getImage().setColor(ColorManager.getFrontColor());
         leaderboardButton.getImageCell().expand().fill();
         leaderboardButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 - (Gdx.graphics.getWidth() / 12), buttonPosY);
@@ -119,11 +117,13 @@ public class MainMenuScreen extends AbstractScreen {
         leaderboardButton.addListener( new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
+                leaderboardButton.getImage().setColor(ColorManager.getFrontAltColor());
                 Gdx.graphics.setContinuousRendering(true);
                 return true;
             }
             @Override
             public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
+                leaderboardButton.getImage().setColor(ColorManager.getFrontColor());
                 Gdx.graphics.setContinuousRendering(false);
                 if(x >= 0 && x < leaderboardButton.getWidth() && y >= 0 && y < leaderboardButton.getHeight()) {
                     if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL)
@@ -134,11 +134,9 @@ public class MainMenuScreen extends AbstractScreen {
         });
         this.addActor(leaderboardButton);
 
-        rateTextureUp = new Texture(Gdx.files.internal(RATE_UP));
-        Drawable rateDrawableUp = new TextureRegionDrawable(new TextureRegion(rateTextureUp));
-        rateTextureDown = new Texture(Gdx.files.internal(RATE_DOWN));
-        Drawable rateDrawableDown = new TextureRegionDrawable(new TextureRegion(rateTextureDown));
-        final ImageButton rateButton = new ImageButton(rateDrawableUp, rateDrawableDown);
+        rateTexture = new Texture(Gdx.files.internal(RATE_TEXTURE));
+        Drawable rateDrawableUp = new TextureRegionDrawable(new TextureRegion(rateTexture));
+        final ImageButton rateButton = new ImageButton(rateDrawableUp);
         rateButton.getImage().setColor(ColorManager.getFrontColor());
         rateButton.getImageCell().expand().fill();
         rateButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 + (Gdx.graphics.getWidth()) / 12, buttonPosY);
@@ -147,10 +145,12 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
                 Gdx.graphics.setContinuousRendering(true);
+                rateButton.getImage().setColor(ColorManager.getFrontAltColor());
                 return true;
             }
             @Override
             public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
+                rateButton.getImage().setColor(ColorManager.getFrontColor());
                 Gdx.graphics.setContinuousRendering(false);
                 if(x >= 0 && x < rateButton.getWidth() && y >= 0 && y < rateButton.getHeight()) {
                     if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL)
@@ -161,11 +161,9 @@ public class MainMenuScreen extends AbstractScreen {
         });
         this.addActor(rateButton);
 
-        shareTextureUp = new Texture(Gdx.files.internal(SHARE_UP));
-        Drawable shareDrawableUp = new TextureRegionDrawable(new TextureRegion(shareTextureUp));
-        shareTextureDown = new Texture(Gdx.files.internal(SHARE_DOWN));
-        Drawable shareDrawableDown = new TextureRegionDrawable(new TextureRegion(shareTextureDown));
-        final ImageButton shareButton = new ImageButton(shareDrawableUp, shareDrawableDown);
+        shareTexture = new Texture(Gdx.files.internal(SHARE_TEXTURE));
+        Drawable shareDrawableUp = new TextureRegionDrawable(new TextureRegion(shareTexture));
+        final ImageButton shareButton = new ImageButton(shareDrawableUp);
         shareButton.getImage().setColor(ColorManager.getFrontColor());
         shareButton.getImageCell().expand().fill();
         shareButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 + (2 * iconSize), buttonPosY);
@@ -174,10 +172,12 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
                 Gdx.graphics.setContinuousRendering(true);
+                shareButton.getImage().setColor(ColorManager.getFrontAltColor());
                 return true;
             }
             @Override
             public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
+                shareButton.getImage().setColor(ColorManager.getFrontColor());
                 Gdx.graphics.setContinuousRendering(false);
                 if(x >= 0 && x < shareButton.getWidth() && y >= 0 && y < shareButton.getHeight()) {
                     if(System.currentTimeMillis() - lastActivityTime > ACTIVITY_MIN_INTERVAL)
@@ -206,14 +206,10 @@ public class MainMenuScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
         batch.dispose();
-        achievementTextureUp.dispose();
-        achievementTextureDown.dispose();
-        leaderboardTextureUp.dispose();
-        leaderboardTextureDown.dispose();
-        rateTextureUp.dispose();
-        rateTextureDown.dispose();
-        shareTextureUp.dispose();
-        shareTextureDown.dispose();
+        achievementTexture.dispose();
+        leaderboardTexture.dispose();
+        rateTexture.dispose();
+        shareTexture.dispose();
     }
 
     @Override
@@ -253,9 +249,9 @@ public class MainMenuScreen extends AbstractScreen {
 
         // Create texture
         Pixmap pixmap = new Pixmap(buttonWidth, buttonHeight, Pixmap.Format.RGB888);
-        pixmap.setColor(ColorManager.getFrontColor());
+        pixmap.setColor(Color.WHITE);
         pixmap.fill();
-        buttonSkin.add(BACKGROUND,new Texture(pixmap));
+        buttonSkin.add(BACKGROUND, new Texture(pixmap));
         pixmap.dispose();
 
         // Create button style
@@ -291,28 +287,20 @@ public class MainMenuScreen extends AbstractScreen {
     private static final String OPTIONS = "OPTIONS";
     private static final String BACKGROUND = "background";
     private static final String DEFAULT = "default";
-    private static final String ACHIEVEMENT_UP = "Textures/achievements_up.png";
-    private static final String ACHIEVEMENT_DOWN = "Textures/achievements_down.png";
-    private static final String LEADERBOARD_UP = "Textures/leaderboards_up.png";
-    private static final String LEADERBOARD_DOWN = "Textures/leaderboards_down.png";
-    private static final String RATE_UP = "Textures/rate_up.png";
-    private static final String RATE_DOWN = "Textures/rate_down.png";
-    private static final String SHARE_UP = "Textures/share_up.png";
-    private static final String SHARE_DOWN = "Textures/share_down.png";
+    private static final String ACHIEVEMENT_TEXTURE = "Textures/achievements_up.png";
+    private static final String LEADERBOARD_TEXTURE = "Textures/leaderboards_up.png";
+    private static final String RATE_TEXTURE = "Textures/rate_up.png";
+    private static final String SHARE_TEXTURE = "Textures/share_up.png";
     private static final int ACTIVITY_MIN_INTERVAL = 100;
 
     private SpriteBatch batch;
     private Skin buttonSkin;
     private GlyphLayout titleText1;
     private GlyphLayout titleText2;
-    private Texture achievementTextureUp;
-    private Texture achievementTextureDown;
-    private Texture leaderboardTextureUp;
-    private Texture leaderboardTextureDown;
-    private Texture rateTextureUp;
-    private Texture rateTextureDown;
-    private Texture shareTextureUp;
-    private Texture shareTextureDown;
+    private Texture achievementTexture;
+    private Texture leaderboardTexture;
+    private Texture rateTexture;
+    private Texture shareTexture;
 
     private int leftBorderX;
     private int rightBorderX;

@@ -183,7 +183,7 @@ public class OptionScreen extends AbstractScreen {
 
         // Create texture
         Pixmap pixmap = new Pixmap((int)changeValueText.width, (int)changeValueText.height, Pixmap.Format.RGB888);
-        pixmap.setColor(ColorManager.getFrontColor());
+        pixmap.setColor(Color.WHITE);
         pixmap.fill();
         buttonSkin.add(BACKGROUND, new Texture(pixmap));
         checkBoxSkin.add(BACKGROUND, new Texture(pixmap));

@@ -11,10 +11,10 @@ public class ColorManager {
     public static void initManager() {
         colorPrefs = Gdx.app.getPreferences(PREFS_NAME);
 
-        if(colorPrefs.contains(KEY_NAME))
+        if(colorPrefs.contains(KEY_NAME) && false)
             loadFromPrefs();
         else {
-            colorTheme = THEME_RETRO;
+            colorTheme = THEME_CLASSIC;
             saveToPrefs();
         }
 
@@ -39,18 +39,15 @@ public class ColorManager {
         snakeBodyColors = new IntMap<Color>();
         foodColors = new IntMap<Color>();
 
-        addUITheme(THEME_RETRO, Color.BLACK, Color.DARK_GRAY, Color.WHITE, Color.LIGHT_GRAY);
-        addSnakeTheme(THEME_RETRO, Color.GREEN, Color.FOREST, Color.RED);
+        addTheme(THEME_RETRO, Color.BLACK, Color.DARK_GRAY, Color.WHITE, Color.LIGHT_GRAY, Color.GREEN, Color.FOREST, Color.RED);
+        addTheme(THEME_CLASSIC, CLASSIC_LIGHT_GREEN, CLASSIC_LIGHT_GREEN_ALT, CLASSIC_DARK_GREEN, CLASSIC_DARK_GREEN_ALT, CLASSIC_DARK_GREEN, CLASSIC_DARK_GREEN_ALT, Color.RED);
     }
 
-    private static void addUITheme(int themeId, Color backColor, Color backAltColor, Color frontColor, Color frontAltColor) {
+    private static void addTheme(int themeId, Color backColor, Color backAltColor, Color frontColor, Color frontAltColor, Color snakeHeadColor, Color snakeBodyColor, Color foodColor) {
         backColors.put(themeId, backColor);
         backAltColors.put(themeId, backAltColor);
         frontColors.put(themeId, frontColor);
         frontAltColors.put(themeId, frontAltColor);
-    }
-
-    private static void addSnakeTheme(int themeId, Color snakeHeadColor, Color snakeBodyColor, Color foodColor) {
         snakeHeadColors.put(themeId, snakeHeadColor);
         snakeBodyColors.put(themeId, snakeBodyColor);
         foodColors.put(themeId, foodColor);
@@ -79,6 +76,11 @@ public class ColorManager {
     private static final String KEY_NAME = "Theme";
     private static final String PREFS_NAME = "UIColor";
     private static final int THEME_RETRO = 0;
+    private static final int THEME_CLASSIC = 1;
+    private static final Color CLASSIC_LIGHT_GREEN = new Color(155/255f, 188/255f, 15/255f, 1f);
+    private static final Color CLASSIC_LIGHT_GREEN_ALT = new Color(126/255f, 151/255f, 12/255f, 1f);
+    private static final Color CLASSIC_DARK_GREEN = new Color(15/255f, 56/255f, 15/255f, 1f);
+    private static final Color CLASSIC_DARK_GREEN_ALT = new Color(26/255f, 97/255f, 26/255f, 1f);
 
     private static Preferences colorPrefs;
     private static IntMap<Color> backColors;

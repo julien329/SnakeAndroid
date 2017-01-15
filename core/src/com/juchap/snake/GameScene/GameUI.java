@@ -52,7 +52,7 @@ public class GameUI {
 
         // Create texture
         Pixmap pixmap = new Pixmap(rightBorderX - scoreDividerX - GlobalVars.UNIT_SIZE, topBorderY - topGameBorderY - GlobalVars.UNIT_SIZE, Pixmap.Format.RGB888);
-        pixmap.setColor(ColorManager.getFrontColor());
+        pixmap.setColor(Color.WHITE);
         pixmap.fill();
         buttonSkin.add(BACKGROUND, new Texture(pixmap));
         pixmap.dispose();
@@ -100,10 +100,10 @@ public class GameUI {
         uiRenderer.end();
 
         batch.begin();
-        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
+        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
         fontLarge.draw(batch, pauseText, pauseTextX, pauseTextY);
 
-        BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
+        BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
         fontSmall.draw(batch, continueText, continueTextX, continueTextY);
         batch.end();
 
@@ -111,13 +111,13 @@ public class GameUI {
     }
 
     private void initGlyphs() {
-        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
+        BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
         pauseText = new GlyphLayout();
         pauseText.setText(fontLarge, PAUSED);
         pauseTextX = (int)(Gdx.graphics.getWidth() - pauseText.width) / 2;
         pauseTextY = (int)(Gdx.graphics.getHeight() + pauseText.height) / 2;
 
-        BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
+        BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
         continueText = new GlyphLayout();
         continueText.setText(fontSmall, CONTINUE);
         continueTextX = (int)(Gdx.graphics.getWidth() - continueText.width) / 2;
