@@ -3,6 +3,7 @@ package com.juchap.snake.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.juchap.snake.Managers.ColorManager;
@@ -14,6 +15,11 @@ public abstract class AbstractScreen extends Stage implements Screen {
     protected AbstractScreen() {
         super();
         uiRenderer = new ShapeRenderer();
+        spriteBatch = new SpriteBatch();
+        leftBorderX = GlobalVars.GRID_OFFSET_X;
+        rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
+        bottomBorderY = GlobalVars.GRID_OFFSET_Y;
+        topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
     }
 
     public abstract void buildStage();
@@ -23,9 +29,15 @@ public abstract class AbstractScreen extends Stage implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // Draw background and borders
         uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
         uiRenderer.setColor(ColorManager.getBackColor());
         uiRenderer.rect(GlobalVars.GRID_OFFSET_X, GlobalVars.GRID_OFFSET_Y, GlobalVars.GRID_WIDTH, GlobalVars.GRID_HEIGHT);
+        uiRenderer.setColor(ColorManager.getFrontColor());
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
         uiRenderer.end();
 
         super.act(delta);
@@ -36,6 +48,7 @@ public abstract class AbstractScreen extends Stage implements Screen {
     public void dispose() {
         super.dispose();
         uiRenderer.dispose();
+        spriteBatch.dispose();
     }
 
     @Override
@@ -54,6 +67,12 @@ public abstract class AbstractScreen extends Stage implements Screen {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     protected ShapeRenderer uiRenderer;
+    protected SpriteBatch spriteBatch;
+
+    private int leftBorderX;
+    private int rightBorderX;
+    private int topBorderY;
+    private int bottomBorderY;
 }
 
 

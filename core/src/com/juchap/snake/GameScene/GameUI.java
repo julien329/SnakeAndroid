@@ -22,14 +22,13 @@ import com.juchap.snake.Utility.ScreenManager;
 
 public class GameUI {
 
-    public GameUI(ShapeRenderer uiRenderer) {
+    public GameUI(ShapeRenderer uiRenderer, SpriteBatch spriteBatch) {
         score = 0;
-        this.uiRenderer = new ShapeRenderer();
-        this.batch = new SpriteBatch();
+        this.uiRenderer = uiRenderer;
+        this.batch = spriteBatch;
 
         leftBorderX = GlobalVars.GRID_OFFSET_X;
         rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
-        bottomBorderY = GlobalVars.GRID_OFFSET_Y;
         topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
         topGameBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE;
         scoreDividerX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - GlobalVars.UNIT_SIZE;
@@ -71,11 +70,6 @@ public class GameUI {
     public void render() {
         uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
         uiRenderer.setColor(ColorManager.getFrontColor());
-        // Screen Borders
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
         // Score Divider
         uiRenderer.rect(leftBorderX, topGameBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
         uiRenderer.rect(scoreDividerX, topGameBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT);
@@ -184,7 +178,6 @@ public class GameUI {
     private int leftBorderX;
     private int rightBorderX;
     private int topBorderY;
-    private int bottomBorderY;
     private int topGameBorderY;
     private int scoreDividerX;
     private int scoreY;

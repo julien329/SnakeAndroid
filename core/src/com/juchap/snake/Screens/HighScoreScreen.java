@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -27,12 +25,6 @@ public class HighScoreScreen extends AbstractScreen {
     public HighScoreScreen() {
         super();
         Gdx.input.setInputProcessor(this);
-        batch = new SpriteBatch();
-
-        leftBorderX = GlobalVars.GRID_OFFSET_X;
-        rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
-        bottomBorderY = GlobalVars.GRID_OFFSET_Y;
-        topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
         difficultyIndex = 0;
 
         initButtonSkin();
@@ -110,7 +102,6 @@ public class HighScoreScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
         drawText();
-        drawBorders();
     }
 
     @Override
@@ -120,33 +111,23 @@ public class HighScoreScreen extends AbstractScreen {
 
     @Override
     public boolean keyDown(int keycode) {
-        if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
+        if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK)) {
             ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
         }
         return false;
     }
 
-    private void drawBorders() {
-        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        uiRenderer.setColor(ColorManager.getFrontColor());
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        uiRenderer.end();
-    }
-
     private void drawText() {
-        batch.begin();
+        spriteBatch.begin();
         BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 56);
-        fontCustom.draw(batch, highScoreText, highScoreX, highScoreY);
+        fontCustom.draw(spriteBatch, highScoreText, highScoreX, highScoreY);
 
         BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
-        fontMedium.draw(batch, difficultyText, difficultyTextX, difficultyTextY);
+        fontMedium.draw(spriteBatch, difficultyText, difficultyTextX, difficultyTextY);
         for(int i = 0; i < TABLE_SIZE; i++) {
-            fontMedium.draw(batch, entriesText[i], entriesX, entriesY[i]);
+            fontMedium.draw(spriteBatch, entriesText[i], entriesX, entriesY[i]);
         }
-        batch.end();
+        spriteBatch.end();
     }
 
     private StringBuilder formatScore(int score) {
@@ -241,17 +222,12 @@ public class HighScoreScreen extends AbstractScreen {
 
     private final TextButton arrowLeftButton;
     private final TextButton arrowRightButton;
-    private SpriteBatch batch;
     private Skin arrowSkin;
     private Skin exitSkin;
     private GlyphLayout[] entriesText;
     private GlyphLayout highScoreText;
     private GlyphLayout difficultyText;
 
-    private int leftBorderX;
-    private int rightBorderX;
-    private int topBorderY;
-    private int bottomBorderY;
     private int difficultyIndex;
     private int highScoreX;
     private int highScoreY;

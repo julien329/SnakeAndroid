@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -29,12 +27,6 @@ public class MainMenuScreen extends AbstractScreen {
     public MainMenuScreen() {
         super();
         Gdx.input.setInputProcessor(this);
-        batch = new SpriteBatch();
-
-        leftBorderX = GlobalVars.GRID_OFFSET_X;
-        rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
-        bottomBorderY = GlobalVars.GRID_OFFSET_Y;
-        topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
         buttonWidth = Gdx.graphics.getWidth() / 2;
         buttonHeight = Gdx.graphics.getHeight() / 10;
         lastActivityTime = 0;
@@ -197,15 +189,12 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-
-        drawBorders();
-        drawTitle();
+        drawText();
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        batch.dispose();
         achievementTexture.dispose();
         leaderboardTexture.dispose();
         rateTexture.dispose();
@@ -220,25 +209,14 @@ public class MainMenuScreen extends AbstractScreen {
         return false;
     }
 
-    private void drawBorders() {
-        // Draw screen borders
-        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        uiRenderer.setColor(ColorManager.getFrontColor());
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        uiRenderer.end();
-    }
-
-    private void drawTitle() {
-        batch.begin();
+    private void drawText() {
+        spriteBatch.begin();
         BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
-        fontLarge.draw(batch, titleText1, (Gdx.graphics.getWidth() - titleText1.width) / 2, Gdx.graphics.getHeight() - (3 * GlobalVars.UNIT_SIZE));
+        fontLarge.draw(spriteBatch, titleText1, (Gdx.graphics.getWidth() - titleText1.width) / 2, Gdx.graphics.getHeight() - (3 * GlobalVars.UNIT_SIZE));
 
         BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 108);
-        fontCustom.draw(batch, titleText2, (Gdx.graphics.getWidth() - titleText2.width) / 2, Gdx.graphics.getHeight() - titleText1.height - (4 * GlobalVars.UNIT_SIZE));
-        batch.end();
+        fontCustom.draw(spriteBatch, titleText2, (Gdx.graphics.getWidth() - titleText2.width) / 2, Gdx.graphics.getHeight() - titleText1.height - (4 * GlobalVars.UNIT_SIZE));
+        spriteBatch.end();
     }
 
     private void initButtonSkin() {
@@ -293,7 +271,6 @@ public class MainMenuScreen extends AbstractScreen {
     private static final String SHARE_TEXTURE = "Textures/share_up.png";
     private static final int ACTIVITY_MIN_INTERVAL = 100;
 
-    private SpriteBatch batch;
     private Skin buttonSkin;
     private GlyphLayout titleText1;
     private GlyphLayout titleText2;
@@ -302,10 +279,6 @@ public class MainMenuScreen extends AbstractScreen {
     private Texture rateTexture;
     private Texture shareTexture;
 
-    private int leftBorderX;
-    private int rightBorderX;
-    private int topBorderY;
-    private int bottomBorderY;
     private int buttonWidth;
     private int buttonHeight;
     private long lastActivityTime;

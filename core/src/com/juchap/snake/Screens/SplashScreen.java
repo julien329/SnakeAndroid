@@ -1,8 +1,6 @@
 package com.juchap.snake.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.GameScene.BodyPart;
 import com.juchap.snake.GameScene.Snake;
@@ -17,12 +15,6 @@ public class SplashScreen extends AbstractScreen {
     public SplashScreen() {
         super();
         Gdx.input.setInputProcessor(this);
-
-        leftBorderX = GlobalVars.GRID_OFFSET_X;
-        rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
-        bottomBorderY = GlobalVars.GRID_OFFSET_Y;
-        topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
-
         setSnake();
     }
 
@@ -35,8 +27,6 @@ public class SplashScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        drawBorders();
-
         if(showSnake)
             snake.render();
     }
@@ -45,18 +35,6 @@ public class SplashScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
         Timer.instance().clear();
-    }
-
-    private void drawBorders() {
-        // Draw screen borders
-        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        Color test = ColorManager.getFrontColor();
-        uiRenderer.setColor(ColorManager.getFrontColor());
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        uiRenderer.end();
     }
 
     private void setSnake() {
@@ -108,8 +86,4 @@ public class SplashScreen extends AbstractScreen {
 
     private boolean showSnake;
     private int trajectoryIndex;
-    private int leftBorderX;
-    private int rightBorderX;
-    private int topBorderY;
-    private int bottomBorderY;
 }

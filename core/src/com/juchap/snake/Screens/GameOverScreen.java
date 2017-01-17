@@ -2,11 +2,8 @@ package com.juchap.snake.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.Managers.ColorManager;
@@ -24,20 +21,12 @@ public class GameOverScreen extends AbstractScreen {
     public GameOverScreen(Integer score) {
         super();
         Gdx.input.setInputProcessor(this);
-        batch = new SpriteBatch();
-
-        leftBorderX = GlobalVars.GRID_OFFSET_X;
-        rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
-        bottomBorderY = GlobalVars.GRID_OFFSET_Y;
-        topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
-
-        HighScoreManager.addScore(score, DifficultyManager.getDifficulty());
         this.score = score;
         this.best = HighScoreManager.getScore(0, DifficultyManager.getDifficulty());
+        this.canTouch = false;
 
-        canTouch = false;
-
-        checkAchievements(score, DifficultyManager.getDifficulty());
+        HighScoreManager.addScore(score, DifficultyManager.getDifficulty());
+        checkAchievements(DifficultyManager.getDifficulty());
 
         if(score > 0 && score < MAX_SCORE)
             ScreenManager.getInstance().submitScore(DifficultyManager.getLeaderboard(), score);
@@ -59,15 +48,12 @@ public class GameOverScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-
-        drawBorders();
         drawText();
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        batch.dispose();
     }
 
     @Override
@@ -88,36 +74,25 @@ public class GameOverScreen extends AbstractScreen {
         return true;
     }
 
-    private void drawBorders() {
-        // Draw screen borders
-        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        uiRenderer.setColor(ColorManager.getFrontColor());
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        uiRenderer.end();
-    }
-
     private void drawText() {
-        batch.begin();
+        spriteBatch.begin();
         BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
-        fontLarge.draw(batch, gameOverText, gameOverX, gameOverY);
+        fontLarge.draw(spriteBatch, gameOverText, gameOverX, gameOverY);
 
         BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
-        fontMedium.draw(batch, scoreText, scoreX, scoreY);
-        fontMedium.draw(batch, bestScoreText, bestScoreX, bestScoreY);
-        fontMedium.draw(batch, difficultyText, difficultyX, difficultyY);
+        fontMedium.draw(spriteBatch, scoreText, scoreX, scoreY);
+        fontMedium.draw(spriteBatch, bestScoreText, bestScoreX, bestScoreY);
+        fontMedium.draw(spriteBatch, difficultyText, difficultyX, difficultyY);
 
         if(canTouch) {
             BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
-            fontSmall.draw(batch, continueText, continueX, continueY);
+            fontSmall.draw(spriteBatch, continueText, continueX, continueY);
 
         }
-        batch.end();
+        spriteBatch.end();
     }
 
-    private void checkAchievements(int score, int difficulty) {
+    private void checkAchievements(int difficulty) {
         ScreenManager playServices = ScreenManager.getInstance();
 
         // Increment score achievements
@@ -196,17 +171,12 @@ public class GameOverScreen extends AbstractScreen {
     private static final String RETURN = "TOUCH TO RETURN TO MENU";
     private static final String[] DIFFICULTY_LEVELS = { "EASY", "MEDIUM", "HARD" };
 
-    private SpriteBatch batch;
     private GlyphLayout gameOverText;
     private GlyphLayout scoreText;
     private GlyphLayout bestScoreText;
     private GlyphLayout difficultyText;
     private GlyphLayout continueText;
 
-    private int leftBorderX;
-    private int rightBorderX;
-    private int topBorderY;
-    private int bottomBorderY;
     private int gameOverX;
     private int gameOverY;
     private int scoreX;

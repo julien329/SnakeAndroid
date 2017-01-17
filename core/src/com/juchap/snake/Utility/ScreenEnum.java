@@ -7,6 +7,7 @@ import com.juchap.snake.Screens.HighScoreScreen;
 import com.juchap.snake.Screens.MainMenuScreen;
 import com.juchap.snake.Screens.OptionScreen;
 import com.juchap.snake.Screens.SplashScreen;
+import com.juchap.snake.Screens.ThemesScreen;
 
 
 public enum ScreenEnum {
@@ -38,6 +39,11 @@ public enum ScreenEnum {
     OPTIONS {
         public AbstractScreen getScreen(Object... params) {
             return new OptionScreen();
+        }
+    },
+    THEMES {
+        public AbstractScreen getScreen(Object... params) {
+            return new ThemesScreen();
         }
     };
 
