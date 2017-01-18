@@ -48,7 +48,7 @@ public class ThemesScreen extends AbstractScreen {
         theme1Button.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ColorManager.setColorTheme(ColorManager.THEME_RETRO);
+                ColorManager.setColorTheme(ColorManager.THEME_1);
                 ScreenManager.getInstance().showScreen(ScreenEnum.THEMES);
             }
         });
@@ -65,7 +65,7 @@ public class ThemesScreen extends AbstractScreen {
         theme2Button.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ColorManager.setColorTheme(ColorManager.THEME_CLASSIC);
+                ColorManager.setColorTheme(ColorManager.THEME_2);
                 ScreenManager.getInstance().showScreen(ScreenEnum.THEMES);
             }
         });

@@ -14,7 +14,7 @@ public class ColorManager {
         if(colorPrefs.contains(KEY_NAME))
             loadFromPrefs();
         else {
-            colorTheme = THEME_RETRO;
+            colorTheme = THEME_1;
             saveToPrefs();
         }
 
@@ -39,8 +39,10 @@ public class ColorManager {
         snakeBodyColors = new IntMap<Color>();
         foodColors = new IntMap<Color>();
 
-        addTheme(THEME_RETRO, Color.BLACK, Color.DARK_GRAY, Color.WHITE, Color.LIGHT_GRAY, Color.GREEN, Color.FOREST, Color.RED);
-        addTheme(THEME_CLASSIC, CLASSIC_LIGHT_GREEN, CLASSIC_LIGHT_GREEN_ALT, CLASSIC_DARK_GREEN, CLASSIC_DARK_GREEN_ALT, CLASSIC_DARK_GREEN, CLASSIC_DARK_GREEN_ALT, CLASSIC_DARK_GREEN);
+        addTheme(THEME_1, Color.BLACK, Color.DARK_GRAY, Color.WHITE, Color.LIGHT_GRAY, Color.GREEN, Color.FOREST, Color.RED);
+        addTheme(THEME_2, THEME2_LIGHT_GREEN, THEME2_LIGHT_GREEN_ALT, THEME2_DARK_GREEN, THEME2_DARK_GREEN_ALT, THEME2_DARK_GREEN, THEME2_DARK_GREEN_ALT, THEME2_DARK_GREEN);
+        addTheme(THEME_3, THEME3_BLUE, THEME3_BLUE_ALT, Color.ORANGE, THEME3_ORANGE_ALT, Color.ORANGE, THEME3_ORANGE_ALT, Color.YELLOW);
+
     }
 
     private static void addTheme(int themeId, Color backColor, Color backAltColor, Color frontColor, Color frontAltColor, Color snakeHeadColor, Color snakeBodyColor, Color foodColor) {
@@ -66,21 +68,31 @@ public class ColorManager {
     public static Color getSnakeBodyColor() { return snakeBodyColors.get(colorTheme); }
     public static Color getFoodColor() { return foodColors.get(colorTheme); }
 
-    public static void setColorTheme(int theme) { colorTheme = theme; }
+    public static void setColorTheme(int theme) {
+        colorTheme = theme;
+        saveToPrefs();
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static final int THEME_RETRO = 0;
-    public static final int THEME_CLASSIC = 1;
+    public static final int THEME_1 = 0;
+    public static final int THEME_2 = 1;
+    public static final int THEME_3 = 2;
+    public static final int THEME_4 = 3;
+    public static final int THEME_5 = 4;
+    public static final int THEME_6 = 5;
     private static final String KEY_NAME = "Theme";
     private static final String PREFS_NAME = "UIColor";
-    private static final Color CLASSIC_LIGHT_GREEN = new Color(155/255f, 188/255f, 15/255f, 1f);
-    private static final Color CLASSIC_LIGHT_GREEN_ALT = new Color(126/255f, 151/255f, 12/255f, 1f);
-    private static final Color CLASSIC_DARK_GREEN = new Color(15/255f, 56/255f, 15/255f, 1f);
-    private static final Color CLASSIC_DARK_GREEN_ALT = new Color(26/255f, 97/255f, 26/255f, 1f);
+    private static final Color THEME2_LIGHT_GREEN = new Color(155/255f, 188/255f, 15/255f, 1f);
+    private static final Color THEME2_LIGHT_GREEN_ALT = new Color(126/255f, 151/255f, 12/255f, 1f);
+    private static final Color THEME2_DARK_GREEN = new Color(15/255f, 56/255f, 15/255f, 1f);
+    private static final Color THEME2_DARK_GREEN_ALT = new Color(26/255f, 97/255f, 26/255f, 1f);
+    private static final Color THEME3_BLUE = new Color(7/255f, 84/255f, 178/255f, 1f);
+    private static final Color THEME3_BLUE_ALT = new Color(10/255f, 115/255f, 235/255f, 1f);
+    private static final Color THEME3_ORANGE_ALT = new Color(204/255f, 133/255f, 0/255f, 1f);
 
     private static Preferences colorPrefs;
     private static IntMap<Color> backColors;
