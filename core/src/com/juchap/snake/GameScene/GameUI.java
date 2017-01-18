@@ -136,12 +136,12 @@ public class GameUI {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             return true;
-        };
+        }
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             if(x >= 0 && x < pauseButton.getWidth() && y >= 0 && y < pauseButton.getHeight())
                 ((GameScreen) ScreenManager.getInstance().getScreen()).pauseGame();
-        };
+        }
     }
 
 

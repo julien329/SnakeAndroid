@@ -44,7 +44,7 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenManager.getInstance().showScreen(ScreenEnum.GAME);
-            };
+            }
         });
         this.addActor(playButton);
 
@@ -55,7 +55,7 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenManager.getInstance().showScreen(ScreenEnum.HIGH_SCORE);
-            };
+            }
         });
         this.addActor(highScoresButton);
 
@@ -66,7 +66,7 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenManager.getInstance().showScreen(ScreenEnum.OPTIONS);
-            };
+            }
         });
         this.addActor(optionsButton);
 
@@ -74,8 +74,8 @@ public class MainMenuScreen extends AbstractScreen {
         int iconSize = Gdx.graphics.getWidth() / 8;
 
         achievementTexture = new Texture(Gdx.files.internal(ACHIEVEMENT_TEXTURE));
-        Drawable achievementDrawableUp = new TextureRegionDrawable(new TextureRegion(achievementTexture));
-        final ImageButton achievementButton = new ImageButton(achievementDrawableUp);
+        Drawable achievementDrawable = new TextureRegionDrawable(new TextureRegion(achievementTexture));
+        final ImageButton achievementButton = new ImageButton(achievementDrawable);
         achievementButton.getImage().setColor(ColorManager.getFrontColor());
         achievementButton.getImageCell().expand().fill();
         achievementButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 - (2 * iconSize), buttonPosY);
@@ -100,8 +100,8 @@ public class MainMenuScreen extends AbstractScreen {
         this.addActor(achievementButton);
 
         leaderboardTexture = new Texture(Gdx.files.internal(LEADERBOARD_TEXTURE));
-        Drawable leaderboardDrawableUp = new TextureRegionDrawable(new TextureRegion(leaderboardTexture));
-        final ImageButton leaderboardButton = new ImageButton(leaderboardDrawableUp);
+        Drawable leaderboardDrawable = new TextureRegionDrawable(new TextureRegion(leaderboardTexture));
+        final ImageButton leaderboardButton = new ImageButton(leaderboardDrawable);
         leaderboardButton.getImage().setColor(ColorManager.getFrontColor());
         leaderboardButton.getImageCell().expand().fill();
         leaderboardButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 - (Gdx.graphics.getWidth() / 12), buttonPosY);
@@ -127,8 +127,8 @@ public class MainMenuScreen extends AbstractScreen {
         this.addActor(leaderboardButton);
 
         rateTexture = new Texture(Gdx.files.internal(RATE_TEXTURE));
-        Drawable rateDrawableUp = new TextureRegionDrawable(new TextureRegion(rateTexture));
-        final ImageButton rateButton = new ImageButton(rateDrawableUp);
+        Drawable rateDrawable = new TextureRegionDrawable(new TextureRegion(rateTexture));
+        final ImageButton rateButton = new ImageButton(rateDrawable);
         rateButton.getImage().setColor(ColorManager.getFrontColor());
         rateButton.getImageCell().expand().fill();
         rateButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 + (Gdx.graphics.getWidth()) / 12, buttonPosY);
@@ -154,8 +154,8 @@ public class MainMenuScreen extends AbstractScreen {
         this.addActor(rateButton);
 
         shareTexture = new Texture(Gdx.files.internal(SHARE_TEXTURE));
-        Drawable shareDrawableUp = new TextureRegionDrawable(new TextureRegion(shareTexture));
-        final ImageButton shareButton = new ImageButton(shareDrawableUp);
+        Drawable shareDrawable = new TextureRegionDrawable(new TextureRegion(shareTexture));
+        final ImageButton shareButton = new ImageButton(shareDrawable);
         shareButton.getImage().setColor(ColorManager.getFrontColor());
         shareButton.getImageCell().expand().fill();
         shareButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 + (2 * iconSize), buttonPosY);
@@ -265,10 +265,10 @@ public class MainMenuScreen extends AbstractScreen {
     private static final String OPTIONS = "OPTIONS";
     private static final String BACKGROUND = "background";
     private static final String DEFAULT = "default";
-    private static final String ACHIEVEMENT_TEXTURE = "Textures/achievements_up.png";
-    private static final String LEADERBOARD_TEXTURE = "Textures/leaderboards_up.png";
-    private static final String RATE_TEXTURE = "Textures/rate_up.png";
-    private static final String SHARE_TEXTURE = "Textures/share_up.png";
+    private static final String ACHIEVEMENT_TEXTURE = "Textures/achievements.png";
+    private static final String LEADERBOARD_TEXTURE = "Textures/leaderboards.png";
+    private static final String RATE_TEXTURE = "Textures/rate.png";
+    private static final String SHARE_TEXTURE = "Textures/share.png";
     private static final int ACTIVITY_MIN_INTERVAL = 100;
 
     private Skin buttonSkin;

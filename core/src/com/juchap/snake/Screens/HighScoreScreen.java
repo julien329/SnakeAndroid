@@ -59,7 +59,7 @@ public class HighScoreScreen extends AbstractScreen {
                     arrowLeftButton.setVisible(false);
                 }
                 initGlyphs();
-            };
+            }
         });
         this.addActor(arrowLeftButton);
 
@@ -77,7 +77,7 @@ public class HighScoreScreen extends AbstractScreen {
                     arrowRightButton.setVisible(false);
                 }
                 initGlyphs();
-            };
+            }
         });
         this.addActor(arrowRightButton);
 
@@ -93,7 +93,7 @@ public class HighScoreScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
-            };
+            }
         });
         this.addActor(exitButton);
     }

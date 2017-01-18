@@ -48,7 +48,7 @@ public class OptionScreen extends AbstractScreen {
                 controlIndex = (controlIndex + 1) % CONTROL_TYPES.length;
                 controlsValueText.setText(FontManager.fontCustom(ColorManager.getFrontColor(), 24), CONTROL_TYPES[controlIndex]);
                 InputManager.setType(controlIndex);
-            };
+            }
         });
         this.addActor(controlsButton);
 
@@ -64,7 +64,7 @@ public class OptionScreen extends AbstractScreen {
                 difficultyIndex = (difficultyIndex + 1) % DIFFICULTY_LEVELS.length;
                 difficultyValueText.setText(FontManager.fontCustom(ColorManager.getFrontColor(), 24), DIFFICULTY_LEVELS[difficultyIndex]);
                 DifficultyManager.setDifficulty(difficultyIndex);
-            };
+            }
         });
         this.addActor(difficultyButton);
 
@@ -80,7 +80,7 @@ public class OptionScreen extends AbstractScreen {
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.setState(!soundsButton.isChecked());
                 SoundManager.playActivate();
-            };
+            }
         });
         this.addActor(soundsButton);
 
@@ -96,7 +96,7 @@ public class OptionScreen extends AbstractScreen {
             public void clicked(InputEvent event, float x, float y) {
                 VibrationManager.setState(!vibrationsButton.isChecked());
                 VibrationManager.vibrateMedium();
-            };
+            }
         });
         this.addActor(vibrationsButton);
 
@@ -109,7 +109,7 @@ public class OptionScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenManager.getInstance().showScreen(ScreenEnum.THEMES);
-            };
+            }
         });
         this.addActor(themesButton);
 
@@ -124,7 +124,7 @@ public class OptionScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
-            };
+            }
         });
         this.addActor(exitButton);
     }
