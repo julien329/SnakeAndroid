@@ -71,6 +71,74 @@ public class ThemesScreen extends AbstractScreen {
         });
         this.addActor(theme2Button);
 
+        theme3UpTexture = new Texture(Gdx.files.internal(THEME_2_UP_PATH));
+        Drawable theme3UpDrawable = new TextureRegionDrawable(new TextureRegion(theme3UpTexture));
+        theme3DownTexture = new Texture(Gdx.files.internal(THEME_2_DOWN_PATH));
+        Drawable theme3DownDrawable = new TextureRegionDrawable(new TextureRegion(theme3DownTexture));
+        final ImageButton theme3Button = new ImageButton(theme3UpDrawable, theme3DownDrawable);
+        theme3Button.getImageCell().expand().fill();
+        theme3Button.setPosition(column1X, row2Y);
+        theme3Button.setSize(themeIconSize, themeIconSize);
+        theme3Button.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ColorManager.setColorTheme(ColorManager.THEME_3);
+                ScreenManager.getInstance().showScreen(ScreenEnum.THEMES);
+            }
+        });
+        this.addActor(theme3Button);
+
+        theme4UpTexture = new Texture(Gdx.files.internal(THEME_2_UP_PATH));
+        Drawable theme4UpDrawable = new TextureRegionDrawable(new TextureRegion(theme4UpTexture));
+        theme4DownTexture = new Texture(Gdx.files.internal(THEME_2_DOWN_PATH));
+        Drawable theme4DownDrawable = new TextureRegionDrawable(new TextureRegion(theme4DownTexture));
+        final ImageButton theme4Button = new ImageButton(theme4UpDrawable, theme4DownDrawable);
+        theme4Button.getImageCell().expand().fill();
+        theme4Button.setPosition(column2X, row2Y);
+        theme4Button.setSize(themeIconSize, themeIconSize);
+        theme4Button.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ColorManager.setColorTheme(ColorManager.THEME_4);
+                ScreenManager.getInstance().showScreen(ScreenEnum.THEMES);
+            }
+        });
+        this.addActor(theme4Button);
+
+        theme5UpTexture = new Texture(Gdx.files.internal(THEME_2_UP_PATH));
+        Drawable theme5UpDrawable = new TextureRegionDrawable(new TextureRegion(theme5UpTexture));
+        theme5DownTexture = new Texture(Gdx.files.internal(THEME_2_DOWN_PATH));
+        Drawable theme5DownDrawable = new TextureRegionDrawable(new TextureRegion(theme5DownTexture));
+        final ImageButton theme5Button = new ImageButton(theme5UpDrawable, theme5DownDrawable);
+        theme5Button.getImageCell().expand().fill();
+        theme5Button.setPosition(column1X, row3Y);
+        theme5Button.setSize(themeIconSize, themeIconSize);
+        theme5Button.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ColorManager.setColorTheme(ColorManager.THEME_5);
+                ScreenManager.getInstance().showScreen(ScreenEnum.THEMES);
+            }
+        });
+        this.addActor(theme5Button);
+
+        theme6UpTexture = new Texture(Gdx.files.internal(THEME_2_UP_PATH));
+        Drawable theme6UpDrawable = new TextureRegionDrawable(new TextureRegion(theme6UpTexture));
+        theme6DownTexture = new Texture(Gdx.files.internal(THEME_2_DOWN_PATH));
+        Drawable theme6DownDrawable = new TextureRegionDrawable(new TextureRegion(theme6DownTexture));
+        final ImageButton theme6Button = new ImageButton(theme6UpDrawable, theme6DownDrawable);
+        theme6Button.getImageCell().expand().fill();
+        theme6Button.setPosition(column2X, row3Y);
+        theme6Button.setSize(themeIconSize, themeIconSize);
+        theme6Button.addListener( new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ColorManager.setColorTheme(ColorManager.THEME_6);
+                ScreenManager.getInstance().showScreen(ScreenEnum.THEMES);
+            }
+        });
+        //this.addActor(theme6Button);
+
         float exitButtonWidth = (Gdx.graphics.getWidth() / 3);
         float exitButtonHeight = (Gdx.graphics.getWidth() / 8);
         float exitButtonX = (int)(Gdx.graphics.getWidth() - exitButtonWidth) / 2;
@@ -101,6 +169,14 @@ public class ThemesScreen extends AbstractScreen {
         theme1DownTexture.dispose();
         theme2UpTexture.dispose();
         theme2DownTexture.dispose();
+        theme3UpTexture.dispose();
+        theme3DownTexture.dispose();
+        theme4UpTexture.dispose();
+        theme4DownTexture.dispose();
+        theme5UpTexture.dispose();
+        theme5DownTexture.dispose();
+        theme6UpTexture.dispose();
+        theme6DownTexture.dispose();
     }
 
     @Override
@@ -129,9 +205,6 @@ public class ThemesScreen extends AbstractScreen {
     private void drawThemeIcons() {
         uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
         uiRenderer.setColor(ColorManager.getFrontColor());
-        uiRenderer.rect(column1X, row2Y, themeIconSize, themeIconSize);
-        uiRenderer.rect(column2X, row2Y, themeIconSize, themeIconSize);
-        uiRenderer.rect(column1X, row3Y, themeIconSize, themeIconSize);
         uiRenderer.rect(column2X, row3Y, themeIconSize, themeIconSize);
         uiRenderer.end();
     }
@@ -211,9 +284,9 @@ public class ThemesScreen extends AbstractScreen {
     private static final String THEMES = "THEMES";
     private static final String THEME_1 = "RETRO";
     private static final String THEME_2 = "CLASSIC";
-    private static final String THEME_3 = "THEME_3";
-    private static final String THEME_4 = "THEME_4";
-    private static final String THEME_5 = "THEME_5";
+    private static final String THEME_3 = "BEACH";
+    private static final String THEME_4 = "URBAN";
+    private static final String THEME_5 = "SMILE";
     private static final String THEME_6 = "THEME_6";
     private static final String EXIT = "EXIT";
     private static final String THEME_1_UP_PATH = "Textures/Theme1Up.png";
@@ -235,6 +308,15 @@ public class ThemesScreen extends AbstractScreen {
     private Texture theme1DownTexture;
     private Texture theme2UpTexture;
     private Texture theme2DownTexture;
+    private Texture theme3UpTexture;
+    private Texture theme3DownTexture;
+    private Texture theme4UpTexture;
+    private Texture theme4DownTexture;
+    private Texture theme5UpTexture;
+    private Texture theme5DownTexture;
+    private Texture theme6UpTexture;
+    private Texture theme6DownTexture;
+
 
     private int centerX;
     private int column1X;
