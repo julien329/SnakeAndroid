@@ -71,9 +71,9 @@ public class ThemesScreen extends AbstractScreen {
         });
         this.addActor(theme2Button);
 
-        theme3UpTexture = new Texture(Gdx.files.internal(THEME_2_UP_PATH));
+        theme3UpTexture = new Texture(Gdx.files.internal(THEME_3_UP_PATH));
         Drawable theme3UpDrawable = new TextureRegionDrawable(new TextureRegion(theme3UpTexture));
-        theme3DownTexture = new Texture(Gdx.files.internal(THEME_2_DOWN_PATH));
+        theme3DownTexture = new Texture(Gdx.files.internal(THEME_3_DOWN_PATH));
         Drawable theme3DownDrawable = new TextureRegionDrawable(new TextureRegion(theme3DownTexture));
         final ImageButton theme3Button = new ImageButton(theme3UpDrawable, theme3DownDrawable);
         theme3Button.getImageCell().expand().fill();
@@ -88,9 +88,9 @@ public class ThemesScreen extends AbstractScreen {
         });
         this.addActor(theme3Button);
 
-        theme4UpTexture = new Texture(Gdx.files.internal(THEME_2_UP_PATH));
+        theme4UpTexture = new Texture(Gdx.files.internal(THEME_4_UP_PATH));
         Drawable theme4UpDrawable = new TextureRegionDrawable(new TextureRegion(theme4UpTexture));
-        theme4DownTexture = new Texture(Gdx.files.internal(THEME_2_DOWN_PATH));
+        theme4DownTexture = new Texture(Gdx.files.internal(THEME_4_DOWN_PATH));
         Drawable theme4DownDrawable = new TextureRegionDrawable(new TextureRegion(theme4DownTexture));
         final ImageButton theme4Button = new ImageButton(theme4UpDrawable, theme4DownDrawable);
         theme4Button.getImageCell().expand().fill();
@@ -105,9 +105,9 @@ public class ThemesScreen extends AbstractScreen {
         });
         this.addActor(theme4Button);
 
-        theme5UpTexture = new Texture(Gdx.files.internal(THEME_2_UP_PATH));
+        theme5UpTexture = new Texture(Gdx.files.internal(THEME_5_UP_PATH));
         Drawable theme5UpDrawable = new TextureRegionDrawable(new TextureRegion(theme5UpTexture));
-        theme5DownTexture = new Texture(Gdx.files.internal(THEME_2_DOWN_PATH));
+        theme5DownTexture = new Texture(Gdx.files.internal(THEME_5_DOWN_PATH));
         Drawable theme5DownDrawable = new TextureRegionDrawable(new TextureRegion(theme5DownTexture));
         final ImageButton theme5Button = new ImageButton(theme5UpDrawable, theme5DownDrawable);
         theme5Button.getImageCell().expand().fill();
@@ -293,6 +293,12 @@ public class ThemesScreen extends AbstractScreen {
     private static final String THEME_1_DOWN_PATH = "Textures/Theme1Down.png";
     private static final String THEME_2_UP_PATH = "Textures/Theme2Up.png";
     private static final String THEME_2_DOWN_PATH = "Textures/Theme2Down.png";
+    private static final String THEME_3_UP_PATH = "Textures/Theme3Up.png";
+    private static final String THEME_3_DOWN_PATH = "Textures/Theme3Down.png";
+    private static final String THEME_4_UP_PATH = "Textures/Theme4Up.png";
+    private static final String THEME_4_DOWN_PATH = "Textures/Theme4Down.png";
+    private static final String THEME_5_UP_PATH = "Textures/Theme5Up.png";
+    private static final String THEME_5_DOWN_PATH = "Textures/Theme5Down.png";
     private static final String DEFAULT = "default";
     private static final String BACKGROUND = "background";
 
