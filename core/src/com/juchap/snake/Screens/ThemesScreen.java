@@ -137,7 +137,7 @@ public class ThemesScreen extends AbstractScreen {
                 ScreenManager.getInstance().showScreen(ScreenEnum.THEMES);
             }
         });
-        //this.addActor(theme6Button);
+        this.addActor(theme6Button);
 
         float exitButtonWidth = (Gdx.graphics.getWidth() / 3);
         float exitButtonHeight = (Gdx.graphics.getWidth() / 8);
@@ -159,7 +159,6 @@ public class ThemesScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
         drawText();
-        drawThemeIcons();
     }
 
     @Override
@@ -200,13 +199,6 @@ public class ThemesScreen extends AbstractScreen {
         fontSmall.draw(spriteBatch, theme5Text, theme5X, theme5Y);
         fontSmall.draw(spriteBatch, theme6Text, theme6X, theme6Y);
         spriteBatch.end();
-    }
-
-    private void drawThemeIcons() {
-        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        uiRenderer.setColor(ColorManager.getFrontColor());
-        uiRenderer.rect(column2X, row3Y, themeIconSize, themeIconSize);
-        uiRenderer.end();
     }
 
     private void initButtonSkin() {
@@ -287,7 +279,7 @@ public class ThemesScreen extends AbstractScreen {
     private static final String THEME_3 = "BEACH";
     private static final String THEME_4 = "URBAN";
     private static final String THEME_5 = "SMILE";
-    private static final String THEME_6 = "THEME_6";
+    private static final String THEME_6 = "VELOUR";
     private static final String EXIT = "EXIT";
     private static final String THEME_1_UP_PATH = "Textures/Theme1Up.png";
     private static final String THEME_1_DOWN_PATH = "Textures/Theme1Down.png";

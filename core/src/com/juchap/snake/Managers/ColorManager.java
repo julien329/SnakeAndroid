@@ -44,6 +44,7 @@ public class ColorManager {
         addTheme(THEME_3, THEME3_BLUE, THEME3_BLUE_ALT, Color.ORANGE, THEME3_ORANGE_ALT, Color.LIGHT_GRAY, THEME3_GRAY_ALT, Color.YELLOW);
         addTheme(THEME_4, Color.LIGHT_GRAY, Color.GRAY, THEME4_BLUE, THEME4_BLUE_ALT, THEME4_YELLOW, THEME4_YELLOW_ALT, Color.FOREST);
         addTheme(THEME_5, THEME5_PURPLE, THEME5_PURPLE_ALT, THEME5_GREEN, THEME5_GREEN_ALT, Color.WHITE, Color.LIGHT_GRAY, Color.YELLOW);
+        addTheme(THEME_6, THEME6_BURGUNDY, THEME6_BURGUNDY_ALT, THEME6_BEIGE, THEME6_BEIGE_ALT, THEME6_GREEN, THEME6_GREEN_ALT, THEME6_SAND);
 
     }
 
@@ -104,6 +105,13 @@ public class ColorManager {
     private static final Color THEME5_PURPLE_ALT =          new Color(108/255f,  64/255f, 140/255f, 1f);
     private static final Color THEME5_GREEN =               new Color( 70/255f, 205/255f,  90/255f, 1f);
     private static final Color THEME5_GREEN_ALT =           new Color( 44/255f, 160/255f,  61/255f, 1f);
+    private static final Color THEME6_BEIGE =               new Color(216/255f, 205/255f, 199/255f, 1f);
+    private static final Color THEME6_BEIGE_ALT =           new Color(188/255f, 169/255f, 159/255f, 1f);
+    private static final Color THEME6_BURGUNDY =            new Color(118/255f,  50/255f,  63/255f, 1f);
+    private static final Color THEME6_BURGUNDY_ALT =        new Color(157/255f,  67/255f,  84/255f, 1f);
+    private static final Color THEME6_GREEN =               new Color( 91/255f, 118/255f,  96/255f, 1f);
+    private static final Color THEME6_GREEN_ALT =           new Color(117/255f, 149/255f, 123/255f, 1f);
+    private static final Color THEME6_SAND =                new Color(193/255f, 160/255f, 129/255f, 1f);
 
     private static Preferences colorPrefs;
     private static IntMap<Color> backColors;
