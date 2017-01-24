@@ -61,9 +61,10 @@ public class GameScreen extends AbstractScreen {
 	public void render(float delta) {
 		super.render(delta);
 
-		gameUI.render();
 		snake.render();
 		food.render();
+		gameUI.render();
+		drawBorders();
 
 		if(isPaused)
 			gameUI.renderPause();

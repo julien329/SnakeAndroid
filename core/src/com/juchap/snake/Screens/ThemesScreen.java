@@ -122,9 +122,9 @@ public class ThemesScreen extends AbstractScreen {
         });
         this.addActor(theme5Button);
 
-        theme6UpTexture = new Texture(Gdx.files.internal(THEME_2_UP_PATH));
+        theme6UpTexture = new Texture(Gdx.files.internal(THEME_6_UP_PATH));
         Drawable theme6UpDrawable = new TextureRegionDrawable(new TextureRegion(theme6UpTexture));
-        theme6DownTexture = new Texture(Gdx.files.internal(THEME_2_DOWN_PATH));
+        theme6DownTexture = new Texture(Gdx.files.internal(THEME_6_DOWN_PATH));
         Drawable theme6DownDrawable = new TextureRegionDrawable(new TextureRegion(theme6DownTexture));
         final ImageButton theme6Button = new ImageButton(theme6UpDrawable, theme6DownDrawable);
         theme6Button.getImageCell().expand().fill();
@@ -291,6 +291,8 @@ public class ThemesScreen extends AbstractScreen {
     private static final String THEME_4_DOWN_PATH = "Textures/Theme4Down.png";
     private static final String THEME_5_UP_PATH = "Textures/Theme5Up.png";
     private static final String THEME_5_DOWN_PATH = "Textures/Theme5Down.png";
+    private static final String THEME_6_UP_PATH = "Textures/Theme6Up.png";
+    private static final String THEME_6_DOWN_PATH = "Textures/Theme6Down.png";
     private static final String DEFAULT = "default";
     private static final String BACKGROUND = "background";
 
