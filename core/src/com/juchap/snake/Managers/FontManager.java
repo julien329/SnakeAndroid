@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.graphics.glutils.PixmapTextureData;
 import com.badlogic.gdx.utils.Array;
 import com.juchap.snake.Tools.BitmapFontWriter;
+import com.juchap.snake.Utility.GlobalVars;
+
 import java.util.HashMap;
 
 
@@ -20,7 +22,7 @@ public class FontManager {
 
     public static void initManager() {
         fonts = new HashMap<String, BitmapFont>();
-        scaleFactor = 0.0025f * Gdx.graphics.getWidth();
+        scaleFactor = 0.0025f * GlobalVars.GRID_WIDTH;
 
         scaledSmall = Math.round(SMALL * scaleFactor);
         scaledMedium = Math.round(MEDIUM * scaleFactor);

@@ -5,18 +5,28 @@ import com.badlogic.gdx.Gdx;
 
 public class GlobalVars {
 
-    public static void initVars(int navBarHeight) {
-        UNIT_SIZE = Gdx.graphics.getWidth() / 32;
+    public static void initVars() {
+        int height = Gdx.graphics.getHeight();
+        int width = Gdx.graphics.getWidth();
+        final float ratio = height / width;
 
-        final int height = Gdx.graphics.getHeight() - navBarHeight;
-        final int GRID_OFFSET_X = (Gdx.graphics.getWidth() % UNIT_SIZE) / 2;
-        final int GRID_OFFSET_Y = (height % UNIT_SIZE) / 2;
+        if (ratio < PROPER_RATIO) {
+            width = (int)(height / PROPER_RATIO);
+        }
+        else if (ratio > PROPER_RATIO) {
+            height = (int)(width * PROPER_RATIO);
+        }
+
+        UNIT_SIZE = width / 32;
+
+        final int GRID_OFFSET_X = ((Gdx.graphics.getWidth() - width) + (width % UNIT_SIZE)) / 2;
+        final int GRID_OFFSET_Y = ((Gdx.graphics.getHeight() - height) + (height % UNIT_SIZE)) / 2;
 
         GRID_HEIGHT = height - (height % UNIT_SIZE);
-        GRID_WIDTH = Gdx.graphics.getWidth() - (Gdx.graphics.getWidth() % UNIT_SIZE);
+        GRID_WIDTH = width - (width % UNIT_SIZE);
         PADDING_Y = GRID_HEIGHT / 64;
 
-        BOTTOM = navBarHeight + GRID_OFFSET_Y;
+        BOTTOM = GRID_OFFSET_Y;
         TOP = BOTTOM + GRID_HEIGHT;
         LEFT = GRID_OFFSET_X;
         RIGHT = LEFT + GRID_WIDTH;
@@ -31,6 +41,8 @@ public class GlobalVars {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private static final float PROPER_RATIO = 16.f/9.f;
 
     public static int UNIT_SIZE;
     public static int GRID_WIDTH;

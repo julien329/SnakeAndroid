@@ -2,16 +2,12 @@ package com.juchap.snake;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -36,11 +32,12 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
         gameHelper.setup(new GameHelperListener());
 
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+        config.useImmersiveMode = true;
         config.useCompass = false;
         config.useAccelerometer = false;
         config.useWakelock = true;
 
-        initialize(new MySnakeGame(this, getNavBarHeight()), config);
+        initialize(new MySnakeGame(this), config);
     }
 
 	@Override
@@ -151,23 +148,6 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
-
-	private int getNavBarHeight() {
-        Resources resources = getContext().getResources();
-        int result = 0;
-
-        int hasNavBarId = resources.getIdentifier("config_showNavigationBar", "bool", "android");
-        boolean hasNavBar = hasNavBarId > 0 && resources.getBoolean(hasNavBarId);
-
-        if(hasNavBar) {
-            int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-            if (resourceId > 0) {
-                return resources.getDimensionPixelSize(resourceId);
-            }
-        }
-
-        return result;
-    }
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

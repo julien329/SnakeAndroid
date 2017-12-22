@@ -17,14 +17,13 @@ import com.juchap.snake.Managers.VibrationManager;
 
 public class MySnakeGame extends Game {
 
-    public MySnakeGame(PlayServices playServices, int navBarHeight) {
+    public MySnakeGame(PlayServices playServices) {
         this.playServices = playServices;
-        this.navBarHeight = navBarHeight;
     }
 
     @Override
     public void create () {
-        GlobalVars.initVars(navBarHeight);
+        GlobalVars.initVars();
         ColorManager.initManager();
         DifficultyManager.initManager();
         InputManager.initManager();
@@ -66,5 +65,4 @@ public class MySnakeGame extends Game {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private PlayServices playServices;
-    private int navBarHeight;
 }

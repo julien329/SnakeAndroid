@@ -90,7 +90,7 @@ public class GameUI {
 
         uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
         uiRenderer.setColor(0, 0, 0, 0.75f);
-        uiRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        uiRenderer.rect(GlobalVars.LEFT, GlobalVars.BOTTOM, GlobalVars.GRID_WIDTH, GlobalVars.GRID_HEIGHT);
         uiRenderer.end();
 
         batch.begin();
