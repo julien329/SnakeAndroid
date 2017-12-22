@@ -23,8 +23,8 @@ public class GlobalVars {
         CENTER_X = LEFT + (GRID_WIDTH / 2);
         CENTER_Y = BOTTOM + (GRID_HEIGHT / 2);
 
-        GAME_GRID_HEIGHT = (int)(Math.floor((height / UNIT_SIZE) * (5.f/6.f)) * UNIT_SIZE) + UNIT_SIZE;
-        GAME_GRID_TOP = BOTTOM + GAME_GRID_HEIGHT;
+        GAME_GRID_TOP = TOP - (8 * UNIT_SIZE);
+        GAME_GRID_HEIGHT = GAME_GRID_TOP - BOTTOM;
     }
 
 
