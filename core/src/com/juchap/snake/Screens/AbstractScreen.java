@@ -16,10 +16,10 @@ public abstract class AbstractScreen extends Stage implements Screen {
         super();
         uiRenderer = new ShapeRenderer();
         spriteBatch = new SpriteBatch();
-        leftBorderX = GlobalVars.GRID_OFFSET_X;
-        rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
-        bottomBorderY = GlobalVars.GRID_OFFSET_Y;
-        topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
+        leftBorderX = GlobalVars.LEFT;
+        rightBorderX = GlobalVars.RIGHT - GlobalVars.UNIT_SIZE;
+        bottomBorderY = GlobalVars.BOTTOM;
+        topBorderY = GlobalVars.TOP - GlobalVars.UNIT_SIZE;
     }
 
     public abstract void buildStage();
@@ -41,7 +41,7 @@ public abstract class AbstractScreen extends Stage implements Screen {
 
         uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
         uiRenderer.setColor(ColorManager.getBackColor());
-        uiRenderer.rect(GlobalVars.GRID_OFFSET_X, GlobalVars.GRID_OFFSET_Y, GlobalVars.GRID_WIDTH, GlobalVars.GRID_HEIGHT);
+        uiRenderer.rect(GlobalVars.LEFT, GlobalVars.BOTTOM, GlobalVars.GRID_WIDTH, GlobalVars.GRID_HEIGHT);
         uiRenderer.end();
 
         drawBorders();

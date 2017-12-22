@@ -27,8 +27,8 @@ public class MainMenuScreen extends AbstractScreen {
     public MainMenuScreen() {
         super();
         Gdx.input.setInputProcessor(this);
-        buttonWidth = Gdx.graphics.getWidth() / 2;
-        buttonHeight = Gdx.graphics.getHeight() / 10;
+        buttonWidth = GlobalVars.GRID_WIDTH / 2;
+        buttonHeight = GlobalVars.GRID_HEIGHT / 10;
         lastActivityTime = 0;
 
         initButtonSkin();
@@ -37,9 +37,9 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void buildStage() {
-        int buttonPosY = Gdx.graphics.getHeight() / 2;
+        int buttonPosY = GlobalVars.CENTER_Y;
         TextButton playButton = new TextButton(PLAY, buttonSkin);
-        playButton.setPosition((Gdx.graphics.getWidth() - buttonWidth) / 2, buttonPosY);
+        playButton.setPosition(GlobalVars.CENTER_X - (buttonWidth / 2), buttonPosY);
         playButton.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -50,7 +50,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         buttonPosY -= (buttonHeight + GlobalVars.UNIT_SIZE);
         TextButton highScoresButton = new TextButton(HIGH_SCORES, buttonSkin);
-        highScoresButton.setPosition((Gdx.graphics.getWidth() - buttonWidth) / 2, buttonPosY);
+        highScoresButton.setPosition(GlobalVars.CENTER_X - (buttonWidth / 2), buttonPosY);
         highScoresButton.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -61,7 +61,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         buttonPosY -= (buttonHeight + GlobalVars.UNIT_SIZE);
         TextButton optionsButton = new TextButton(OPTIONS, buttonSkin);
-        optionsButton.setPosition((Gdx.graphics.getWidth() - buttonWidth) / 2, buttonPosY);
+        optionsButton.setPosition(GlobalVars.CENTER_X - (buttonWidth / 2), buttonPosY);
         optionsButton.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -70,15 +70,15 @@ public class MainMenuScreen extends AbstractScreen {
         });
         this.addActor(optionsButton);
 
-        buttonPosY = 3 * GlobalVars.UNIT_SIZE;
-        int iconSize = Gdx.graphics.getWidth() / 8;
+        buttonPosY = GlobalVars.BOTTOM + (3 * GlobalVars.UNIT_SIZE);
+        int iconSize = GlobalVars.GRID_WIDTH / 8;
 
         achievementTexture = new Texture(Gdx.files.internal(ACHIEVEMENT_TEXTURE));
         Drawable achievementDrawable = new TextureRegionDrawable(new TextureRegion(achievementTexture));
         final ImageButton achievementButton = new ImageButton(achievementDrawable);
         achievementButton.getImage().setColor(ColorManager.getFrontColor());
         achievementButton.getImageCell().expand().fill();
-        achievementButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 - (2 * iconSize), buttonPosY);
+        achievementButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2) - (2 * iconSize), buttonPosY);
         achievementButton.setSize(iconSize, iconSize);
         achievementButton.addListener( new ClickListener() {
             @Override
@@ -104,7 +104,7 @@ public class MainMenuScreen extends AbstractScreen {
         final ImageButton leaderboardButton = new ImageButton(leaderboardDrawable);
         leaderboardButton.getImage().setColor(ColorManager.getFrontColor());
         leaderboardButton.getImageCell().expand().fill();
-        leaderboardButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 - (Gdx.graphics.getWidth() / 12), buttonPosY);
+        leaderboardButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2) - (GlobalVars.GRID_WIDTH / 12), buttonPosY);
         leaderboardButton.setSize(iconSize, iconSize);
         leaderboardButton.addListener( new ClickListener() {
             @Override
@@ -131,7 +131,7 @@ public class MainMenuScreen extends AbstractScreen {
         final ImageButton rateButton = new ImageButton(rateDrawable);
         rateButton.getImage().setColor(ColorManager.getFrontColor());
         rateButton.getImageCell().expand().fill();
-        rateButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 + (Gdx.graphics.getWidth()) / 12, buttonPosY);
+        rateButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2) + (GlobalVars.GRID_WIDTH / 12), buttonPosY);
         rateButton.setSize(iconSize, iconSize);
         rateButton.addListener( new ClickListener() {
             @Override
@@ -158,7 +158,7 @@ public class MainMenuScreen extends AbstractScreen {
         final ImageButton shareButton = new ImageButton(shareDrawable);
         shareButton.getImage().setColor(ColorManager.getFrontColor());
         shareButton.getImageCell().expand().fill();
-        shareButton.setPosition((Gdx.graphics.getWidth() - iconSize) / 2 + (2 * iconSize), buttonPosY);
+        shareButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2) + (2 * iconSize), buttonPosY);
         shareButton.setSize(iconSize, iconSize);
         shareButton.addListener( new ClickListener() {
             @Override
@@ -212,10 +212,10 @@ public class MainMenuScreen extends AbstractScreen {
     private void drawText() {
         spriteBatch.begin();
         BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
-        fontLarge.draw(spriteBatch, titleText1, (Gdx.graphics.getWidth() - titleText1.width) / 2, Gdx.graphics.getHeight() - (3 * GlobalVars.UNIT_SIZE));
+        fontLarge.draw(spriteBatch, titleText1, GlobalVars.CENTER_X - (titleText1.width / 2), GlobalVars.TOP - (3 * GlobalVars.UNIT_SIZE));
 
         BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 108);
-        fontCustom.draw(spriteBatch, titleText2, (Gdx.graphics.getWidth() - titleText2.width) / 2, Gdx.graphics.getHeight() - titleText1.height - (4 * GlobalVars.UNIT_SIZE));
+        fontCustom.draw(spriteBatch, titleText2, GlobalVars.CENTER_X - (titleText2.width / 2), GlobalVars.TOP - titleText1.height - (4 * GlobalVars.UNIT_SIZE));
         spriteBatch.end();
     }
 

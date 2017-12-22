@@ -1,7 +1,10 @@
 package com.juchap.snake.GameScene;
 
 import java.util.ArrayList;
+import java.util.Vector;
+
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.juchap.snake.Managers.ColorManager;
 import com.juchap.snake.Screens.GameScreen;
 import com.juchap.snake.Utility.GlobalVars;
@@ -43,13 +46,15 @@ public class Snake {
     }
 
     public boolean checkCollisions() {
-        int maxX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - (2 * GlobalVars.UNIT_SIZE);
-        int maxY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GAME_GRID_HEIGHT - (2 * GlobalVars.UNIT_SIZE);
+        int minX = GlobalVars.LEFT + GlobalVars.UNIT_SIZE;
+        int maxX = GlobalVars.RIGHT - (2 * GlobalVars.UNIT_SIZE);
+        int minY = GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE;
+        int maxY = GlobalVars.GAME_GRID_TOP - (2 * GlobalVars.UNIT_SIZE);
 
         BodyPart head = bodyParts.get(0);
-        if(head.getPosX() < (GlobalVars.GRID_OFFSET_X + GlobalVars.UNIT_SIZE) || head.getPosX() > maxX)
+        if(head.getPosX() < minX || head.getPosX() > maxX)
             return true;
-        if(head.getPosY() < (GlobalVars.GRID_OFFSET_Y + GlobalVars.UNIT_SIZE) || head.getPosY() > maxY)
+        if(head.getPosY() < minY || head.getPosY() > maxY)
             return true;
 
         BodyPart body;
@@ -64,12 +69,14 @@ public class Snake {
 
     public boolean tryEat() {
         BodyPart head = bodyParts.get(0);
-        Food food = ((GameScreen) ScreenManager.getInstance().getScreen()).getFood();
+        GameScreen gameScreen = (GameScreen) ScreenManager.getInstance().getScreen();
+        Food food = gameScreen.getFood();
+        ArrayList<Vector2> freeSpaces = gameScreen.getFreeSpaces();
 
         if(head.getPosX() == food.getPosX() && head.getPosY() == food.getPosY()) {
             BodyPart newPart = new BodyPart(lastPosX, lastPosY, ColorManager.getSnakeBodyColor());
             bodyParts.add(newPart);
-            food.spawnFood();
+            food.spawnFood(freeSpaces);
             ((GameScreen) ScreenManager.getInstance().getScreen()).getGameUI().addScore();
 
             VibrationManager.vibrateShort();

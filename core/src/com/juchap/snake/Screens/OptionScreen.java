@@ -36,8 +36,8 @@ public class OptionScreen extends AbstractScreen {
 
     @Override
     public void buildStage() {
-        int buttonPosY = (int)(controlsY - separatorText.height - (changeValueText.height - separatorText.height) / 2);
-        int buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width + controlsValueText.width);
+        float buttonPosY = controlsY - separatorText.height - (changeValueText.height - separatorText.height) / 2;
+        float buttonPosX = GlobalVars.CENTER_X + (4 * separatorText.width) + controlsValueText.width;
         TextButton controlsButton = new TextButton(CHANGE_VALUE, buttonSkin);
         controlsButton.setSize(changeValueText.width, changeValueText.height);
         controlsButton.setPosition(buttonPosX, buttonPosY);
@@ -53,7 +53,7 @@ public class OptionScreen extends AbstractScreen {
         this.addActor(controlsButton);
 
         buttonPosY -= (3 * separatorText.height);
-        buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width + difficultyValueText.width);
+        buttonPosX = GlobalVars.CENTER_X + (4 * separatorText.width) + difficultyValueText.width;
         TextButton difficultyButton = new TextButton(CHANGE_VALUE, buttonSkin);
         difficultyButton.setSize(changeValueText.width, changeValueText.height);
         difficultyButton.setPosition(buttonPosX, buttonPosY);
@@ -69,7 +69,7 @@ public class OptionScreen extends AbstractScreen {
         this.addActor(difficultyButton);
 
         buttonPosY -= (3 * separatorText.height);
-        buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width);
+        buttonPosX = GlobalVars.CENTER_X + (4 * separatorText.width);
         final TextButton soundsButton = new TextButton(CHECK_MARK, checkBoxSkin);
         soundsButton.setSize(checkedText.height, checkedText.height);
         soundsButton.setPosition(buttonPosX, buttonPosY);
@@ -85,7 +85,7 @@ public class OptionScreen extends AbstractScreen {
         this.addActor(soundsButton);
 
         buttonPosY -= (3 * separatorText.height);
-        buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width);
+        buttonPosX = GlobalVars.CENTER_X + (4 * separatorText.width);
         final TextButton vibrationsButton = new TextButton(CHECK_MARK, checkBoxSkin);
         vibrationsButton.setSize(checkedText.height, checkedText.height);
         vibrationsButton.setPosition(buttonPosX, buttonPosY);
@@ -101,9 +101,9 @@ public class OptionScreen extends AbstractScreen {
         this.addActor(vibrationsButton);
 
         buttonPosY -= (3 * separatorText.height);
-        buttonPosX = (int)((Gdx.graphics.getWidth() / 2) + 4 * separatorText.width);
+        buttonPosX = GlobalVars.CENTER_X + (4 * separatorText.width);
         final TextButton themesButton = new TextButton(CHANGE_THEME, themesSkin);
-        themesButton.setSize(Gdx.graphics.getWidth() / 4, checkedText.height);
+        themesButton.setSize(GlobalVars.GRID_WIDTH / 4, checkedText.height);
         themesButton.setPosition(buttonPosX, buttonPosY);
         themesButton.addListener( new ClickListener() {
             @Override
@@ -113,10 +113,10 @@ public class OptionScreen extends AbstractScreen {
         });
         this.addActor(themesButton);
 
-        float buttonWidth = (Gdx.graphics.getWidth() / 3);
-        float buttonHeight = (Gdx.graphics.getWidth() / 8);
+        float buttonWidth = (GlobalVars.GRID_WIDTH / 3);
+        float buttonHeight = (GlobalVars.GRID_WIDTH / 8);
         buttonPosY -= (12 * GlobalVars.PADDING_Y);
-        buttonPosX = (int)(Gdx.graphics.getWidth() - buttonWidth) / 2;
+        buttonPosX = GlobalVars.CENTER_X - (buttonWidth / 2);
         TextButton exitButton = new TextButton(EXIT, exitSkin);
         exitButton.setSize(buttonWidth, buttonHeight);
         exitButton.setPosition(buttonPosX, buttonPosY);
@@ -262,16 +262,15 @@ public class OptionScreen extends AbstractScreen {
         difficultyValueText.setText(fontCustom, DIFFICULTY_LEVELS[difficultyIndex]);
         controlsValueText.setText(fontCustom, CONTROL_TYPES[controlIndex]);
 
-        int centerX = (Gdx.graphics.getWidth() / 2);
-        optionX = (int)(Gdx.graphics.getWidth() - optionsText.width) / 2;
-        optionY = (5 * Gdx.graphics.getHeight()) / 6;
-        valuesX = (int)(centerX + 4 * separatorText.width);
-        itemsX = (int)(centerX - controlsText.width - 2 * separatorText.width);
-        controlsY = optionY - 12 * GlobalVars.PADDING_Y;
-        difficultyY = (int)(controlsY - 3 * separatorText.height);
-        soundsY = (int)(difficultyY - 3 * separatorText.height);
-        vibrationsY = (int)(soundsY - 3 * separatorText.height);
-        themesY = (int)(vibrationsY - 3 * separatorText.height);
+        optionX = GlobalVars.CENTER_X - (optionsText.width / 2);
+        optionY = GlobalVars.BOTTOM + ((5.f / 6.f) * GlobalVars.GRID_HEIGHT);
+        valuesX = GlobalVars.CENTER_X + (4 * separatorText.width);
+        itemsX = GlobalVars.CENTER_X - controlsText.width - (2 * separatorText.width);
+        controlsY = optionY - (12 * GlobalVars.PADDING_Y);
+        difficultyY = controlsY - (3 * separatorText.height);
+        soundsY = difficultyY - (3 * separatorText.height);
+        vibrationsY = soundsY - (3 * separatorText.height);
+        themesY = vibrationsY - (3 * separatorText.height);
     }
 
 
@@ -309,13 +308,13 @@ public class OptionScreen extends AbstractScreen {
 
     private int controlIndex;
     private int difficultyIndex;
-    private int optionX;
-    private int optionY;
-    private int valuesX;
-    private int itemsX;
-    private int controlsY;
-    private int difficultyY;
-    private int soundsY;
-    private int vibrationsY;
-    private int themesY;
+    private float optionX;
+    private float optionY;
+    private float valuesX;
+    private float itemsX;
+    private float controlsY;
+    private float difficultyY;
+    private float soundsY;
+    private float vibrationsY;
+    private float themesY;
 }

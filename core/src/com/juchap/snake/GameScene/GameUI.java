@@ -27,11 +27,11 @@ public class GameUI {
         this.uiRenderer = uiRenderer;
         this.batch = spriteBatch;
 
-        leftBorderX = GlobalVars.GRID_OFFSET_X;
-        rightBorderX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE;
-        topBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GRID_HEIGHT - GlobalVars.UNIT_SIZE;
-        topGameBorderY = GlobalVars.GRID_OFFSET_Y + GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE;
-        scoreDividerX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - GlobalVars.UNIT_SIZE;
+        leftBorderX = GlobalVars.LEFT;
+        rightBorderX = GlobalVars.RIGHT - GlobalVars.UNIT_SIZE;
+        topBorderY = GlobalVars.TOP - GlobalVars.UNIT_SIZE;
+        topGameBorderY = GlobalVars.GAME_GRID_TOP - GlobalVars.UNIT_SIZE;
+        scoreDividerX = GlobalVars.RIGHT - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - GlobalVars.UNIT_SIZE;
 
         initButtonSkin();
         pauseButton = new TextButton(PAUSE_SYMBOL, buttonSkin);
@@ -108,14 +108,14 @@ public class GameUI {
         BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
         pauseText = new GlyphLayout();
         pauseText.setText(fontLarge, PAUSED);
-        pauseTextX = (int)(Gdx.graphics.getWidth() - pauseText.width) / 2;
-        pauseTextY = (int)(Gdx.graphics.getHeight() + pauseText.height) / 2;
+        pauseTextX = GlobalVars.CENTER_X - (pauseText.width / 2);
+        pauseTextY = GlobalVars.CENTER_Y + (pauseText.height / 2);
 
         BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
         continueText = new GlyphLayout();
         continueText.setText(fontSmall, CONTINUE);
-        continueTextX = (int)(Gdx.graphics.getWidth() - continueText.width) / 2;
-        continueTextY = pauseTextY - (int)pauseText.height - GlobalVars.UNIT_SIZE;
+        continueTextX = GlobalVars.CENTER_X - (continueText.width / 2);
+        continueTextY = pauseTextY - pauseText.height - GlobalVars.UNIT_SIZE;
 
         BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 48);
         scoreText = new GlyphLayout();
@@ -123,8 +123,8 @@ public class GameUI {
         scorePoints = new GlyphLayout();
         scorePoints.setText(fontCustom, SCORE_INIT);
         scoreTextX = leftBorderX + (2 * GlobalVars.UNIT_SIZE);
-        scorePointsX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - (2 * GlobalVars.UNIT_SIZE);
-        scoreY = (int)(GlobalVars.GRID_HEIGHT + GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE + scoreText.height) / 2 ;
+        scorePointsX = GlobalVars.RIGHT - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - (2 * GlobalVars.UNIT_SIZE);
+        scoreY = (GlobalVars.TOP + GlobalVars.GAME_GRID_TOP - GlobalVars.UNIT_SIZE + scoreText.height) / 2 ;
     }
 
 
@@ -180,11 +180,11 @@ public class GameUI {
     private int topBorderY;
     private int topGameBorderY;
     private int scoreDividerX;
-    private int scoreY;
+    private float scoreY;
     private int scoreTextX;
     private int scorePointsX;
-    private int pauseTextX;
-    private int pauseTextY;
-    private int continueTextX;
-    private int continueTextY;
+    private float pauseTextX;
+    private float pauseTextY;
+    private float continueTextX;
+    private float continueTextY;
 }

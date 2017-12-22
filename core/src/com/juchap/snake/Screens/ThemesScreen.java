@@ -28,8 +28,7 @@ public class ThemesScreen extends AbstractScreen {
     public ThemesScreen() {
         super();
         Gdx.input.setInputProcessor(this);
-        themeIconSize = Gdx.graphics.getWidth() / 4;
-        centerX = Gdx.graphics.getWidth() / 2;
+        themeIconSize = GlobalVars.GRID_WIDTH / 4;
 
         initButtonSkin();
         initGlyphs();
@@ -139,10 +138,10 @@ public class ThemesScreen extends AbstractScreen {
         });
         this.addActor(theme6Button);
 
-        float exitButtonWidth = (Gdx.graphics.getWidth() / 3);
-        float exitButtonHeight = (Gdx.graphics.getWidth() / 8);
-        float exitButtonX = (int)(Gdx.graphics.getWidth() - exitButtonWidth) / 2;
-        float exitButtonY = theme5Y - exitButtonHeight - 6 * GlobalVars.PADDING_Y;
+        float exitButtonWidth = (GlobalVars.GRID_WIDTH / 3);
+        float exitButtonHeight = (GlobalVars.GRID_WIDTH / 8);
+        float exitButtonX = GlobalVars.CENTER_X - (exitButtonWidth / 2);
+        float exitButtonY = theme5Y - exitButtonHeight - (6 * GlobalVars.PADDING_Y);
         final TextButton exitButton = new TextButton(EXIT, exitSkin);
         exitButton.setSize(exitButtonWidth, exitButtonHeight);
         exitButton.setPosition(exitButtonX, exitButtonY);
@@ -227,44 +226,44 @@ public class ThemesScreen extends AbstractScreen {
     }
 
     private void initGlyphs() {
-        column1X = centerX - themeIconSize - 2 * GlobalVars.UNIT_SIZE;
-        column2X = centerX + 2 * GlobalVars.UNIT_SIZE;
+        column1X = GlobalVars.CENTER_X - themeIconSize - (2 * GlobalVars.UNIT_SIZE);
+        column2X = GlobalVars.CENTER_X + (2 * GlobalVars.UNIT_SIZE);
 
         BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
         titleText = new GlyphLayout();
         titleText.setText(fontLarge, THEMES);
-        titleX = (int)(Gdx.graphics.getWidth() - titleText.width) / 2;
-        titleY = Gdx.graphics.getHeight() - GlobalVars.UNIT_SIZE - 4 * GlobalVars.PADDING_Y;
+        titleX = GlobalVars.CENTER_X - (titleText.width / 2);
+        titleY = GlobalVars.TOP - GlobalVars.UNIT_SIZE - (4 * GlobalVars.PADDING_Y);
 
         BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
-        row1Y = titleY - (int)titleText.height - themeIconSize - 5 * GlobalVars.PADDING_Y;
+        row1Y = titleY - titleText.height - themeIconSize - (5 * GlobalVars.PADDING_Y);
         theme1Text = new GlyphLayout();
         theme1Text.setText(fontSmall, THEME_1);
-        theme1X = column1X + (themeIconSize / 2) - (int)(theme1Text.width / 2);
-        theme1Y = row1Y - (int)(theme1Text.height / 2);
+        theme1X = column1X + (themeIconSize / 2) - (theme1Text.width / 2);
+        theme1Y = row1Y - (theme1Text.height / 2);
         theme2Text = new GlyphLayout();
         theme2Text.setText(fontSmall, THEME_2);
-        theme2X = column2X + (themeIconSize / 2) - (int)(theme2Text.width / 2);
+        theme2X = column2X + (themeIconSize / 2) - (theme2Text.width / 2);
         theme2Y = theme1Y;
 
-        row2Y = theme1Y - themeIconSize - 2 * GlobalVars.PADDING_Y;
+        row2Y = theme1Y - themeIconSize - (2 * GlobalVars.PADDING_Y);
         theme3Text = new GlyphLayout();
         theme3Text.setText(fontSmall, THEME_3);
-        theme3X = column1X + (themeIconSize / 2) - (int)(theme3Text.width / 2);
-        theme3Y = row2Y - (int)(theme3Text.height / 2);
+        theme3X = column1X + (themeIconSize / 2) - (theme3Text.width / 2);
+        theme3Y = row2Y - (theme3Text.height / 2);
         theme4Text = new GlyphLayout();
         theme4Text.setText(fontSmall, THEME_4);
-        theme4X = column2X + (themeIconSize / 2) - (int)(theme4Text.width / 2);
+        theme4X = column2X + (themeIconSize / 2) - (theme4Text.width / 2);
         theme4Y = theme3Y;
 
-        row3Y = theme3Y - themeIconSize - 2 * GlobalVars.PADDING_Y;
+        row3Y = theme3Y - themeIconSize - (2 * GlobalVars.PADDING_Y);
         theme5Text = new GlyphLayout();
         theme5Text.setText(fontSmall, THEME_5);
-        theme5X = column1X + (themeIconSize / 2) - (int)(theme5Text.width / 2);
-        theme5Y = row3Y - (int)(theme5Text.height / 2);
+        theme5X = column1X + (themeIconSize / 2) - (theme5Text.width / 2);
+        theme5Y = row3Y - (theme5Text.height / 2);
         theme6Text = new GlyphLayout();
         theme6Text.setText(fontSmall, THEME_6);
-        theme6X = column2X + (themeIconSize / 2) - (int)(theme6Text.width / 2);
+        theme6X = column2X + (themeIconSize / 2) - (theme6Text.width / 2);
         theme6Y = theme5Y;
     }
 
@@ -317,27 +316,24 @@ public class ThemesScreen extends AbstractScreen {
     private Texture theme6UpTexture;
     private Texture theme6DownTexture;
 
-
-    private int centerX;
-    private int column1X;
-    private int column2X;
-    private int theme1X;
-    private int theme2X;
-    private int theme3X;
-    private int theme4X;
-    private int theme5X;
-    private int theme6X;
-    private int theme1Y;
-    private int theme2Y;
-    private int theme3Y;
-    private int theme4Y;
-    private int theme5Y;
-    private int theme6Y;
-    private int titleX;
-    private int titleY;
-    private int row1Y;
-    private int row2Y;
-    private int row3Y;
+    private float column1X;
+    private float column2X;
+    private float theme1X;
+    private float theme2X;
+    private float theme3X;
+    private float theme4X;
+    private float theme5X;
+    private float theme6X;
+    private float theme1Y;
+    private float theme2Y;
+    private float theme3Y;
+    private float theme4Y;
+    private float theme5Y;
+    private float theme6Y;
+    private float titleX;
+    private float titleY;
+    private float row1Y;
+    private float row2Y;
+    private float row3Y;
     private int themeIconSize;
 }
-

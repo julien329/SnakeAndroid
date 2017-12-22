@@ -134,28 +134,28 @@ public class GameOverScreen extends AbstractScreen {
         BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
         gameOverText = new GlyphLayout();
         gameOverText.setText(fontLarge, GAME_OVER);
-        gameOverX = (int)(Gdx.graphics.getWidth() - gameOverText.width) / 2;
-        gameOverY = (int)((2.0f * Gdx.graphics.getHeight() / 3.0f) + gameOverText.height / 2);
+        gameOverX = GlobalVars.CENTER_X - (gameOverText.width / 2);
+        gameOverY = GlobalVars.BOTTOM + ((2.f / 3.f) * GlobalVars.GRID_HEIGHT);
 
         BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
         scoreText = new GlyphLayout();
         scoreText.setText(fontMedium, new StringBuilder(SCORE).append(score));
-        scoreX = (int)(Gdx.graphics.getWidth() - scoreText.width) / 2;
-        scoreY = gameOverY - 4 * GlobalVars.PADDING_Y - (int)scoreText.height;
+        scoreX = GlobalVars.CENTER_X - (scoreText.width / 2);
+        scoreY = gameOverY - gameOverText.height - (4 * GlobalVars.PADDING_Y);
         bestScoreText = new GlyphLayout();
         bestScoreText.setText(fontMedium, new StringBuilder(BEST).append(best));
-        bestScoreX = (int)(Gdx.graphics.getWidth() - bestScoreText.width) / 2;
-        bestScoreY = scoreY - GlobalVars.PADDING_Y - (int)bestScoreText.height;
+        bestScoreX = GlobalVars.CENTER_X - (bestScoreText.width / 2);
+        bestScoreY = scoreY - scoreText.height - (0.5f * GlobalVars.PADDING_Y);
         difficultyText = new GlyphLayout();
         difficultyText.setText(fontMedium, DIFFICULTY_LEVELS[DifficultyManager.getDifficulty()]);
-        difficultyX = (int)(Gdx.graphics.getWidth() - difficultyText.width) / 2;
-        difficultyY = bestScoreY - 4 * GlobalVars.PADDING_Y - (int)difficultyText.height;
+        difficultyX = GlobalVars.CENTER_X - (difficultyText.width / 2);
+        difficultyY = bestScoreY - bestScoreText.height - (4 * GlobalVars.PADDING_Y);
 
         BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
         continueText = new GlyphLayout();
         continueText.setText(fontSmall, RETURN);
-        continueX = (int)(Gdx.graphics.getWidth() - continueText.width) / 2;
-        continueY = GlobalVars.GRID_OFFSET_Y + 2 * GlobalVars.UNIT_SIZE + (int)continueText.height;
+        continueX = GlobalVars.CENTER_X - (continueText.width / 2);
+        continueY = GlobalVars.BOTTOM + (2 * GlobalVars.UNIT_SIZE) + continueText.height;
     }
 
 
@@ -177,16 +177,16 @@ public class GameOverScreen extends AbstractScreen {
     private GlyphLayout difficultyText;
     private GlyphLayout continueText;
 
-    private int gameOverX;
-    private int gameOverY;
-    private int scoreX;
-    private int scoreY;
-    private int bestScoreX;
-    private int bestScoreY;
-    private int difficultyX;
-    private int difficultyY;
-    private int continueX;
-    private int continueY;
+    private float gameOverX;
+    private float gameOverY;
+    private float scoreX;
+    private float scoreY;
+    private float bestScoreX;
+    private float bestScoreY;
+    private float difficultyX;
+    private float difficultyY;
+    private float continueX;
+    private float continueY;
     private int score;
     private int best;
     private boolean canTouch;

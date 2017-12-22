@@ -42,10 +42,10 @@ public class HighScoreScreen extends AbstractScreen {
 
         float buttonWidth = arrowText.width;
         float buttonHeight = arrowText.height;
-        int buttonPosY = (int)(Gdx.graphics.getHeight() - buttonHeight) / 2;
+        float buttonPosY = GlobalVars.CENTER_Y - (buttonHeight / 2);
 
         // ArrowLeft button
-        int buttonPosX = GlobalVars.GRID_OFFSET_X + GlobalVars.UNIT_SIZE;
+        float buttonPosX = GlobalVars.LEFT + GlobalVars.UNIT_SIZE;
         arrowLeftButton.setSize(buttonWidth, buttonHeight);
         arrowLeftButton.setPosition(buttonPosX, buttonPosY);
         arrowLeftButton.setVisible(false);
@@ -64,7 +64,7 @@ public class HighScoreScreen extends AbstractScreen {
         this.addActor(arrowLeftButton);
 
         // ArrowRight button
-        buttonPosX = GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE - (int)buttonWidth;
+        buttonPosX = GlobalVars.RIGHT - GlobalVars.UNIT_SIZE - buttonWidth;
         arrowRightButton.setSize(buttonWidth, buttonHeight);
         arrowRightButton.setPosition(buttonPosX, buttonPosY);
         arrowRightButton.addListener( new ClickListener() {
@@ -82,10 +82,10 @@ public class HighScoreScreen extends AbstractScreen {
         this.addActor(arrowRightButton);
 
         // Exit button
-        buttonWidth = (Gdx.graphics.getWidth() / 3);
-        buttonHeight = (Gdx.graphics.getWidth() / 8);
-        buttonPosY = GlobalVars.GRID_OFFSET_Y + GlobalVars.UNIT_SIZE + 4 * GlobalVars.PADDING_Y;
-        buttonPosX = (int)(Gdx.graphics.getWidth() - buttonWidth) / 2;
+        buttonWidth = (GlobalVars.GRID_WIDTH / 3);
+        buttonHeight = (GlobalVars.GRID_WIDTH / 8);
+        buttonPosY = GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE + (4 * GlobalVars.PADDING_Y);
+        buttonPosX = GlobalVars.CENTER_X - (buttonWidth / 2);
         final TextButton exitButton = new TextButton(EXIT, exitSkin);
         exitButton.setSize(buttonWidth, buttonHeight);
         exitButton.setPosition(buttonPosX, buttonPosY);
@@ -148,7 +148,7 @@ public class HighScoreScreen extends AbstractScreen {
         exitSkin.add(DEFAULT, fontMedium);
 
         // Create texture
-        Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 8, Pixmap.Format.RGB888);
+        Pixmap pixmap = new Pixmap(GlobalVars.GRID_WIDTH / 3, GlobalVars.GRID_HEIGHT / 8, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         arrowSkin.add(BACKGROUND, new Texture(pixmap));
@@ -181,17 +181,17 @@ public class HighScoreScreen extends AbstractScreen {
         BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 56);
         highScoreText = new GlyphLayout();
         highScoreText.setText(fontCustom, HIGH_SCORE);
-        highScoreX = (int)(Gdx.graphics.getWidth() - highScoreText.width) / 2;
-        highScoreY = (9 * Gdx.graphics.getHeight()) / 10;
+        highScoreX = GlobalVars.CENTER_X - (highScoreText.width / 2);
+        highScoreY = GlobalVars.BOTTOM + (0.9f * GlobalVars.GRID_HEIGHT);
 
         BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
         difficultyText = new GlyphLayout();
         difficultyText.setText(fontMedium, DIFFICULTY_LEVELS[difficultyIndex]);
-        difficultyTextX = (int)(Gdx.graphics.getWidth() - difficultyText.width) / 2;
+        difficultyTextX = GlobalVars.CENTER_X - (difficultyText.width / 2);
         difficultyTextY = highScoreY - (12 * GlobalVars.PADDING_Y);
 
-        int textPosY = difficultyTextY - (2 * GlobalVars.PADDING_Y);
-        entriesY = new int[TABLE_SIZE];
+        float textPosY = difficultyTextY - (2 * GlobalVars.PADDING_Y);
+        entriesY = new float[TABLE_SIZE];
         entriesText = new GlyphLayout[TABLE_SIZE];
         for(int i = 0; i < TABLE_SIZE; i++) {
             StringBuilder entryText = new StringBuilder(RANKS[i]).append(SPACE4).append(formatScore(HighScoreManager.getScore(i, difficultyIndex)));
@@ -200,7 +200,7 @@ public class HighScoreScreen extends AbstractScreen {
             textPosY -= (2.5 * GlobalVars.PADDING_Y);
             entriesY[i] = textPosY;
         }
-        entriesX = (int)(Gdx.graphics.getWidth() - entriesText[0].width) / 2;
+        entriesX = GlobalVars.CENTER_X - (entriesText[0].width / 2);
     }
 
 
@@ -229,10 +229,10 @@ public class HighScoreScreen extends AbstractScreen {
     private GlyphLayout difficultyText;
 
     private int difficultyIndex;
-    private int highScoreX;
-    private int highScoreY;
-    private int difficultyTextX;
-    private int difficultyTextY;
-    private int entriesX;
-    private int[] entriesY;
+    private float highScoreX;
+    private float highScoreY;
+    private float difficultyTextX;
+    private float difficultyTextY;
+    private float entriesX;
+    private float[] entriesY;
 }

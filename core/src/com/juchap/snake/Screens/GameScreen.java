@@ -33,8 +33,8 @@ public class GameScreen extends AbstractScreen {
 		isPaused = false;
 
 		freeSpaces = new ArrayList<Vector2>();
-		for(int i = GlobalVars.GRID_OFFSET_X + GlobalVars.UNIT_SIZE ; i < GlobalVars.GRID_OFFSET_X + GlobalVars.GRID_WIDTH - GlobalVars.UNIT_SIZE; i += GlobalVars.UNIT_SIZE) {
-			for(int j = GlobalVars.GRID_OFFSET_Y + GlobalVars.UNIT_SIZE ; j < GlobalVars.GAME_GRID_HEIGHT - GlobalVars.UNIT_SIZE; j += GlobalVars.UNIT_SIZE) {
+		for(int i = GlobalVars.LEFT + GlobalVars.UNIT_SIZE ; i < GlobalVars.RIGHT - GlobalVars.UNIT_SIZE; i += GlobalVars.UNIT_SIZE) {
+			for(int j = GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE ; j < GlobalVars.GAME_GRID_TOP - GlobalVars.UNIT_SIZE; j += GlobalVars.UNIT_SIZE) {
 				freeSpaces.add(new Vector2(i, j));
 			}
 		}
@@ -44,13 +44,13 @@ public class GameScreen extends AbstractScreen {
 	public void buildStage() {
 		gameUI = new GameUI(uiRenderer, spriteBatch);
 
-		int centerX = (int)(Math.floor((Gdx.graphics.getWidth() / GlobalVars.UNIT_SIZE) * (1.0/2.0)) * GlobalVars.UNIT_SIZE) + GlobalVars.GRID_OFFSET_X;
-		int centerY = (int)(Math.floor((Gdx.graphics.getHeight() / GlobalVars.UNIT_SIZE) * (3.0/7.0)) * GlobalVars.UNIT_SIZE) + GlobalVars.GRID_OFFSET_Y;
+		int centerX = GlobalVars.LEFT + (GlobalVars.GRID_WIDTH / 2);
+		int centerY = GlobalVars.BOTTOM + ((int)Math.floor((0.5f * GlobalVars.GAME_GRID_HEIGHT) / GlobalVars.UNIT_SIZE) * GlobalVars.UNIT_SIZE);
 		freeSpaces.remove(new Vector2(centerX, centerY));
 		snake = new Snake(centerX, centerY);
 
 		food = new Food();
-		food.spawnFood();
+		food.spawnFood(freeSpaces);
 
 		float updatePosInterval = DifficultyManager.getInterval();
 		Timer.schedule(new MoveSnake(), updatePosInterval, updatePosInterval);

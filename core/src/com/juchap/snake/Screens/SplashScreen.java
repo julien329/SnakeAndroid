@@ -27,8 +27,9 @@ public class SplashScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        if(showSnake)
+        if(showSnake) {
             snake.render();
+        }
     }
 
     @Override
@@ -41,8 +42,8 @@ public class SplashScreen extends AbstractScreen {
         trajectoryIndex = 0;
         showSnake = !FontManager.allFilesExist();
 
-        int partX = (Gdx.graphics.getWidth() - GlobalVars.UNIT_SIZE) / 2 - 2 * GlobalVars.UNIT_SIZE;
-        int partY = (Gdx.graphics.getHeight() + GlobalVars.UNIT_SIZE) / 2 + 2 * GlobalVars.UNIT_SIZE;
+        int partX = GlobalVars.CENTER_X - (2 * GlobalVars.UNIT_SIZE);
+        int partY = GlobalVars.CENTER_Y + (2 * GlobalVars.UNIT_SIZE);
         snake = new Snake(partX, partY);
 
         ArrayList<BodyPart> snakeParts = snake.getBodyParts();
