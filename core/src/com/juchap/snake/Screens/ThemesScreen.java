@@ -229,24 +229,9 @@ public class ThemesScreen extends AbstractScreen {
         column1X = GlobalVars.CENTER_X - themeIconSize - (2 * GlobalVars.UNIT_SIZE);
         column2X = GlobalVars.CENTER_X + (2 * GlobalVars.UNIT_SIZE);
 
-        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
-        titleText = new GlyphLayout();
-        titleText.setText(fontLarge, THEMES);
-        titleX = GlobalVars.CENTER_X - (titleText.width / 2);
-        titleY = GlobalVars.TOP - GlobalVars.UNIT_SIZE - (4 * GlobalVars.PADDING_Y);
-
         BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
-        row1Y = titleY - titleText.height - themeIconSize - (5 * GlobalVars.PADDING_Y);
-        theme1Text = new GlyphLayout();
-        theme1Text.setText(fontSmall, THEME_1);
-        theme1X = column1X + (themeIconSize / 2) - (theme1Text.width / 2);
-        theme1Y = row1Y - (theme1Text.height / 2);
-        theme2Text = new GlyphLayout();
-        theme2Text.setText(fontSmall, THEME_2);
-        theme2X = column2X + (themeIconSize / 2) - (theme2Text.width / 2);
-        theme2Y = theme1Y;
 
-        row2Y = theme1Y - themeIconSize - (2 * GlobalVars.PADDING_Y);
+        row2Y = GlobalVars.CENTER_Y - (themeIconSize / 2);
         theme3Text = new GlyphLayout();
         theme3Text.setText(fontSmall, THEME_3);
         theme3X = column1X + (themeIconSize / 2) - (theme3Text.width / 2);
@@ -265,6 +250,22 @@ public class ThemesScreen extends AbstractScreen {
         theme6Text.setText(fontSmall, THEME_6);
         theme6X = column2X + (themeIconSize / 2) - (theme6Text.width / 2);
         theme6Y = theme5Y;
+
+        theme1Text = new GlyphLayout();
+        theme1Text.setText(fontSmall, THEME_1);
+        theme1X = column1X + (themeIconSize / 2) - (theme1Text.width / 2);
+        theme1Y = row2Y + themeIconSize + (2 * GlobalVars.PADDING_Y);
+        theme2Text = new GlyphLayout();
+        theme2Text.setText(fontSmall, THEME_2);
+        theme2X = column2X + (themeIconSize / 2) - (theme2Text.width / 2);
+        theme2Y = theme1Y;
+        row1Y = theme1Y + (theme1Text.height / 2);
+
+        BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
+        titleText = new GlyphLayout();
+        titleText.setText(fontLarge, THEMES);
+        titleX = GlobalVars.CENTER_X - (titleText.width / 2);
+        titleY = row1Y + themeIconSize + titleText.height + (6 * GlobalVars.PADDING_Y);
     }
 
 
