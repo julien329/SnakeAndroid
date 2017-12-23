@@ -114,6 +114,10 @@ public class GameScreen extends AbstractScreen {
 		Timer.instance().stop();
 		isPaused = true;
 		Gdx.input.setInputProcessor(pausedInputs);
+
+        for (ControlButton control : controlPad) {
+            control.eventTouchUp();
+        }
 	}
 
 	private void setupInputs() {
@@ -239,7 +243,7 @@ public class GameScreen extends AbstractScreen {
 
 	private class InputPaused extends InputAdapter {
 		@Override
-		public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 			Gdx.input.setInputProcessor(inputMultiplexer);
 			isPaused = false;
 			Timer.instance().start();
