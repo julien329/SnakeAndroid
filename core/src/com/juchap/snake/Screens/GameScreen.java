@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
+import com.juchap.snake.GameScene.ControlButton;
 import com.juchap.snake.GameScene.Food;
 import com.juchap.snake.GameScene.GameUI;
 import com.juchap.snake.GameScene.Snake;
@@ -25,10 +27,6 @@ public class GameScreen extends AbstractScreen {
 
 	public GameScreen() {
 		super();
-
-		pausedInputs = new InputPaused();
-		inputMultiplexer = new InputMultiplexer(this, (InputManager.isSwipe()) ? new GestureDetector(new InputSwipe()) : new InputTouch());
-		Gdx.input.setInputProcessor(inputMultiplexer);
 
 		isPaused = false;
 
@@ -55,6 +53,8 @@ public class GameScreen extends AbstractScreen {
 		float updatePosInterval = DifficultyManager.getInterval();
 		Timer.schedule(new MoveSnake(), updatePosInterval, updatePosInterval);
 		Timer.instance().start();
+
+        setupInputs();
 	}
 
 	@Override
@@ -116,10 +116,87 @@ public class GameScreen extends AbstractScreen {
 		Gdx.input.setInputProcessor(pausedInputs);
 	}
 
+	private void setupInputs() {
+        pausedInputs = new InputPaused();
+
+        InputProcessor inputProcessor = this;
+        if (InputManager.isSwipe()) {
+            inputProcessor = new GestureDetector(new InputSwipe());
+        }
+        else if (InputManager.isTouch()) {
+            inputProcessor =  new InputTouch();
+        }
+        else if (InputManager.isDpad()) {
+            inputProcessor = new InputControlPad();
+
+            final float leftPos = GlobalVars.LEFT + GlobalVars.UNIT_SIZE;
+            final float rightPos = GlobalVars.RIGHT - GlobalVars.UNIT_SIZE;
+            final float topPos = GlobalVars.CENTER_Y - GlobalVars.UNIT_SIZE;
+            final float bottomPos = GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE;
+            final float centerY = (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE) + ((GlobalVars.CENTER_Y - (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE)) / 2);
+
+            final float[] leftVertices = new float[]{ leftPos, bottomPos, leftPos, topPos, GlobalVars.CENTER_X, centerY };
+            final float[] rightVertices = new float[]{ rightPos, bottomPos, rightPos, topPos, GlobalVars.CENTER_X, centerY };
+            final float[] upVertices = new float[]{ leftPos, topPos, rightPos, topPos, GlobalVars.CENTER_X, centerY };
+            final float[] downVertices = new float[]{ leftPos, bottomPos, rightPos, bottomPos, GlobalVars.CENTER_X, centerY };
+
+            ControlButton leftButton = new ControlButton(uiRenderer, snake, ControlButton.LEFT, leftVertices);
+            ControlButton rightButton = new ControlButton(uiRenderer, snake, ControlButton.RIGHT, rightVertices);
+            ControlButton upButton = new ControlButton(uiRenderer, snake, ControlButton.UP, upVertices);
+            ControlButton downButton = new ControlButton(uiRenderer, snake, ControlButton.DOWN, downVertices);
+
+            controlPad = new ArrayList<ControlButton>();
+            controlPad.add(leftButton);
+            controlPad.add(rightButton);
+            controlPad.add(upButton);
+            controlPad.add(downButton);
+
+            this.addActor(leftButton);
+            this.addActor(rightButton);
+            this.addActor(upButton);
+            this.addActor(downButton);
+        }
+
+        inputMultiplexer = new InputMultiplexer(this, inputProcessor);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	/// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private class InputSwipe extends GestureDetector.GestureAdapter {
+        @Override
+        public boolean touchDown(float x, float y, int pointer, int button) {
+            deltaX = deltaY = 0;
+            moved = false;
+            return true;
+        }
+        @Override
+        public boolean pan(float x, float y, float deltaX, float deltaY) {
+            if(!moved) {
+                this.deltaX += deltaX;
+                this.deltaY += deltaY;
+
+                if (Math.abs(this.deltaX) >= distToTravel && snake.getDirX() == 0) {
+                    snake.setDir((int)Math.signum(this.deltaX), 0);
+                    moved = true;
+                    return true;
+                } else if (Math.abs(this.deltaY) >= distToTravel && snake.getDirY() == 0) {
+                    snake.setDir(0, (int)Math.signum(-this.deltaY));
+                    moved = true;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private float deltaX = 0;
+        private float deltaY = 0;
+        private boolean moved = false;
+        private final float distToTravel = GlobalVars.GRID_WIDTH / 32.0f;
+    }
 
 	private class InputTouch extends InputAdapter {
 		@Override
@@ -142,37 +219,23 @@ public class GameScreen extends AbstractScreen {
 		}
 	}
 
-	private class InputSwipe extends GestureDetector.GestureAdapter {
-		@Override
-		public boolean touchDown(float x, float y, int pointer, int button) {
-			deltaX = deltaY = 0;
-			moved = false;
-			return true;
-		}
-		@Override
-		public boolean pan(float x, float y, float deltaX, float deltaY) {
-			if(!moved) {
-				this.deltaX += deltaX;
-				this.deltaY += deltaY;
-
-				if (Math.abs(this.deltaX) >= distToTravel && snake.getDirX() == 0) {
-					snake.setDir((int)Math.signum(this.deltaX), 0);
-					moved = true;
-					return true;
-				} else if (Math.abs(this.deltaY) >= distToTravel && snake.getDirY() == 0) {
-					snake.setDir(0, (int)Math.signum(-this.deltaY));
-					moved = true;
-					return true;
-				}
-			}
-			return false;
-		}
-
-		private float deltaX = 0;
-		private float deltaY = 0;
-		private boolean moved = false;
-		private final float distToTravel = GlobalVars.GRID_WIDTH / 32.0f;
-	}
+    private class InputControlPad extends InputAdapter {
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            Vector2 inputPos = new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            for (ControlButton control : controlPad) {
+                control.eventTouchDown(inputPos);
+            }
+            return true;
+        }
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            for (ControlButton control : controlPad) {
+                control.eventTouchUp();
+            }
+            return false;
+        }
+    }
 
 	private class InputPaused extends InputAdapter {
 		@Override
@@ -230,6 +293,7 @@ public class GameScreen extends AbstractScreen {
 	private InputMultiplexer inputMultiplexer;
 	private InputPaused pausedInputs;
 	private ArrayList<Vector2> freeSpaces;
+	private ArrayList<ControlButton> controlPad;
 
 	private boolean isPaused;
 }

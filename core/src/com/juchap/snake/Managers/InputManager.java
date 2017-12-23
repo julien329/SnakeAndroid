@@ -38,6 +38,7 @@ public class InputManager {
 
     public static boolean isSwipe() { return inputType == TYPE_SWIPE; }
     public static boolean isTouch() { return inputType == TYPE_TOUCH; }
+    public static boolean isDpad() { return inputType == TYPE_DPAD; }
     public static int getType() { return inputType; }
 
 
@@ -49,6 +50,7 @@ public class InputManager {
     private static final String KEY_NAME = "type";
     private static final int TYPE_SWIPE = 0;
     private static final int TYPE_TOUCH = 1;
+    private static final int TYPE_DPAD = 2;
 
     private static Preferences inputPrefs;
 
