@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.juchap.snake.Managers.ColorManager;
+import com.juchap.snake.Utility.GlobalVars;
 
 
 public class ControlButton extends Actor {
@@ -19,7 +20,9 @@ public class ControlButton extends Actor {
         this.direction = direction;
         this.vertices = vertices;
         this.triangle = new Polygon(vertices);
-        this.backColor = ColorManager.getBackColor();
+        this.backColor = ColorManager.getBackAltColor();
+
+        calculateIconVertices();
     }
 
     @Override
@@ -31,18 +34,26 @@ public class ControlButton extends Actor {
 
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setColor(backColor);
-        renderer.triangle(vertices[0], vertices[1], vertices[2], vertices[3], vertices[4], vertices[5]);
+        renderer.triangle(iconVertices[0], iconVertices[1], iconVertices[2], iconVertices[3], iconVertices[4], iconVertices[5]);
         renderer.end();
 
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        Gdx.gl.glLineWidth(5.f);
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        renderer.setColor(backColor);
+        renderer.line(vertices[0], vertices[1], vertices[2], vertices[3]);
+        renderer.line(vertices[2], vertices[3], vertices[4], vertices[5]);
+        renderer.line(vertices[4], vertices[5], vertices[0], vertices[1]);
+        renderer.end();
         Gdx.gl.glLineWidth(1.f);
+
+        Gdx.gl.glDisable(GL20.GL_BLEND);
 
         batch.begin();
     }
 
     public void eventTouchDown(Vector2 inputPos) {
         if (triangle.contains(inputPos)) {
-            backColor = ColorManager.getBackAltColor();
+            backColor = ColorManager.getFrontColor();
 
             switch (direction) {
                 case LEFT:
@@ -70,7 +81,42 @@ public class ControlButton extends Actor {
     }
 
     public void eventTouchUp() {
-        backColor = ColorManager.getBackColor();
+        backColor = ColorManager.getBackAltColor();
+    }
+
+    private void calculateIconVertices() {
+        Vector2 vertexA, vertexB, vertexC, center;
+
+        switch (direction) {
+            case LEFT:
+                center = new Vector2((vertices[2] + vertices[4]) / 2.f, (vertices[1] + vertices[3]) / 2.f);
+                vertexA = new Vector2(center.x + GlobalVars.UNIT_SIZE, center.y + GlobalVars.UNIT_SIZE);
+                vertexB = new Vector2(center.x + GlobalVars.UNIT_SIZE, center.y - GlobalVars.UNIT_SIZE);
+                vertexC = new Vector2(center.x - GlobalVars.UNIT_SIZE, center.y);
+                iconVertices = new float[]{ vertexA.x, vertexA.y, vertexB.x, vertexB.y, vertexC.x, vertexC.y };
+                break;
+            case RIGHT:
+                center = new Vector2((vertices[2] + vertices[4]) / 2.f, (vertices[1] + vertices[3]) / 2.f);
+                vertexA = new Vector2(center.x - GlobalVars.UNIT_SIZE, center.y - GlobalVars.UNIT_SIZE);
+                vertexB = new Vector2(center.x - GlobalVars.UNIT_SIZE, center.y + GlobalVars.UNIT_SIZE);
+                vertexC = new Vector2(center.x + GlobalVars.UNIT_SIZE, center.y);
+                iconVertices = new float[]{ vertexA.x, vertexA.y, vertexB.x, vertexB.y, vertexC.x, vertexC.y };
+                break;
+            case UP:
+                center = new Vector2((vertices[0] + vertices[2]) / 2.f, (vertices[3] + vertices[5]) / 2.f);
+                vertexA = new Vector2(center.x + GlobalVars.UNIT_SIZE, center.y - GlobalVars.UNIT_SIZE);
+                vertexB = new Vector2(center.x - GlobalVars.UNIT_SIZE, center.y - GlobalVars.UNIT_SIZE);
+                vertexC = new Vector2(center.x, center.y + GlobalVars.UNIT_SIZE);
+                iconVertices = new float[]{ vertexA.x, vertexA.y, vertexB.x, vertexB.y, vertexC.x, vertexC.y };
+                break;
+            case DOWN:
+                center = new Vector2((vertices[0] + vertices[2]) / 2.f, (vertices[3] + vertices[5]) / 2.f);
+                vertexA = new Vector2(center.x - GlobalVars.UNIT_SIZE, center.y + GlobalVars.UNIT_SIZE);
+                vertexB = new Vector2(center.x + GlobalVars.UNIT_SIZE, center.y + GlobalVars.UNIT_SIZE);
+                vertexC = new Vector2(center.x, center.y - GlobalVars.UNIT_SIZE);
+                iconVertices = new float[]{ vertexA.x, vertexA.y, vertexB.x, vertexB.y, vertexC.x, vertexC.y };
+                break;
+        }
     }
 
 
@@ -89,5 +135,6 @@ public class ControlButton extends Actor {
     private Snake snake;
 
     private float[] vertices;
+    private float[] iconVertices;
     private int direction;
 }

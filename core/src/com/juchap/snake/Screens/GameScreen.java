@@ -115,8 +115,10 @@ public class GameScreen extends AbstractScreen {
 		isPaused = true;
 		Gdx.input.setInputProcessor(pausedInputs);
 
-        for (ControlButton control : controlPad) {
-            control.eventTouchUp();
+		if (controlPad != null) {
+            for (ControlButton control : controlPad) {
+                control.eventTouchUp();
+            }
         }
 	}
 
@@ -133,16 +135,17 @@ public class GameScreen extends AbstractScreen {
         else if (InputManager.isDpad()) {
             inputProcessor = new InputControlPad();
 
-            final float leftPos = GlobalVars.LEFT + GlobalVars.UNIT_SIZE;
-            final float rightPos = GlobalVars.RIGHT - GlobalVars.UNIT_SIZE;
-            final float topPos = GlobalVars.CENTER_Y - GlobalVars.UNIT_SIZE;
-            final float bottomPos = GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE;
+            final float leftPos = GlobalVars.LEFT + (2 * GlobalVars.UNIT_SIZE);
+            final float rightPos = GlobalVars.RIGHT - (2 * GlobalVars.UNIT_SIZE);
+            final float topPos = GlobalVars.CENTER_Y - (2 * GlobalVars.UNIT_SIZE);
+            final float bottomPos = GlobalVars.BOTTOM + (2 * GlobalVars.UNIT_SIZE);
             final float centerY = (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE) + ((GlobalVars.CENTER_Y - (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE)) / 2);
+            final float deltaPos = GlobalVars.UNIT_SIZE / 2.f;
 
-            final float[] leftVertices = new float[]{ leftPos, bottomPos, leftPos, topPos, GlobalVars.CENTER_X, centerY };
-            final float[] rightVertices = new float[]{ rightPos, bottomPos, rightPos, topPos, GlobalVars.CENTER_X, centerY };
-            final float[] upVertices = new float[]{ leftPos, topPos, rightPos, topPos, GlobalVars.CENTER_X, centerY };
-            final float[] downVertices = new float[]{ leftPos, bottomPos, rightPos, bottomPos, GlobalVars.CENTER_X, centerY };
+            final float[] leftVertices = new float[]{ leftPos, bottomPos + deltaPos, leftPos, topPos - deltaPos, GlobalVars.CENTER_X - (GlobalVars.UNIT_SIZE / 2), centerY };
+            final float[] rightVertices = new float[]{ rightPos, bottomPos + deltaPos, rightPos, topPos - deltaPos, GlobalVars.CENTER_X + (GlobalVars.UNIT_SIZE / 2), centerY };
+            final float[] upVertices = new float[]{ leftPos + deltaPos, topPos, rightPos - deltaPos, topPos, GlobalVars.CENTER_X, centerY + (GlobalVars.UNIT_SIZE / 2) };
+            final float[] downVertices = new float[]{ leftPos + deltaPos, bottomPos, rightPos - deltaPos, bottomPos, GlobalVars.CENTER_X, centerY - (GlobalVars.UNIT_SIZE / 2) };
 
             ControlButton leftButton = new ControlButton(uiRenderer, snake, ControlButton.LEFT, leftVertices);
             ControlButton rightButton = new ControlButton(uiRenderer, snake, ControlButton.RIGHT, rightVertices);
