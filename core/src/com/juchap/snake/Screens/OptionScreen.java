@@ -279,7 +279,7 @@ public class OptionScreen extends AbstractScreen {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static final String[] OPTION_ENTRIES = new String[] { "CONTROLS  ", "DIFFICULTY", "SOUNDS    ", "VIBRATIONS", "THEME     "};
-    private static final String[] CONTROL_TYPES = new String[] { "SWIPE ", "TOUCH ", "DPAD  " };
+    private static final String[] CONTROL_TYPES = new String[] { "SWIPE ", "TOUCH ", "F-DPAD", "H-DPAD" };
     private static final String[] DIFFICULTY_LEVELS = new String[] { "EASY  ", "MEDIUM", "HARD  " };
     private static final String CHANGE_VALUE = " > ";
     private static final String SEPARATOR = " ";
