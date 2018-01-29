@@ -45,7 +45,7 @@ public class GameScreen extends AbstractScreen {
 	public void buildStage() {
 		gameUI = new GameUI(uiRenderer, spriteBatch);
 
-		int centerX = GlobalVars.LEFT + (GlobalVars.GRID_WIDTH / 2);
+		int centerX = GlobalVars.LEFT + (16 * GlobalVars.UNIT_SIZE);
 		int centerY = GlobalVars.BOTTOM + ((int)Math.floor((0.5f * GlobalVars.GAME_GRID_HEIGHT) / GlobalVars.UNIT_SIZE) * GlobalVars.UNIT_SIZE);
 		freeSpaces.remove(new Vector2(centerX, centerY));
 		snake = new Snake(centerX, centerY);
@@ -222,7 +222,7 @@ public class GameScreen extends AbstractScreen {
 				snake.setDir((int)Math.signum(distX), 0);
 			else if (snake.getDirY() == 0 && snake.getDirX() != 0)
 				snake.setDir(0, (int)Math.signum(distY));
-			else {
+			else if (snake.getDirX() == 0 && snake.getDirY() == 0) {
 				if (Math.abs(distX) >= Math.abs(distY)) {
 					snake.setDir((int)Math.signum(distX), 0);
 				} else {
@@ -303,8 +303,9 @@ public class GameScreen extends AbstractScreen {
 
 			Gdx.graphics.requestRendering();
 
-			if (snake.checkCollisions())
-				gameOver();
+			if (snake.checkCollisions()) {
+                gameOver();
+            }
 		}
 	}
 
