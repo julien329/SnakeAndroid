@@ -217,18 +217,26 @@ public class GameScreen extends AbstractScreen {
 		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 			int distX = Gdx.input.getX() - snake.getHeadPosX();
 			int distY = Gdx.graphics.getHeight() - Gdx.input.getY() - snake.getHeadPosY();
+            int signX = (int) Math.signum(distX);
+            int signY = (int) Math.signum(distY);
 
-			if (snake.getDirX() == 0 && snake.getDirY() != 0)
-				snake.setDir((int)Math.signum(distX), 0);
-			else if (snake.getDirY() == 0 && snake.getDirX() != 0)
-				snake.setDir(0, (int)Math.signum(distY));
-			else if (snake.getDirX() == 0 && snake.getDirY() == 0) {
-				if (Math.abs(distX) >= Math.abs(distY)) {
-					snake.setDir((int)Math.signum(distX), 0);
-				} else {
-					snake.setDir(0, (int)Math.signum(distY));
-				}
-			}
+            if (snake.getDirX() == 0 && snake.getDirY() != 0) {
+                if (signX != 0) {
+                    snake.setDir(signX, 0);
+                }
+            }
+            else if (snake.getDirY() == 0 && snake.getDirX() != 0) {
+                if (signY != 0) {
+                    snake.setDir(0, signY);
+                }
+            }
+            else if (snake.getDirX() == 0 && snake.getDirY() == 0) {
+                if (Math.abs(distX) >= Math.abs(distY)) {
+                    snake.setDir(signX, 0);
+                } else {
+                    snake.setDir(0, signY);
+                }
+            }
 			return true;
 		}
 	}
