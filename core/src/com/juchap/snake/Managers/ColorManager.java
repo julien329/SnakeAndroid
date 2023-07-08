@@ -31,13 +31,13 @@ public class ColorManager {
     }
 
     private static void initColorThemes() {
-        backColors = new IntMap<Color>();
-        backAltColors = new IntMap<Color>();
-        frontColors = new IntMap<Color>();
-        frontAltColors = new IntMap<Color>();
-        snakeHeadColors = new IntMap<Color>();
-        snakeBodyColors = new IntMap<Color>();
-        foodColors = new IntMap<Color>();
+        backColors = new IntMap<>();
+        backAltColors = new IntMap<>();
+        frontColors = new IntMap<>();
+        frontAltColors = new IntMap<>();
+        snakeHeadColors = new IntMap<>();
+        snakeBodyColors = new IntMap<>();
+        foodColors = new IntMap<>();
 
         addTheme(THEME_1, Color.BLACK, Color.DARK_GRAY, Color.WHITE, Color.LIGHT_GRAY, Color.GREEN, Color.FOREST, Color.RED);
         addTheme(THEME_2, THEME2_LIGHT_GREEN, THEME2_LIGHT_GREEN_ALT, THEME2_DARK_GREEN, THEME2_DARK_GREEN_ALT, THEME2_DARK_GREEN, THEME2_DARK_GREEN_ALT, THEME2_DARK_GREEN);

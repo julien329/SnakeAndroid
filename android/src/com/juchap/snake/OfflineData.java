@@ -1,98 +1,112 @@
 package com.juchap.snake;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.games.Games;
-import com.juchap.snake.Encrypting.AESObfuscator;
-import com.juchap.snake.Encrypting.PreferenceObfuscator;
 import android.content.Context;
 
+import com.google.android.gms.games.PlayGames;
+import com.juchap.snake.Encrypting.AESObfuscator;
+import com.juchap.snake.Encrypting.PreferenceObfuscator;
 
 public class OfflineData {
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public OfflineData(Context context, String appId, String deviceId) {
         SharedPreferences prefs = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         AESObfuscator obfuscator = new AESObfuscator(RANDOM_BYTES, appId, deviceId);
-        encriptedPrefs = new PreferenceObfuscator(prefs, obfuscator);
+        _encryptedPrefs = new PreferenceObfuscator(prefs, obfuscator);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public void saveScore(String leaderboard, int score) {
-        int localScore = Integer.parseInt(encriptedPrefs.getString(leaderboard, DEFAULT_INT));
-        if(score > localScore) {
-            encriptedPrefs.putString(leaderboard, String.valueOf(score));
-            encriptedPrefs.commit();
+        int localScore = Integer.parseInt(_encryptedPrefs.getString(leaderboard, DEFAULT_INT));
+
+        if (score > localScore) {
+            _encryptedPrefs.putString(leaderboard, String.valueOf(score));
+            _encryptedPrefs.commit();
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public void saveAchievementUnlock(String achievement) {
-        encriptedPrefs.putString(achievement, TRUE);
-        encriptedPrefs.commit();
+        _encryptedPrefs.putString(achievement, TRUE);
+        _encryptedPrefs.commit();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public void saveAchievementIncrement(String achievement, int value) {
-        String localData = encriptedPrefs.getString(achievement, DEFAULT_INT);
+        String localData = _encryptedPrefs.getString(achievement, DEFAULT_INT);
         int progress = (localData.equals(DEFAULT_INT)) ? DEFAULT_VALUE : Integer.parseInt(localData);
         progress += value;
 
-        encriptedPrefs.putString(achievement, String.valueOf(progress));
-        encriptedPrefs.commit();
+        _encryptedPrefs.putString(achievement, String.valueOf(progress));
+        _encryptedPrefs.commit();
     }
 
-    public void sendOnline(GoogleApiClient googleApiClient, Activity activity) {
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    public void sendOnline(AndroidLauncher playGames) {
+        if (!playGames.isSignedIn()) {
+            // Not logged in
+            return;
+        }
+
         // Send scores online
-        sendScoreOnline(googleApiClient, activity.getString(R.string.leaderboard_easy));
-        sendScoreOnline(googleApiClient, activity.getString(R.string.leaderboard_medium));
-        sendScoreOnline(googleApiClient, activity.getString(R.string.leaderboard_hard));
+        sendScoreOnline(playGames, playGames.getString(R.string.leaderboard_easy));
+        sendScoreOnline(playGames, playGames.getString(R.string.leaderboard_medium));
+        sendScoreOnline(playGames, playGames.getString(R.string.leaderboard_hard));
 
         // Send achievement unlocks online
-        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_scaredy_cat));
-        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_adventurous));
-        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_presumptuous));
-        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_premature));
-        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_worm));
-        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_boa));
-        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_python));
-        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_anaconda));
-        sendAchievementUnlockOnline(googleApiClient, activity.getString(R.string.achievement_i_surrender));
+        sendAchievementUnlockOnline(playGames, playGames.getString(R.string.achievement_scaredy_cat));
+        sendAchievementUnlockOnline(playGames, playGames.getString(R.string.achievement_adventurous));
+        sendAchievementUnlockOnline(playGames, playGames.getString(R.string.achievement_presumptuous));
+        sendAchievementUnlockOnline(playGames, playGames.getString(R.string.achievement_premature));
+        sendAchievementUnlockOnline(playGames, playGames.getString(R.string.achievement_worm));
+        sendAchievementUnlockOnline(playGames, playGames.getString(R.string.achievement_boa));
+        sendAchievementUnlockOnline(playGames, playGames.getString(R.string.achievement_python));
+        sendAchievementUnlockOnline(playGames, playGames.getString(R.string.achievement_anaconda));
+        sendAchievementUnlockOnline(playGames, playGames.getString(R.string.achievement_i_surrender));
 
-        // Send achivement progress online
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_bite));
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_snack));
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_meal));
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_feast));
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_gluttony));
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_slow_down));
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_looking_good));
-        sendAchievementIncrementOnline(googleApiClient, activity.getString(R.string.achievement_my_man));
+        // Send achievement progress online
+        sendAchievementIncrementOnline(playGames, playGames.getString(R.string.achievement_bite));
+        sendAchievementIncrementOnline(playGames, playGames.getString(R.string.achievement_snack));
+        sendAchievementIncrementOnline(playGames, playGames.getString(R.string.achievement_meal));
+        sendAchievementIncrementOnline(playGames, playGames.getString(R.string.achievement_feast));
+        sendAchievementIncrementOnline(playGames, playGames.getString(R.string.achievement_gluttony));
+        sendAchievementIncrementOnline(playGames, playGames.getString(R.string.achievement_slow_down));
+        sendAchievementIncrementOnline(playGames, playGames.getString(R.string.achievement_looking_good));
+        sendAchievementIncrementOnline(playGames, playGames.getString(R.string.achievement_my_man));
 
-        encriptedPrefs.commit();
+        _encryptedPrefs.commit();
     }
 
-    private void sendScoreOnline(GoogleApiClient googleApiClient, String leaderboard) {
-        String score = encriptedPrefs.getString(leaderboard, DEFAULT_INT);
-        if(!score.equals(DEFAULT_INT)) {
-            Games.Leaderboards.submitScore(googleApiClient, leaderboard, Integer.valueOf(score));
-            encriptedPrefs.putString(leaderboard, DEFAULT_INT);
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private void sendScoreOnline(AndroidLauncher playGames, String leaderboard) {
+        String score = _encryptedPrefs.getString(leaderboard, DEFAULT_INT);
+
+        if (!score.equals(DEFAULT_INT)) {
+            PlayGames.getLeaderboardsClient(playGames).submitScore(leaderboard, Integer.parseInt(score));
+            _encryptedPrefs.putString(leaderboard, DEFAULT_INT);
         }
     }
 
-    private void sendAchievementUnlockOnline(GoogleApiClient googleApiClient, String achievement) {
-        String isUnlocked = encriptedPrefs.getString(achievement, DEFAULT_BOOL);
-        if(isUnlocked.equals(TRUE)) {
-            Games.Achievements.unlock(googleApiClient, achievement);
-            encriptedPrefs.putString(achievement, DEFAULT_BOOL);
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private void sendAchievementUnlockOnline(AndroidLauncher playGames, String achievement) {
+        String isUnlocked = _encryptedPrefs.getString(achievement, DEFAULT_BOOL);
+
+        if (isUnlocked.equals(TRUE)) {
+            PlayGames.getAchievementsClient(playGames).unlock(achievement);
+            _encryptedPrefs.putString(achievement, DEFAULT_BOOL);
         }
     }
 
-    private void sendAchievementIncrementOnline(GoogleApiClient googleApiClient, String achievement) {
-        String progress = encriptedPrefs.getString(achievement, DEFAULT_INT);
-        if(!progress.equals(DEFAULT_INT)) {
-            Games.Achievements.increment(googleApiClient, achievement, Integer.valueOf(progress));
-            encriptedPrefs.putString(achievement, DEFAULT_INT);
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private void sendAchievementIncrementOnline(AndroidLauncher playGames, String achievement) {
+        String progress = _encryptedPrefs.getString(achievement, DEFAULT_INT);
+
+        if (!progress.equals(DEFAULT_INT)) {
+            PlayGames.getAchievementsClient(playGames).increment(achievement, Integer.parseInt(progress));
+            _encryptedPrefs.putString(achievement, DEFAULT_INT);
         }
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
@@ -105,5 +119,5 @@ public class OfflineData {
     private static final String TRUE = "true";;
     private static final int DEFAULT_VALUE = 0;
 
-    private PreferenceObfuscator encriptedPrefs;
+    private final PreferenceObfuscator _encryptedPrefs;
 }

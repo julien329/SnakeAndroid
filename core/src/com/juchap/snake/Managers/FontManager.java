@@ -17,9 +17,9 @@ import com.juchap.snake.Utility.GlobalVars;
 
 import java.util.HashMap;
 
-
 public class FontManager {
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void initManager() {
         fonts = new HashMap<String, BitmapFont>();
         scaleFactor = 0.0025f * GlobalVars.GRID_WIDTH;
@@ -29,20 +29,54 @@ public class FontManager {
         scaledLarge = Math.round(LARGE * scaleFactor);
 
         audimatHandle = Gdx.files.internal(AUDIMAT_MONO_B_TTF);
+
+        _prepareFontDataTasks = new Array<>();
+        _createFontTextureTasks = new Array<>();
+        _saveFontBitmapTasks = new Array<>();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void createAllFont() {
-        createFont(audimatHandle, AUDIMAT_MONO_B, scaledSmall);
-        createFont(audimatHandle, AUDIMAT_MONO_B, scaledMedium);
-        createFont(audimatHandle, AUDIMAT_MONO_B, scaledLarge);
+        if (allFilesExist()) {
+            // Fonts already all saved on device
+            return;
+        }
+
+        prepareFontsData();
+
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                synchronized(lock) {
+                    createFontsTextures();
+                    lock.notify();
+                }
+            }
+        });
+
+        while (!_createFontTextureTasks.isEmpty())
+        {
+            try {
+                synchronized(lock) {
+                    // Wait for createFontTexture tasks to be done on the main thread
+                    lock.wait();
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        saveFontsBitmap();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void loadAllFont() {
         loadFont(AUDIMAT_MONO_B, scaledSmall);
         loadFont(AUDIMAT_MONO_B, scaledMedium);
         loadFont(AUDIMAT_MONO_B, scaledLarge);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static boolean allFilesExist() {
         FileHandle handleSmall = Gdx.files.local(fontDir + scaledSmall + "_" + AUDIMAT_MONO_B + FNT_TYPE);
         FileHandle handleMedium = Gdx.files.local(fontDir + scaledMedium + "_" + AUDIMAT_MONO_B + FNT_TYPE);
@@ -51,53 +85,54 @@ public class FontManager {
         return (handleSmall.exists() && handleMedium.exists() && handleLarge.exists());
     }
 
-    private static void createFont(FileHandle fontFile, String fontName, int scaledSize)  {
-        FileHandle savedFileHandle = Gdx.files.local(fontDir + scaledSize + "_" + fontName + FNT_TYPE);
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private static void prepareFontsData() {
+        _prepareFontDataTasks.add(new FontGenerationTask(audimatHandle, AUDIMAT_MONO_B, scaledSmall));
+        _prepareFontDataTasks.add(new FontGenerationTask(audimatHandle, AUDIMAT_MONO_B, scaledMedium));
+        _prepareFontDataTasks.add(new FontGenerationTask(audimatHandle, AUDIMAT_MONO_B, scaledLarge));
 
-        if(savedFileHandle.exists())
-            return;
+        for (FontGenerationTask fontGenerationTask : _prepareFontDataTasks)
+        {
+            if (!fontGenerationTask.prepareFontData()) {
+                // Already saved on device
+                continue;
+            }
 
-        FreeTypeFontGenerator.setMaxTextureSize(FreeTypeFontGenerator.NO_MAXIMUM);
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(fontFile);
-
-        PixmapPacker packer = new PixmapPacker(512, 512, Pixmap.Format.RGBA8888, 2, false);
-
-        FreeTypeFontParameter fontParameters = new FreeTypeFontParameter();
-        fontParameters.color = Color.WHITE;
-        fontParameters.size = scaledSize;
-        fontParameters.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
-        fontParameters.packer = packer;
-
-        FreeTypeFontGenerator.FreeTypeBitmapFontData fontData = fontGenerator.generateData(fontParameters);
-        Array<PixmapPacker.Page> pages = packer.getPages();
-        Array<TextureRegion> texRegions = new Array<TextureRegion>();
-        for (int i = 0; i < pages.size; i++) {
-            PixmapPacker.Page p = pages.get(i);
-            Texture tex = new Texture(
-                    new PixmapTextureData(p.getPixmap(), p.getPixmap().getFormat(), false, false, true)) {
-                @Override
-                public void dispose() {
-                    super.dispose();
-                    getTextureData().consumePixmap().dispose();
-                }
-            };
-            tex.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-            texRegions.add(new TextureRegion(tex));
+            _createFontTextureTasks.add(fontGenerationTask);
         }
 
-        BitmapFont font = new BitmapFont(fontData, texRegions, false);
-        saveFontToFile(font, fontName, scaledSize, packer);
-
-        fontGenerator.dispose();
-        packer.dispose();
+        _prepareFontDataTasks.clear();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private static void createFontsTextures() {
+        for (FontGenerationTask fontGenerationTask : _createFontTextureTasks)
+        {
+            fontGenerationTask.createFontTextures();
+            _saveFontBitmapTasks.add(fontGenerationTask);
+        }
+
+        _createFontTextureTasks.clear();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private static void saveFontsBitmap() {
+        for (FontGenerationTask fontGenerationTask : _saveFontBitmapTasks)
+        {
+            fontGenerationTask.saveFontBitmap();
+        }
+
+        _saveFontBitmapTasks.clear();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static void loadFont(String fontName, int scaledSize) {
         FileHandle savedFileHandle = Gdx.files.local(fontDir + scaledSize + "_" + fontName + FNT_TYPE);
         BitmapFont font = new BitmapFont(savedFileHandle);
         fonts.put(scaledSize + "_" + fontName, font);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static void saveFontToFile(BitmapFont font, String fontName, int scaledSize, PixmapPacker packer) {
         FileHandle fontFile = Gdx.files.local(fontDir + scaledSize + "_" + fontName + FNT_TYPE);
         FileHandle pixmapDir = Gdx.files.local(fontDir + scaledSize + "_" + fontName);
@@ -113,21 +148,110 @@ public class FontManager {
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    /// FontPreparation
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private static class FontGenerationTask {
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        public FontGenerationTask(FileHandle fontFile, String fontName, int scaledSize) {
+            _fontFile = fontFile;
+            _fontName = fontName;
+            _scaledSize = scaledSize;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        public boolean prepareFontData() {
+            FileHandle savedFileHandle = Gdx.files.local(fontDir + _scaledSize + "_" + _fontName + FNT_TYPE);
+            if (savedFileHandle.exists()) {
+                // Already exists
+                return false;
+            }
+
+            FreeTypeFontGenerator.setMaxTextureSize(FreeTypeFontGenerator.NO_MAXIMUM);
+            FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(_fontFile);
+
+            PixmapPacker packer = new PixmapPacker(512, 512, Pixmap.Format.RGBA8888, 2, false);
+
+            _fontParameters = new FreeTypeFontParameter();
+            _fontParameters.color = Color.WHITE;
+            _fontParameters.size = _scaledSize;
+            _fontParameters.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
+            _fontParameters.packer = packer;
+
+            _fontData = fontGenerator.generateData(_fontParameters);
+            _textureData = new Array<>();
+
+            for (PixmapPacker.Page page : packer.getPages()) {
+                PixmapTextureData pixmapTextureData = new PixmapTextureData(page.getPixmap(), page.getPixmap().getFormat(), false, false, true);
+                _textureData.add(pixmapTextureData);
+            }
+
+            fontGenerator.dispose();
+
+            return true;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        public void createFontTextures() {
+            _textureRegions = new Array<>();
+
+            for (PixmapTextureData textureData : _textureData) {
+                // Need to be done on the main thread (libgdx opengl)
+                Texture texture = new Texture(textureData) {
+                    @Override
+                    public void dispose() {
+                        super.dispose();
+
+                        // Dispose of the texture data when disposing the texture
+                        getTextureData().consumePixmap().dispose();
+                    }
+                };
+
+                texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+                _textureRegions.add(new TextureRegion(texture));
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        public void saveFontBitmap() {
+            BitmapFont font = new BitmapFont(_fontData, _textureRegions, false);
+            saveFontToFile(font, _fontName, _scaledSize, _fontParameters.packer);
+
+            _fontParameters.packer.dispose();
+        }
+
+        private FreeTypeFontGenerator.FreeTypeFontParameter _fontParameters;
+        FreeTypeFontGenerator.FreeTypeBitmapFontData _fontData;
+        private Array<PixmapTextureData> _textureData;
+        private Array<TextureRegion> _textureRegions;
+
+        private final FileHandle _fontFile;
+        private final String _fontName;
+        private final int _scaledSize;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static BitmapFont fontSmall(Color color) {
         return fontCustom(color, SMALL);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static BitmapFont fontMedium(Color color) {
         return fontCustom(color, MEDIUM);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static BitmapFont fontLarge(Color color) {
         return fontCustom(color, LARGE);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static BitmapFont fontCustom(Color color, int fontSize) {
         int scaledSize = Math.round(fontSize * scaleFactor);
         int referenceSize = -1;
@@ -159,6 +283,12 @@ public class FontManager {
     private static final int SMALL = 16;
     private static final int MEDIUM = 32;
     private static final int LARGE = 64;
+
+    private static Array<FontGenerationTask> _prepareFontDataTasks;
+    private static Array<FontGenerationTask> _createFontTextureTasks;
+    private static Array<FontGenerationTask> _saveFontBitmapTasks;
+
+    private static final Object lock = new Object();
 
     private static HashMap<String, BitmapFont> fonts;
     private static FileHandle audimatHandle;

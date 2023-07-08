@@ -1,9 +1,7 @@
 package com.juchap.snake.Services;
 
-
 public interface PlayServices {
     void signIn();
-    void signOut();
     void rateGame();
     void unlockAchievement(String achievement);
     void incrementAchievement(String achievement, int amount);
@@ -11,5 +9,6 @@ public interface PlayServices {
     void showAchievements();
     void showScores();
     void shareApp();
+
     boolean isSignedIn();
 }

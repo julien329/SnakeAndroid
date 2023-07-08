@@ -39,7 +39,7 @@ public class MainMenuScreen extends AbstractScreen {
     public void buildStage() {
         int buttonPosY = GlobalVars.CENTER_Y;
         TextButton playButton = new TextButton(PLAY, buttonSkin);
-        playButton.setPosition(GlobalVars.CENTER_X - (buttonWidth / 2), buttonPosY);
+        playButton.setPosition(GlobalVars.CENTER_X - (buttonWidth / 2.f), buttonPosY);
         playButton.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -50,7 +50,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         buttonPosY -= (buttonHeight + GlobalVars.UNIT_SIZE);
         TextButton highScoresButton = new TextButton(HIGH_SCORES, buttonSkin);
-        highScoresButton.setPosition(GlobalVars.CENTER_X - (buttonWidth / 2), buttonPosY);
+        highScoresButton.setPosition(GlobalVars.CENTER_X - (buttonWidth / 2.f), buttonPosY);
         highScoresButton.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -61,7 +61,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         buttonPosY -= (buttonHeight + GlobalVars.UNIT_SIZE);
         TextButton optionsButton = new TextButton(OPTIONS, buttonSkin);
-        optionsButton.setPosition(GlobalVars.CENTER_X - (buttonWidth / 2), buttonPosY);
+        optionsButton.setPosition(GlobalVars.CENTER_X - (buttonWidth / 2.f), buttonPosY);
         optionsButton.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -78,7 +78,7 @@ public class MainMenuScreen extends AbstractScreen {
         final ImageButton achievementButton = new ImageButton(achievementDrawable);
         achievementButton.getImage().setColor(ColorManager.getFrontColor());
         achievementButton.getImageCell().expand().fill();
-        achievementButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2) - (2 * iconSize), buttonPosY);
+        achievementButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2.f) - (2.f * iconSize), buttonPosY);
         achievementButton.setSize(iconSize, iconSize);
         achievementButton.addListener( new ClickListener() {
             @Override
@@ -104,7 +104,7 @@ public class MainMenuScreen extends AbstractScreen {
         final ImageButton leaderboardButton = new ImageButton(leaderboardDrawable);
         leaderboardButton.getImage().setColor(ColorManager.getFrontColor());
         leaderboardButton.getImageCell().expand().fill();
-        leaderboardButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2) - (GlobalVars.GRID_WIDTH / 12), buttonPosY);
+        leaderboardButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2.f) - (GlobalVars.GRID_WIDTH / 12.f), buttonPosY);
         leaderboardButton.setSize(iconSize, iconSize);
         leaderboardButton.addListener( new ClickListener() {
             @Override
@@ -131,7 +131,7 @@ public class MainMenuScreen extends AbstractScreen {
         final ImageButton rateButton = new ImageButton(rateDrawable);
         rateButton.getImage().setColor(ColorManager.getFrontColor());
         rateButton.getImageCell().expand().fill();
-        rateButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2) + (GlobalVars.GRID_WIDTH / 12), buttonPosY);
+        rateButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2.f) + (GlobalVars.GRID_WIDTH / 12.f), buttonPosY);
         rateButton.setSize(iconSize, iconSize);
         rateButton.addListener( new ClickListener() {
             @Override
@@ -158,7 +158,7 @@ public class MainMenuScreen extends AbstractScreen {
         final ImageButton shareButton = new ImageButton(shareDrawable);
         shareButton.getImage().setColor(ColorManager.getFrontColor());
         shareButton.getImageCell().expand().fill();
-        shareButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2) + (2 * iconSize), buttonPosY);
+        shareButton.setPosition(GlobalVars.CENTER_X - (iconSize / 2.f) + (2.f * iconSize), buttonPosY);
         shareButton.setSize(iconSize, iconSize);
         shareButton.addListener( new ClickListener() {
             @Override
@@ -279,7 +279,7 @@ public class MainMenuScreen extends AbstractScreen {
     private Texture rateTexture;
     private Texture shareTexture;
 
-    private int buttonWidth;
-    private int buttonHeight;
+    private final int buttonWidth;
+    private final int buttonHeight;
     private long lastActivityTime;
 }
