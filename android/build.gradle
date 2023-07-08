@@ -1,6 +1,7 @@
 android {
+    namespace 'com.juchap.snake'
     buildToolsVersion "34.0.0"
-    compileSdkVersion 34
+    compileSdk 34
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -19,8 +20,8 @@ android {
     }
     defaultConfig {
         applicationId "com.juchap.snake"
-        minSdkVersion 19
-        targetSdkVersion 34
+        minSdk 19
+        targetSdk 34
     }
     buildTypes {
         release {
