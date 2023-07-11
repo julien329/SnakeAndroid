@@ -9,44 +9,48 @@ import com.juchap.snake.Managers.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 import java.util.ArrayList;
 
-
 public class SplashScreen extends AbstractScreen {
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     public SplashScreen() {
-        super();
         Gdx.input.setInputProcessor(this);
         setSnake();
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void buildStage() {
         Timer.schedule(new MoveSnake(), MOVE_INTERVAL, MOVE_INTERVAL);
         Timer.instance().start();
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void render(float delta) {
         super.render(delta);
-        if(showSnake) {
-            snake.render();
+
+        if (_showSnake) {
+            _snake.render();
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void dispose() {
         super.dispose();
         Timer.instance().clear();
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     private void setSnake() {
-        trajectoryIndex = 0;
-        showSnake = !FontManager.allFilesExist();
+        _trajectoryIndex = 0;
+        _showSnake = !FontManager.allFilesExist();
 
         int partX = GlobalVars.CENTER_X - (2 * GlobalVars.UNIT_SIZE);
         int partY = GlobalVars.CENTER_Y + (2 * GlobalVars.UNIT_SIZE);
-        snake = new Snake(partX, partY);
+        _snake = new Snake(partX, partY);
 
-        ArrayList<BodyPart> snakeParts = snake.getBodyParts();
+        ArrayList<BodyPart> snakeParts = _snake.getBodyParts();
 
         for(int i = 0; i < SNAKE_BUILD_X.length; i++) {
             partX += GlobalVars.UNIT_SIZE * SNAKE_BUILD_X[i];
@@ -57,7 +61,6 @@ public class SplashScreen extends AbstractScreen {
         }
     }
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// CLASSES
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,13 +68,12 @@ public class SplashScreen extends AbstractScreen {
     private class MoveSnake extends Timer.Task {
         @Override
         public void run() {
-            snake.setDir(SNAKE_TRAJECTORY_X[trajectoryIndex], SNAKE_TRAJECTORY_Y[trajectoryIndex]);
-            snake.move();
+            _snake.setDir(SNAKE_TRAJECTORY_X[_trajectoryIndex], SNAKE_TRAJECTORY_Y[_trajectoryIndex]);
+            _snake.move();
 
-            trajectoryIndex = (trajectoryIndex + 1) % SNAKE_TRAJECTORY_X.length;
+            _trajectoryIndex = (_trajectoryIndex + 1) % SNAKE_TRAJECTORY_X.length;
         }
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
@@ -83,8 +85,8 @@ public class SplashScreen extends AbstractScreen {
     private static final int[] SNAKE_TRAJECTORY_Y = new int[] {0, 0, 0, 0,-1,-1,-1,-1, 0, 0, 0, 0, 1, 1, 1, 1 };
     private static final float MOVE_INTERVAL = 0.125f;
 
-    private Snake snake;
+    private Snake _snake;
 
-    private boolean showSnake;
-    private int trajectoryIndex;
+    private boolean _showSnake;
+    private int _trajectoryIndex;
 }

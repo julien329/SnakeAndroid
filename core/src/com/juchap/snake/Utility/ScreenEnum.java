@@ -9,7 +9,6 @@ import com.juchap.snake.Screens.OptionScreen;
 import com.juchap.snake.Screens.SplashScreen;
 import com.juchap.snake.Screens.ThemesScreen;
 
-
 public enum ScreenEnum {
     MAIN_MENU {
         public AbstractScreen getScreen(Object... params) {

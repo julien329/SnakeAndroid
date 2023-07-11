@@ -4,67 +4,73 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.juchap.snake.Utility.GlobalStrings;
 
-
 public class DifficultyManager {
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void initManager() {
-        difficultyPrefs = Gdx.app.getPreferences(PREFS_NAME);
+        _difficultyPrefs = Gdx.app.getPreferences(PREFS_NAME);
 
-        if(difficultyPrefs.contains(KEY_NAME))
+        if (_difficultyPrefs.contains(KEY_NAME)) {
             loadFromPrefs();
+        }
         else {
-            difficultyLevel = EASY;
+            _difficultyLevel = EASY;
             saveToPrefs();
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static void loadFromPrefs() {
-        difficultyLevel = difficultyPrefs.getInteger(KEY_NAME);
+        _difficultyLevel = _difficultyPrefs.getInteger(KEY_NAME);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static void saveToPrefs() {
-        difficultyPrefs.putInteger(KEY_NAME, difficultyLevel);
-        difficultyPrefs.flush();
+        _difficultyPrefs.putInteger(KEY_NAME, _difficultyLevel);
+        _difficultyPrefs.flush();
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static int getDifficulty() { return difficultyLevel; }
+    public static int getDifficulty() { return _difficultyLevel; }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static float getInterval() {
-        float interval = -1;
+        if (_difficultyLevel == EASY) {
+            return INTERVAL_EASY;
+        }
+        else if (_difficultyLevel == MEDIUM) {
+            return INTERVAL_MEDIUM;
+        }
+        else if (_difficultyLevel == HARD) {
+            return INTERVAL_HARD;
+        }
 
-        if(difficultyLevel == EASY)
-            interval = INTERVAL_EASY;
-        else if(difficultyLevel == MEDIUM)
-            interval = INTERVAL_MEDIUM;
-        else if(difficultyLevel == HARD)
-            interval = INTERVAL_HARD;
-
-        return interval;
+        return -1;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static String getLeaderboard() {
-        String leaderboard = null;
+        if (_difficultyLevel == EASY) {
+            return GlobalStrings.LEADERBOARD_EASY;
+        }
+        else if (_difficultyLevel == MEDIUM) {
+            return GlobalStrings.LEADERBOARD_MEDIUM;
+        }
+        else if(_difficultyLevel == HARD) {
+            return GlobalStrings.LEADERBOARD_HARD;
+        }
 
-        if(difficultyLevel == EASY)
-            leaderboard = GlobalStrings.LEADERBOARD_EASY;
-        else if(difficultyLevel == MEDIUM)
-            leaderboard = GlobalStrings.LEADERBOARD_MEDIUM;
-        else if(difficultyLevel == HARD)
-            leaderboard = GlobalStrings.LEADERBOARD_HARD;
-
-        return leaderboard;
+        return null;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void setDifficulty(int level) {
-        difficultyLevel = level;
+        _difficultyLevel = level;
         saveToPrefs();
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
@@ -79,7 +85,7 @@ public class DifficultyManager {
     private static final float INTERVAL_MEDIUM = 0.1f;
     private static final float INTERVAL_HARD = 0.075f;
 
-    private static Preferences difficultyPrefs;
+    private static Preferences _difficultyPrefs;
 
-    private static int difficultyLevel;
+    private static int _difficultyLevel;
 }

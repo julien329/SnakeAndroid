@@ -19,114 +19,117 @@ import com.juchap.snake.Managers.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenManager;
 
-
 public class GameUI {
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public GameUI(ShapeRenderer uiRenderer, SpriteBatch spriteBatch) {
-        score = 0;
-        this.uiRenderer = uiRenderer;
-        this.batch = spriteBatch;
+        _score = 0;
+        _uiRenderer = uiRenderer;
+        _batch = spriteBatch;
 
-        leftBorderX = GlobalVars.LEFT;
-        rightBorderX = GlobalVars.RIGHT - GlobalVars.UNIT_SIZE;
-        topBorderY = GlobalVars.TOP - GlobalVars.UNIT_SIZE;
-        topGameBorderY = GlobalVars.GAME_GRID_TOP - GlobalVars.UNIT_SIZE;
-        scoreDividerX = GlobalVars.RIGHT - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - GlobalVars.UNIT_SIZE;
+        _leftBorderX = GlobalVars.LEFT;
+        _rightBorderX = GlobalVars.RIGHT - GlobalVars.UNIT_SIZE;
+        _topBorderY = GlobalVars.TOP - GlobalVars.UNIT_SIZE;
+        _topGameBorderY = GlobalVars.GAME_GRID_TOP - GlobalVars.UNIT_SIZE;
+        _scoreDividerX = GlobalVars.RIGHT - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - GlobalVars.UNIT_SIZE;
 
         initButtonSkin();
-        pauseButton = new TextButton(PAUSE_SYMBOL, buttonSkin);
-        pauseButton.setPosition(scoreDividerX + GlobalVars.UNIT_SIZE, topGameBorderY + GlobalVars.UNIT_SIZE);
-        pauseButton.addListener(new pauseButtonListener());
-        pauseButton.getLabel().setFontScale(0.75f, 0.75f);
-        ScreenManager.getInstance().getScreen().addActor(pauseButton);
+        _pauseButton = new TextButton(PAUSE_SYMBOL, _buttonSkin);
+        _pauseButton.setPosition(_scoreDividerX + GlobalVars.UNIT_SIZE, _topGameBorderY + GlobalVars.UNIT_SIZE);
+        _pauseButton.addListener(new pauseButtonListener());
+        _pauseButton.getLabel().setFontScale(0.75f, 0.75f);
+        ScreenManager.getInstance().getScreen().addActor(_pauseButton);
 
         initGlyphs();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private void initButtonSkin() {
         // Init
         BitmapFont font = FontManager.fontLarge(ColorManager.getFrontColor());
-        buttonSkin = new Skin();
-        buttonSkin.add(DEFAULT, font);
+        _buttonSkin = new Skin();
+        _buttonSkin.add(DEFAULT, font);
 
         // Create texture
-        Pixmap pixmap = new Pixmap(rightBorderX - scoreDividerX - GlobalVars.UNIT_SIZE, topBorderY - topGameBorderY - GlobalVars.UNIT_SIZE, Pixmap.Format.RGB888);
+        Pixmap pixmap = new Pixmap(_rightBorderX - _scoreDividerX - GlobalVars.UNIT_SIZE, _topBorderY - _topGameBorderY - GlobalVars.UNIT_SIZE, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
-        buttonSkin.add(BACKGROUND, new Texture(pixmap));
+        _buttonSkin.add(BACKGROUND, new Texture(pixmap));
         pixmap.dispose();
 
         // Create button style
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
-        textButtonStyle.down = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackAltColor());
-        textButtonStyle.checked = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
-        textButtonStyle.over = buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
-        textButtonStyle.font = buttonSkin.getFont(DEFAULT);
+        textButtonStyle.up = _buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        textButtonStyle.down = _buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackAltColor());
+        textButtonStyle.checked = _buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        textButtonStyle.over = _buttonSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        textButtonStyle.font = _buttonSkin.getFont(DEFAULT);
         textButtonStyle.fontColor = ColorManager.getFrontColor();
-        buttonSkin.add(DEFAULT, textButtonStyle);
+        _buttonSkin.add(DEFAULT, textButtonStyle);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public void render() {
-        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        uiRenderer.setColor(ColorManager.getFrontColor());
+        _uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        _uiRenderer.setColor(ColorManager.getFrontColor());
         // Score Divider
-        uiRenderer.rect(leftBorderX, topGameBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(scoreDividerX, topGameBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT);
-        uiRenderer.end();
+        _uiRenderer.rect(_leftBorderX, _topGameBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        _uiRenderer.rect(_scoreDividerX, _topGameBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT);
+        _uiRenderer.end();
 
         // Draw score text
         BitmapFont font = FontManager.fontCustom(ColorManager.getFrontColor(), 48);
-        scorePoints.setText(font, String.valueOf(score));
-        batch.begin();
-        font.draw(batch, scoreText, scoreTextX, scoreY);
-        font.draw(batch, scorePoints, scorePointsX - scorePoints.width, scoreY);
-        batch.end();
+        _scorePoints.setText(font, String.valueOf(_score));
+        _batch.begin();
+        font.draw(_batch, _scoreText, _scoreTextX, _scoreY);
+        font.draw(_batch, _scorePoints, _scorePointsX - _scorePoints.width, _scoreY);
+        _batch.end();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public void renderPause() {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        uiRenderer.setColor(0, 0, 0, 0.75f);
-        uiRenderer.rect(GlobalVars.LEFT, GlobalVars.BOTTOM, GlobalVars.GRID_WIDTH, GlobalVars.GRID_HEIGHT);
-        uiRenderer.end();
+        _uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        _uiRenderer.setColor(0, 0, 0, 0.75f);
+        _uiRenderer.rect(GlobalVars.LEFT, GlobalVars.BOTTOM, GlobalVars.GRID_WIDTH, GlobalVars.GRID_HEIGHT);
+        _uiRenderer.end();
 
-        batch.begin();
+        _batch.begin();
         BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
-        fontLarge.draw(batch, pauseText, pauseTextX, pauseTextY);
+        fontLarge.draw(_batch, _pauseText, _pauseTextX, _pauseTextY);
 
         BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
-        fontSmall.draw(batch, continueText, continueTextX, continueTextY);
-        batch.end();
+        fontSmall.draw(_batch, _continueText, _continueTextX, _continueTextY);
+        _batch.end();
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private void initGlyphs() {
         BitmapFont fontLarge = FontManager.fontLarge(Color.WHITE);
-        pauseText = new GlyphLayout();
-        pauseText.setText(fontLarge, PAUSED);
-        pauseTextX = GlobalVars.CENTER_X - (pauseText.width / 2);
-        pauseTextY = GlobalVars.CENTER_Y + (pauseText.height / 2);
+        _pauseText = new GlyphLayout();
+        _pauseText.setText(fontLarge, PAUSED);
+        _pauseTextX = GlobalVars.CENTER_X - (_pauseText.width / 2.f);
+        _pauseTextY = GlobalVars.CENTER_Y + (_pauseText.height / 2.f);
 
         BitmapFont fontSmall = FontManager.fontSmall(Color.WHITE);
-        continueText = new GlyphLayout();
-        continueText.setText(fontSmall, CONTINUE);
-        continueTextX = GlobalVars.CENTER_X - (continueText.width / 2);
-        continueTextY = pauseTextY - pauseText.height - GlobalVars.UNIT_SIZE;
+        _continueText = new GlyphLayout();
+        _continueText.setText(fontSmall, CONTINUE);
+        _continueTextX = GlobalVars.CENTER_X - (_continueText.width / 2.f);
+        _continueTextY = _pauseTextY - _pauseText.height - GlobalVars.UNIT_SIZE;
 
         BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 48);
-        scoreText = new GlyphLayout();
-        scoreText.setText(fontCustom, SCORE);
-        scorePoints = new GlyphLayout();
-        scorePoints.setText(fontCustom, SCORE_INIT);
-        scoreTextX = leftBorderX + (2 * GlobalVars.UNIT_SIZE);
-        scorePointsX = GlobalVars.RIGHT - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - (2 * GlobalVars.UNIT_SIZE);
-        scoreY = (GlobalVars.TOP + GlobalVars.GAME_GRID_TOP - GlobalVars.UNIT_SIZE + scoreText.height) / 2 ;
+        _scoreText = new GlyphLayout();
+        _scoreText.setText(fontCustom, SCORE);
+        _scorePoints = new GlyphLayout();
+        _scorePoints.setText(fontCustom, SCORE_INIT);
+        _scoreTextX = _leftBorderX + (2 * GlobalVars.UNIT_SIZE);
+        _scorePointsX = GlobalVars.RIGHT - (GlobalVars.GRID_HEIGHT - GlobalVars.GAME_GRID_HEIGHT) - (2 * GlobalVars.UNIT_SIZE);
+        _scoreY = (GlobalVars.TOP + GlobalVars.GAME_GRID_TOP - GlobalVars.UNIT_SIZE + _scoreText.height) / 2.f ;
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// CLASSES
@@ -137,21 +140,21 @@ public class GameUI {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             return true;
         }
+
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            if(x >= 0 && x < pauseButton.getWidth() && y >= 0 && y < pauseButton.getHeight())
+            if (x >= 0 && x < _pauseButton.getWidth() && y >= 0 && y < _pauseButton.getHeight()) {
                 ((GameScreen) ScreenManager.getInstance().getScreen()).pauseGame();
+            }
         }
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addScore() { score++; }
-    public int getScore() { return score; }
-
+    public void addScore() { _score++; }
+    public int getScore() { return _score; }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
@@ -165,26 +168,26 @@ public class GameUI {
     private static final String SCORE = "SCORE";
     private static final String SCORE_INIT = "0";
 
-    private ShapeRenderer uiRenderer;
-    private SpriteBatch batch;
-    private TextButton pauseButton;
-    private Skin buttonSkin;
-    private GlyphLayout pauseText;
-    private GlyphLayout continueText;
-    private GlyphLayout scoreText;
-    private GlyphLayout scorePoints;
+    private final ShapeRenderer _uiRenderer;
+    private final SpriteBatch _batch;
+    private final TextButton _pauseButton;
+    private Skin _buttonSkin;
+    private GlyphLayout _pauseText;
+    private GlyphLayout _continueText;
+    private GlyphLayout _scoreText;
+    private GlyphLayout _scorePoints;
 
-    private int score;
-    private int leftBorderX;
-    private int rightBorderX;
-    private int topBorderY;
-    private int topGameBorderY;
-    private int scoreDividerX;
-    private float scoreY;
-    private int scoreTextX;
-    private int scorePointsX;
-    private float pauseTextX;
-    private float pauseTextY;
-    private float continueTextX;
-    private float continueTextY;
+    private final int _leftBorderX;
+    private final int _rightBorderX;
+    private final int _topBorderY;
+    private final int _topGameBorderY;
+    private final int _scoreDividerX;
+    private float _scoreY;
+    private int _score;
+    private int _scoreTextX;
+    private int _scorePointsX;
+    private float _pauseTextX;
+    private float _pauseTextY;
+    private float _continueTextX;
+    private float _continueTextY;
 }

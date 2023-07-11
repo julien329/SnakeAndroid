@@ -1,7 +1,5 @@
 package com.juchap.snake;
 
-import static android.app.PendingIntent.getActivity;
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,7 +15,6 @@ import com.google.android.gms.games.AuthenticationResult;
 import com.google.android.gms.games.GamesSignInClient;
 import com.google.android.gms.games.PlayGames;
 import com.google.android.gms.games.PlayGamesSdk;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.juchap.snake.Services.PlayServices;
 
@@ -135,12 +132,10 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	public void shareApp() {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType(SHARE_TYPE);
-		intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
 		intent.putExtra(Intent.EXTRA_TEXT, SHARE_EXTRA + STORE_URL + getPackageName());
 
-		if (intent.resolveActivity(getPackageManager()) != null) {
-			startActivity(Intent.createChooser(intent, SHARE_WITH));
-		}
+		Intent shareIntent = Intent.createChooser(intent, SHARE_WITH);
+		startActivity(shareIntent);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -157,7 +152,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	private static final int REQUEST_SCORES = 1;
 	private static final int REQUEST_ACHIEVEMENTS = 2;
 	private static final String SHARE_WITH = "Share with";
-	private static final String SHARE_EXTRA = "Try this Retro Snake game, it's just like in the good old days :\n\n";
+	private static final String SHARE_EXTRA = "Hey! Try this Retro Snake game, it's just like the good old classic :\n\n";
 	private static final String SHARE_TYPE = "text/plain";
 	private static final String STORE_URL = "https://play.google.com/store/apps/details?id=";
 

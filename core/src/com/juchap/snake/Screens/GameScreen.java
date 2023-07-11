@@ -25,33 +25,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class GameScreen extends AbstractScreen {
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	public GameScreen() {
-		super();
+		_isPaused = false;
 
-		isPaused = false;
-
-		freeSpaces = new ArrayList<Vector2>();
-		for(int i = GlobalVars.LEFT + GlobalVars.UNIT_SIZE ; i < GlobalVars.RIGHT - GlobalVars.UNIT_SIZE; i += GlobalVars.UNIT_SIZE) {
-			for(int j = GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE ; j < GlobalVars.GAME_GRID_TOP - GlobalVars.UNIT_SIZE; j += GlobalVars.UNIT_SIZE) {
-				freeSpaces.add(new Vector2(i, j));
+		_freeSpaces = new ArrayList<>();
+		for (int i = GlobalVars.LEFT + GlobalVars.UNIT_SIZE ; i < GlobalVars.RIGHT - GlobalVars.UNIT_SIZE; i += GlobalVars.UNIT_SIZE) {
+			for (int j = GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE ; j < GlobalVars.GAME_GRID_TOP - GlobalVars.UNIT_SIZE; j += GlobalVars.UNIT_SIZE) {
+				_freeSpaces.add(new Vector2(i, j));
 			}
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	@Override
 	public void buildStage() {
-		gameUI = new GameUI(uiRenderer, spriteBatch);
+		_gameUI = new GameUI(_uiRenderer, _spriteBatch);
 
 		int centerX = GlobalVars.LEFT + (16 * GlobalVars.UNIT_SIZE);
 		int centerY = GlobalVars.BOTTOM + ((int)Math.floor((0.5f * GlobalVars.GAME_GRID_HEIGHT) / GlobalVars.UNIT_SIZE) * GlobalVars.UNIT_SIZE);
-		freeSpaces.remove(new Vector2(centerX, centerY));
-		snake = new Snake(centerX, centerY);
+		_freeSpaces.remove(new Vector2(centerX, centerY));
+		_snake = new Snake(centerX, centerY);
 
-		food = new Food();
-		food.spawnFood(freeSpaces);
+		_food = new Food();
+		_food.spawnFood(_freeSpaces);
 
 		float updatePosInterval = DifficultyManager.getInterval();
 		Timer.schedule(new MoveSnake(), updatePosInterval, updatePosInterval);
@@ -60,24 +59,23 @@ public class GameScreen extends AbstractScreen {
         setupInputs();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	@Override
 	public void render(float delta) {
 		super.render(delta);
 
-		snake.render();
-		food.render();
-		gameUI.render();
+		_snake.render();
+		_food.render();
+		_gameUI.render();
+
 		drawBorders();
 
-		if(isPaused)
-			gameUI.renderPause();
+		if (_isPaused) {
+			_gameUI.renderPause();
+		}
 	}
 
-	@Override
-	public void dispose() {
-		super.dispose();
-	}
-
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	@Override
 	public boolean keyUp(int keycode) {
 		if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
@@ -87,11 +85,13 @@ public class GameScreen extends AbstractScreen {
 		return false;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	@Override
 	public void pause() {
 		pauseGame();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	private void gameOver() {
 		Timer.instance().clear();
 		VibrationManager.vibrateLong();
@@ -100,12 +100,14 @@ public class GameScreen extends AbstractScreen {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				long time = System.currentTimeMillis();
-				while (System.currentTimeMillis() < time + VibrationManager.LONG){}
+				try {
+					Thread.sleep(VibrationManager.LONG);
+				} catch (InterruptedException e) { throw new RuntimeException(e); }
+
 				Gdx.app.postRunnable(new Runnable() {
 					@Override
 					public void run() {
-						int score = (snake.getBodyParts().size() - 1 == gameUI.getScore()) ? gameUI.getScore() : 0;
+						int score = (_snake.getBodyParts().size() - 1 == _gameUI.getScore()) ? _gameUI.getScore() : 0;
 						ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER, score);
 					}
 				});
@@ -113,20 +115,22 @@ public class GameScreen extends AbstractScreen {
 		}).start();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	public void	pauseGame() {
 		Timer.instance().stop();
-		isPaused = true;
-		Gdx.input.setInputProcessor(pausedInputs);
+		_isPaused = true;
+		Gdx.input.setInputProcessor(_pausedInputs);
 
-		if (controlPad != null) {
-            for (ControlButton control : controlPad) {
+		if (_controlPad != null) {
+            for (ControlButton control : _controlPad) {
                 control.eventTouchUp();
             }
         }
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	private void setupInputs() {
-        this.pausedInputs = new InputPaused();
+        _pausedInputs = new InputPaused();
 
         InputProcessor inputProcessor = this;
         if (InputManager.isSwipe()) {
@@ -146,35 +150,34 @@ public class GameScreen extends AbstractScreen {
 
             if (InputManager.isHalfDpad()) {
                 topPos = GlobalVars.CENTER_Y - (2 * GlobalVars.UNIT_SIZE);
-                centerY = (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE) + ((GlobalVars.CENTER_Y - (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE)) / 2);
+                centerY = (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE) + ((GlobalVars.CENTER_Y - (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE)) / 2.f);
             }
             else {
                 topPos = GlobalVars.GAME_GRID_TOP - (2 * GlobalVars.UNIT_SIZE);
-                centerY = (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE) + ((GlobalVars.GAME_GRID_TOP - (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE)) / 2);
+                centerY = (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE) + ((GlobalVars.GAME_GRID_TOP - (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE)) / 2.f);
             }
 
-            final float[] leftVertices = new float[]{ leftPos, bottomPos + deltaPos, leftPos, topPos - deltaPos, GlobalVars.CENTER_X - (GlobalVars.UNIT_SIZE / 2), centerY };
-            final float[] rightVertices = new float[]{ rightPos, bottomPos + deltaPos, rightPos, topPos - deltaPos, GlobalVars.CENTER_X + (GlobalVars.UNIT_SIZE / 2), centerY };
-            final float[] upVertices = new float[]{ leftPos + deltaPos, topPos, rightPos - deltaPos, topPos, GlobalVars.CENTER_X, centerY + (GlobalVars.UNIT_SIZE / 2) };
-            final float[] downVertices = new float[]{ leftPos + deltaPos, bottomPos, rightPos - deltaPos, bottomPos, GlobalVars.CENTER_X, centerY - (GlobalVars.UNIT_SIZE / 2) };
+            final float[] leftVertices = new float[]{ leftPos, bottomPos + deltaPos, leftPos, topPos - deltaPos, GlobalVars.CENTER_X - (GlobalVars.UNIT_SIZE / 2.f), centerY };
+            final float[] rightVertices = new float[]{ rightPos, bottomPos + deltaPos, rightPos, topPos - deltaPos, GlobalVars.CENTER_X + (GlobalVars.UNIT_SIZE / 2.f), centerY };
+            final float[] upVertices = new float[]{ leftPos + deltaPos, topPos, rightPos - deltaPos, topPos, GlobalVars.CENTER_X, centerY + (GlobalVars.UNIT_SIZE / 2.f) };
+            final float[] downVertices = new float[]{ leftPos + deltaPos, bottomPos, rightPos - deltaPos, bottomPos, GlobalVars.CENTER_X, centerY - (GlobalVars.UNIT_SIZE / 2.f) };
 
-            final ControlButton leftButton = new ControlButton(uiRenderer, snake, ControlButton.LEFT, leftVertices);
-            final ControlButton rightButton = new ControlButton(uiRenderer, snake, ControlButton.RIGHT, rightVertices);
-            final ControlButton upButton = new ControlButton(uiRenderer, snake, ControlButton.UP, upVertices);
-            final ControlButton downButton = new ControlButton(uiRenderer, snake, ControlButton.DOWN, downVertices);
+            final ControlButton leftButton = new ControlButton(_uiRenderer, _snake, ControlButton.LEFT, leftVertices);
+            final ControlButton rightButton = new ControlButton(_uiRenderer, _snake, ControlButton.RIGHT, rightVertices);
+            final ControlButton upButton = new ControlButton(_uiRenderer, _snake, ControlButton.UP, upVertices);
+            final ControlButton downButton = new ControlButton(_uiRenderer, _snake, ControlButton.DOWN, downVertices);
 
-            this.addActor(leftButton);
-            this.addActor(rightButton);
-            this.addActor(upButton);
-            this.addActor(downButton);
+            addActor(leftButton);
+            addActor(rightButton);
+            addActor(upButton);
+            addActor(downButton);
 
-            this.controlPad = Arrays.asList(leftButton, rightButton, upButton, downButton);
+           _controlPad = Arrays.asList(leftButton, rightButton, upButton, downButton);
         }
 
-        this.inputMultiplexer = new InputMultiplexer(this, inputProcessor);
-        Gdx.input.setInputProcessor(inputMultiplexer);
+        _inputMultiplexer = new InputMultiplexer(this, inputProcessor);
+        Gdx.input.setInputProcessor(_inputMultiplexer);
     }
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	/// CLASSES
@@ -183,58 +186,63 @@ public class GameScreen extends AbstractScreen {
     private class InputSwipe extends GestureDetector.GestureAdapter {
         @Override
         public boolean touchDown(float x, float y, int pointer, int button) {
-            deltaX = deltaY = 0;
-            moved = false;
+            _deltaX = _deltaY = 0;
+            _moved = false;
             return true;
         }
+
         @Override
         public boolean pan(float x, float y, float deltaX, float deltaY) {
-            if(!moved) {
-                this.deltaX += deltaX;
-                this.deltaY += deltaY;
+            if (_moved) {
+				return false;
+			}
 
-                if (Math.abs(this.deltaX) >= distToTravel && snake.getDirX() == 0) {
-                    snake.setDir((int)Math.signum(this.deltaX), 0);
-                    moved = true;
-                    return true;
-                } else if (Math.abs(this.deltaY) >= distToTravel && snake.getDirY() == 0) {
-                    snake.setDir(0, (int)Math.signum(-this.deltaY));
-                    moved = true;
-                    return true;
-                }
-            }
+			_deltaX += deltaX;
+			_deltaY += deltaY;
+
+			if (Math.abs(_deltaX) >= DIST_TO_TRAVEL && _snake.getDirX() == 0) {
+				_snake.setDir((int)Math.signum(_deltaX), 0);
+				_moved = true;
+				return true;
+			} else if (Math.abs(_deltaY) >= DIST_TO_TRAVEL && _snake.getDirY() == 0) {
+				_snake.setDir(0, (int)Math.signum(-_deltaY));
+				_moved = true;
+				return true;
+			}
+
             return false;
         }
 
-        private float deltaX = 0;
-        private float deltaY = 0;
-        private boolean moved = false;
-        private final float distToTravel = GlobalVars.GRID_WIDTH / 32.0f;
+        private float _deltaX = 0;
+        private float _deltaY = 0;
+        private boolean _moved = false;
+
+        private final float DIST_TO_TRAVEL = GlobalVars.GRID_WIDTH / 32.0f;
     }
 
 	private class InputTouch extends InputAdapter {
 		@Override
 		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-			int distX = Gdx.input.getX() - snake.getHeadPosX();
-			int distY = Gdx.graphics.getHeight() - Gdx.input.getY() - snake.getHeadPosY();
+			int distX = Gdx.input.getX() - _snake.getHeadPosX();
+			int distY = Gdx.graphics.getHeight() - Gdx.input.getY() - _snake.getHeadPosY();
             int signX = (int) Math.signum(distX);
             int signY = (int) Math.signum(distY);
 
-            if (snake.getDirX() == 0 && snake.getDirY() != 0) {
+            if (_snake.getDirX() == 0 && _snake.getDirY() != 0) {
                 if (signX != 0) {
-                    snake.setDir(signX, 0);
+                    _snake.setDir(signX, 0);
                 }
             }
-            else if (snake.getDirY() == 0 && snake.getDirX() != 0) {
+            else if (_snake.getDirY() == 0 && _snake.getDirX() != 0) {
                 if (signY != 0) {
-                    snake.setDir(0, signY);
+                    _snake.setDir(0, signY);
                 }
             }
-            else if (snake.getDirX() == 0 && snake.getDirY() == 0) {
+            else if (_snake.getDirX() == 0 && _snake.getDirY() == 0) {
                 if (Math.abs(distX) >= Math.abs(distY)) {
-                    snake.setDir(signX, 0);
+                    _snake.setDir(signX, 0);
                 } else {
-                    snake.setDir(0, signY);
+                    _snake.setDir(0, signY);
                 }
             }
 			return true;
@@ -245,14 +253,14 @@ public class GameScreen extends AbstractScreen {
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             Vector2 inputPos = new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-            for (ControlButton control : controlPad) {
+            for (ControlButton control : _controlPad) {
                 control.eventTouchDown(inputPos);
             }
             return true;
         }
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            for (ControlButton control : controlPad) {
+            for (ControlButton control : _controlPad) {
                 control.eventTouchUp();
             }
             return false;
@@ -262,26 +270,29 @@ public class GameScreen extends AbstractScreen {
 	private class InputPaused extends InputAdapter {
 		@Override
 		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            this.isInputDown = true;
-			this.downX = Gdx.input.getX();
-            this.downY = Gdx.input.getY();
+            _isInputDown = true;
+			_downX = Gdx.input.getX();
+            _downY = Gdx.input.getY();
 			return true;
 		}
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		    if (isInputDown) {
-		        this.isInputDown = false;
+		    if (!_isInputDown) {
+				return true;
+			}
 
-                final float deltaX = Math.abs(this.downX - Gdx.input.getX());
-                final float deltaY = Math.abs(this.downY - Gdx.input.getY());
-                final float dist = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+			_isInputDown = false;
 
-                if (dist <= maxTravelDist) {
-                    Gdx.input.setInputProcessor(inputMultiplexer);
-                    isPaused = false;
-                    Timer.instance().start();
-                }
-            }
+			final float deltaX = Math.abs(_downX - Gdx.input.getX());
+			final float deltaY = Math.abs(_downY - Gdx.input.getY());
+			final float dist = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+
+			if (dist <= MAX_TRAVEL_DIST) {
+				Gdx.input.setInputProcessor(_inputMultiplexer);
+				_isPaused = false;
+				Timer.instance().start();
+			}
+
             return true;
         }
 		@Override
@@ -295,23 +306,25 @@ public class GameScreen extends AbstractScreen {
 			return false;
 		}
 
-		private boolean isInputDown = false;
-        private float downX = 0;
-        private float downY = 0;
-        private final float maxTravelDist = GlobalVars.GRID_WIDTH / 16.f;
+		private boolean _isInputDown = false;
+        private float _downX = 0;
+        private float _downY = 0;
+
+        private final float MAX_TRAVEL_DIST = GlobalVars.GRID_WIDTH / 16.f;
 	}
 
 	private class MoveSnake extends Timer.Task {
 		@Override
 		public void run() {
-			snake.move();
-			freeSpaces.remove(new Vector2(snake.getHeadPosX(), snake.getHeadPosY()));
-			if (!snake.tryEat() && !(snake.getDirX() == 0 && snake.getDirY() == 0))
-				freeSpaces.add(new Vector2(snake.getLastPosX(), snake.getLastPosY()));
+			_snake.move();
+			_freeSpaces.remove(new Vector2(_snake.getHeadPosX(), _snake.getHeadPosY()));
+			if (!_snake.tryEat() && !(_snake.getDirX() == 0 && _snake.getDirY() == 0)) {
+				_freeSpaces.add(new Vector2(_snake.getLastPosX(), _snake.getLastPosY()));
+			}
 
 			Gdx.graphics.requestRendering();
 
-			if (snake.checkCollisions()) {
+			if (_snake.checkCollisions()) {
                 gameOver();
             }
 		}
@@ -322,23 +335,23 @@ public class GameScreen extends AbstractScreen {
 	/// GET / SET
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Snake getSnake() { return snake; }
-	public GameUI getGameUI() { return gameUI; }
-	public Food getFood() { return food; }
-	public ArrayList<Vector2> getFreeSpaces() { return freeSpaces; }
+	public Snake getSnake() { return _snake; }
+	public GameUI getGameUI() { return _gameUI; }
+	public Food getFood() { return _food; }
+	public ArrayList<Vector2> getFreeSpaces() { return _freeSpaces; }
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	/// VARIABLES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private Snake snake;
-	private GameUI gameUI;
-	private Food food;
-	private InputMultiplexer inputMultiplexer;
-	private InputPaused pausedInputs;
-	private ArrayList<Vector2> freeSpaces;
-	private List<ControlButton> controlPad;
+	private Snake _snake;
+	private GameUI _gameUI;
+	private Food _food;
+	private InputMultiplexer _inputMultiplexer;
+	private InputPaused _pausedInputs;
+	private final ArrayList<Vector2> _freeSpaces;
+	private List<ControlButton> _controlPad;
 
-	private boolean isPaused;
+	private boolean _isPaused;
 }

@@ -15,47 +15,46 @@ import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
 import com.juchap.snake.Utility.GlobalStrings;
 
-
 public class GameOverScreen extends AbstractScreen {
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public GameOverScreen(Integer score) {
-        super();
         Gdx.input.setInputProcessor(this);
-        this.score = score;
-        this.best = HighScoreManager.getScore(0, DifficultyManager.getDifficulty());
-        this.canTouch = false;
+
+        _score = score;
+        _best = HighScoreManager.getScore(0, DifficultyManager.getDifficulty());
+        _canTouch = false;
 
         HighScoreManager.addScore(score, DifficultyManager.getDifficulty());
         checkAchievements(DifficultyManager.getDifficulty());
 
-        if(score > 0 && score < MAX_SCORE)
+        if (score > 0 && score < MAX_SCORE) {
             ScreenManager.getInstance().submitScore(DifficultyManager.getLeaderboard(), score);
+        }
 
         initGlyphs();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void buildStage() {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                canTouch = true;
+                _canTouch = true;
             }
         }, WAIT_TIME);
         Timer.instance().start();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void render(float delta) {
         super.render(delta);
         drawText();
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public boolean keyDown(int keycode) {
         if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
@@ -65,43 +64,46 @@ public class GameOverScreen extends AbstractScreen {
         return false;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(canTouch) {
+        if (_canTouch) {
             Timer.instance().clear();
             ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
         }
         return true;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private void drawText() {
-        spriteBatch.begin();
+        _spriteBatch.begin();
         BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
-        fontLarge.draw(spriteBatch, gameOverText, gameOverX, gameOverY);
+        fontLarge.draw(_spriteBatch, _gameOverText, _gameOverX, _gameOverY);
 
         BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
-        fontMedium.draw(spriteBatch, scoreText, scoreX, scoreY);
-        fontMedium.draw(spriteBatch, bestScoreText, bestScoreX, bestScoreY);
-        fontMedium.draw(spriteBatch, difficultyText, difficultyX, difficultyY);
+        fontMedium.draw(_spriteBatch, _scoreText, _scoreX, _scoreY);
+        fontMedium.draw(_spriteBatch, _bestScoreText, _bestScoreX, _bestScoreY);
+        fontMedium.draw(_spriteBatch, _difficultyText, _difficultyX, _difficultyY);
 
-        if(canTouch) {
+        if (_canTouch) {
             BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
-            fontSmall.draw(spriteBatch, continueText, continueX, continueY);
+            fontSmall.draw(_spriteBatch, _continueText, _continueX, _continueY);
 
         }
-        spriteBatch.end();
+        _spriteBatch.end();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private void checkAchievements(int difficulty) {
         ScreenManager playServices = ScreenManager.getInstance();
 
         // Increment score achievements
-        if (score > 0) {
-            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_BITE, score);
-            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_SNACK, score);
-            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_MEAL, score);
-            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_FEAST, score);
-            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_GLUTONY, score);
+        if (_score > 0) {
+            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_BITE, _score);
+            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_SNACK, _score);
+            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_MEAL, _score);
+            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_FEAST, _score);
+            playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_GLUTONY, _score);
         }
 
         // Increment nb game played achievements
@@ -109,53 +111,61 @@ public class GameOverScreen extends AbstractScreen {
         playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_LOOKING_GOOD, 1);
         playServices.incrementAchievement(GlobalStrings.ACHIEVEMENT_MY_MAN, 1);
 
-        // Check for difficulty achievementss
-        if (difficulty == DifficultyManager.EASY)
+        // Check for difficulty achievements
+        if (difficulty == DifficultyManager.EASY) {
             playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_SCAREDY_CAT);
-        else if (difficulty == DifficultyManager.MEDIUM)
+        }
+        else if (difficulty == DifficultyManager.MEDIUM) {
             playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_ADVENTUROUS);
-        else if (difficulty == DifficultyManager.HARD)
+        }
+        else if (difficulty == DifficultyManager.HARD) {
             playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_PRESUMPTUOUS);
+        }
 
         // Check for score milestone achievements
-        if(score == 0)
+        if (_score == 0) {
             playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_PRESUMATURE);
-        if(score >= 50)
+        }
+        if (_score >= 50) {
             playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_WORM);
-        if(score >= 100)
+        }
+        if (_score >= 100) {
             playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_BOA);
-        if(score >= 150)
+        }
+        if (_score >= 150) {
             playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_PYTHON);
-        if(score >= 200)
+        }
+        if (_score >= 200) {
             playServices.unlockAchievement(GlobalStrings.ACHIEVEMENT_ANACONDA);
+        }
     }
 
     private void initGlyphs() {
         BitmapFont fontLarge = FontManager.fontLarge(ColorManager.getFrontColor());
-        gameOverText = new GlyphLayout();
-        gameOverText.setText(fontLarge, GAME_OVER);
-        gameOverX = GlobalVars.CENTER_X - (gameOverText.width / 2);
-        gameOverY = GlobalVars.BOTTOM + ((2.f / 3.f) * GlobalVars.GRID_HEIGHT);
+        _gameOverText = new GlyphLayout();
+        _gameOverText.setText(fontLarge, GAME_OVER);
+        _gameOverX = GlobalVars.CENTER_X - (_gameOverText.width / 2.f);
+        _gameOverY = GlobalVars.BOTTOM + ((2.f / 3.f) * GlobalVars.GRID_HEIGHT);
 
         BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
-        scoreText = new GlyphLayout();
-        scoreText.setText(fontMedium, new StringBuilder(SCORE).append(score));
-        scoreX = GlobalVars.CENTER_X - (scoreText.width / 2);
-        scoreY = gameOverY - gameOverText.height - (4 * GlobalVars.PADDING_Y);
-        bestScoreText = new GlyphLayout();
-        bestScoreText.setText(fontMedium, new StringBuilder(BEST).append(best));
-        bestScoreX = GlobalVars.CENTER_X - (bestScoreText.width / 2);
-        bestScoreY = scoreY - scoreText.height - (0.5f * GlobalVars.PADDING_Y);
-        difficultyText = new GlyphLayout();
-        difficultyText.setText(fontMedium, DIFFICULTY_LEVELS[DifficultyManager.getDifficulty()]);
-        difficultyX = GlobalVars.CENTER_X - (difficultyText.width / 2);
-        difficultyY = bestScoreY - bestScoreText.height - (4 * GlobalVars.PADDING_Y);
+        _scoreText = new GlyphLayout();
+        _scoreText.setText(fontMedium, new StringBuilder(SCORE).append(_score));
+        _scoreX = GlobalVars.CENTER_X - (_scoreText.width / 2.f);
+        _scoreY = _gameOverY - _gameOverText.height - (4.f * GlobalVars.PADDING_Y);
+        _bestScoreText = new GlyphLayout();
+        _bestScoreText.setText(fontMedium, new StringBuilder(BEST).append(_best));
+        _bestScoreX = GlobalVars.CENTER_X - (_bestScoreText.width / 2.f);
+        _bestScoreY = _scoreY - _scoreText.height - (0.5f * GlobalVars.PADDING_Y);
+        _difficultyText = new GlyphLayout();
+        _difficultyText.setText(fontMedium, DIFFICULTY_LEVELS[DifficultyManager.getDifficulty()]);
+        _difficultyX = GlobalVars.CENTER_X - (_difficultyText.width / 2.f);
+        _difficultyY = _bestScoreY - _bestScoreText.height - (4.f * GlobalVars.PADDING_Y);
 
         BitmapFont fontSmall = FontManager.fontSmall(ColorManager.getFrontColor());
-        continueText = new GlyphLayout();
-        continueText.setText(fontSmall, RETURN);
-        continueX = GlobalVars.CENTER_X - (continueText.width / 2);
-        continueY = GlobalVars.BOTTOM + (2 * GlobalVars.UNIT_SIZE) + continueText.height;
+        _continueText = new GlyphLayout();
+        _continueText.setText(fontSmall, RETURN);
+        _continueX = GlobalVars.CENTER_X - (_continueText.width / 2.f);
+        _continueY = GlobalVars.BOTTOM + (2.f * GlobalVars.UNIT_SIZE) + _continueText.height;
     }
 
 
@@ -171,23 +181,23 @@ public class GameOverScreen extends AbstractScreen {
     private static final String RETURN = "TOUCH TO RETURN TO MENU";
     private static final String[] DIFFICULTY_LEVELS = { "EASY", "MEDIUM", "HARD" };
 
-    private GlyphLayout gameOverText;
-    private GlyphLayout scoreText;
-    private GlyphLayout bestScoreText;
-    private GlyphLayout difficultyText;
-    private GlyphLayout continueText;
+    private GlyphLayout _gameOverText;
+    private GlyphLayout _scoreText;
+    private GlyphLayout _bestScoreText;
+    private GlyphLayout _difficultyText;
+    private GlyphLayout _continueText;
 
-    private float gameOverX;
-    private float gameOverY;
-    private float scoreX;
-    private float scoreY;
-    private float bestScoreX;
-    private float bestScoreY;
-    private float difficultyX;
-    private float difficultyY;
-    private float continueX;
-    private float continueY;
-    private int score;
-    private int best;
-    private boolean canTouch;
+    private float _gameOverX;
+    private float _gameOverY;
+    private float _scoreX;
+    private float _scoreY;
+    private float _bestScoreX;
+    private float _bestScoreY;
+    private float _difficultyX;
+    private float _difficultyY;
+    private float _continueX;
+    private float _continueY;
+    private final int _score;
+    private final int _best;
+    private boolean _canTouch;
 }

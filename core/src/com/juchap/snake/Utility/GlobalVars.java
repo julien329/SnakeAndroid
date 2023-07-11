@@ -2,13 +2,13 @@ package com.juchap.snake.Utility;
 
 import com.badlogic.gdx.Gdx;
 
-
 public class GlobalVars {
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void initVars() {
         int height = Gdx.graphics.getHeight();
         int width = Gdx.graphics.getWidth();
-        final float ratio = height / width;
+        final float ratio = (float)height / width;
 
         if (ratio < PROPER_RATIO) {
             width = (int)(height / PROPER_RATIO);

@@ -116,7 +116,7 @@ public class OfflineData {
     private static final String SHARED_PREFS = "OfflineData";
     private static final String DEFAULT_INT = "-1";
     private static final String DEFAULT_BOOL = "false";
-    private static final String TRUE = "true";;
+    private static final String TRUE = "true";
     private static final int DEFAULT_VALUE = 0;
 
     private final PreferenceObfuscator _encryptedPrefs;

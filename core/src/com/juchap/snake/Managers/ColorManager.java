@@ -5,39 +5,43 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.IntMap;
 
-
 public class ColorManager {
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void initManager() {
-        colorPrefs = Gdx.app.getPreferences(PREFS_NAME);
+        _colorPrefs = Gdx.app.getPreferences(PREFS_NAME);
 
-        if(colorPrefs.contains(KEY_NAME))
+        if (_colorPrefs.contains(KEY_NAME)) {
             loadFromPrefs();
+        }
         else {
-            colorTheme = THEME_1;
+            _colorTheme = THEME_1;
             saveToPrefs();
         }
 
         initColorThemes();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static void loadFromPrefs() {
-        colorTheme = colorPrefs.getInteger(KEY_NAME);
+        _colorTheme = _colorPrefs.getInteger(KEY_NAME);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static void saveToPrefs() {
-        colorPrefs.putInteger(KEY_NAME, colorTheme);
-        colorPrefs.flush();
+        _colorPrefs.putInteger(KEY_NAME, _colorTheme);
+        _colorPrefs.flush();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static void initColorThemes() {
-        backColors = new IntMap<>();
-        backAltColors = new IntMap<>();
-        frontColors = new IntMap<>();
-        frontAltColors = new IntMap<>();
-        snakeHeadColors = new IntMap<>();
-        snakeBodyColors = new IntMap<>();
-        foodColors = new IntMap<>();
+        _backColors = new IntMap<>();
+        _backAltColors = new IntMap<>();
+        _frontColors = new IntMap<>();
+        _frontAltColors = new IntMap<>();
+        _snakeHeadColors = new IntMap<>();
+        _snakeBodyColors = new IntMap<>();
+        _foodColors = new IntMap<>();
 
         addTheme(THEME_1, Color.BLACK, Color.DARK_GRAY, Color.WHITE, Color.LIGHT_GRAY, Color.GREEN, Color.FOREST, Color.RED);
         addTheme(THEME_2, THEME2_LIGHT_GREEN, THEME2_LIGHT_GREEN_ALT, THEME2_DARK_GREEN, THEME2_DARK_GREEN_ALT, THEME2_DARK_GREEN, THEME2_DARK_GREEN_ALT, THEME2_DARK_GREEN);
@@ -48,34 +52,34 @@ public class ColorManager {
 
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static void addTheme(int themeId, Color backColor, Color backAltColor, Color frontColor, Color frontAltColor, Color snakeHeadColor, Color snakeBodyColor, Color foodColor) {
-        backColors.put(themeId, backColor);
-        backAltColors.put(themeId, backAltColor);
-        frontColors.put(themeId, frontColor);
-        frontAltColors.put(themeId, frontAltColor);
-        snakeHeadColors.put(themeId, snakeHeadColor);
-        snakeBodyColors.put(themeId, snakeBodyColor);
-        foodColors.put(themeId, foodColor);
+        _backColors.put(themeId, backColor);
+        _backAltColors.put(themeId, backAltColor);
+        _frontColors.put(themeId, frontColor);
+        _frontAltColors.put(themeId, frontAltColor);
+        _snakeHeadColors.put(themeId, snakeHeadColor);
+        _snakeBodyColors.put(themeId, snakeBodyColor);
+        _foodColors.put(themeId, foodColor);
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static Color getBackColor() { return backColors.get(colorTheme); }
-    public static Color getBackAltColor() { return backAltColors.get(colorTheme); }
-    public static Color getFrontColor() { return frontColors.get(colorTheme); }
-    public static Color getFrontAltColor() { return frontAltColors.get(colorTheme); }
-    public static Color getSnakeHeadColor() { return snakeHeadColors.get(colorTheme); }
-    public static Color getSnakeBodyColor() { return snakeBodyColors.get(colorTheme); }
-    public static Color getFoodColor() { return foodColors.get(colorTheme); }
+    public static Color getBackColor() { return _backColors.get(_colorTheme); }
+    public static Color getBackAltColor() { return _backAltColors.get(_colorTheme); }
+    public static Color getFrontColor() { return _frontColors.get(_colorTheme); }
+    public static Color getFrontAltColor() { return _frontAltColors.get(_colorTheme); }
+    public static Color getSnakeHeadColor() { return _snakeHeadColors.get(_colorTheme); }
+    public static Color getSnakeBodyColor() { return _snakeBodyColors.get(_colorTheme); }
+    public static Color getFoodColor() { return _foodColors.get(_colorTheme); }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void setColorTheme(int theme) {
-        colorTheme = theme;
+        _colorTheme = theme;
         saveToPrefs();
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
@@ -113,14 +117,14 @@ public class ColorManager {
     private static final Color THEME6_GREEN_ALT =           new Color(117/255f, 149/255f, 123/255f, 1f);
     private static final Color THEME6_BLUE =                new Color(119/255f, 158/255f, 203/255f, 1f);
 
-    private static Preferences colorPrefs;
-    private static IntMap<Color> backColors;
-    private static IntMap<Color> backAltColors;
-    private static IntMap<Color> frontColors;
-    private static IntMap<Color> frontAltColors;
-    private static IntMap<Color> snakeHeadColors;
-    private static IntMap<Color> snakeBodyColors;
-    private static IntMap<Color> foodColors;
+    private static Preferences _colorPrefs;
+    private static IntMap<Color> _backColors;
+    private static IntMap<Color> _backAltColors;
+    private static IntMap<Color> _frontColors;
+    private static IntMap<Color> _frontAltColors;
+    private static IntMap<Color> _snakeHeadColors;
+    private static IntMap<Color> _snakeBodyColors;
+    private static IntMap<Color> _foodColors;
 
-    private static int colorTheme;
+    private static int _colorTheme;
 }

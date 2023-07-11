@@ -21,14 +21,14 @@ public class FontManager {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void initManager() {
-        fonts = new HashMap<String, BitmapFont>();
-        scaleFactor = 0.0025f * GlobalVars.GRID_WIDTH;
+        _fonts = new HashMap<>();
+        _scaleFactor = 0.0025f * GlobalVars.GRID_WIDTH;
 
-        scaledSmall = Math.round(SMALL * scaleFactor);
-        scaledMedium = Math.round(MEDIUM * scaleFactor);
-        scaledLarge = Math.round(LARGE * scaleFactor);
+        _scaledSmall = Math.round(SMALL * _scaleFactor);
+        _scaledMedium = Math.round(MEDIUM * _scaleFactor);
+        _scaledLarge = Math.round(LARGE * _scaleFactor);
 
-        audimatHandle = Gdx.files.internal(AUDIMAT_MONO_B_TTF);
+        _audimatHandle = Gdx.files.internal(AUDIMAT_MONO_B_TTF);
 
         _prepareFontDataTasks = new Array<>();
         _createFontTextureTasks = new Array<>();
@@ -44,22 +44,19 @@ public class FontManager {
 
         prepareFontsData();
 
-        Gdx.app.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                synchronized(lock) {
-                    createFontsTextures();
-                    lock.notify();
-                }
+        Gdx.app.postRunnable(() -> {
+            synchronized(_lock) {
+                createFontsTextures();
+                _lock.notify();
             }
         });
 
         while (!_createFontTextureTasks.isEmpty())
         {
             try {
-                synchronized(lock) {
+                synchronized(_lock) {
                     // Wait for createFontTexture tasks to be done on the main thread
-                    lock.wait();
+                    _lock.wait();
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -71,25 +68,25 @@ public class FontManager {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void loadAllFont() {
-        loadFont(AUDIMAT_MONO_B, scaledSmall);
-        loadFont(AUDIMAT_MONO_B, scaledMedium);
-        loadFont(AUDIMAT_MONO_B, scaledLarge);
+        loadFont(AUDIMAT_MONO_B, _scaledSmall);
+        loadFont(AUDIMAT_MONO_B, _scaledMedium);
+        loadFont(AUDIMAT_MONO_B, _scaledLarge);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     public static boolean allFilesExist() {
-        FileHandle handleSmall = Gdx.files.local(fontDir + scaledSmall + "_" + AUDIMAT_MONO_B + FNT_TYPE);
-        FileHandle handleMedium = Gdx.files.local(fontDir + scaledMedium + "_" + AUDIMAT_MONO_B + FNT_TYPE);
-        FileHandle handleLarge = Gdx.files.local(fontDir + scaledLarge + "_" + AUDIMAT_MONO_B + FNT_TYPE);
+        FileHandle handleSmall = Gdx.files.local(fontDir + _scaledSmall + "_" + AUDIMAT_MONO_B + FNT_TYPE);
+        FileHandle handleMedium = Gdx.files.local(fontDir + _scaledMedium + "_" + AUDIMAT_MONO_B + FNT_TYPE);
+        FileHandle handleLarge = Gdx.files.local(fontDir + _scaledLarge + "_" + AUDIMAT_MONO_B + FNT_TYPE);
 
         return (handleSmall.exists() && handleMedium.exists() && handleLarge.exists());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     private static void prepareFontsData() {
-        _prepareFontDataTasks.add(new FontGenerationTask(audimatHandle, AUDIMAT_MONO_B, scaledSmall));
-        _prepareFontDataTasks.add(new FontGenerationTask(audimatHandle, AUDIMAT_MONO_B, scaledMedium));
-        _prepareFontDataTasks.add(new FontGenerationTask(audimatHandle, AUDIMAT_MONO_B, scaledLarge));
+        _prepareFontDataTasks.add(new FontGenerationTask(_audimatHandle, AUDIMAT_MONO_B, _scaledSmall));
+        _prepareFontDataTasks.add(new FontGenerationTask(_audimatHandle, AUDIMAT_MONO_B, _scaledMedium));
+        _prepareFontDataTasks.add(new FontGenerationTask(_audimatHandle, AUDIMAT_MONO_B, _scaledLarge));
 
         for (FontGenerationTask fontGenerationTask : _prepareFontDataTasks)
         {
@@ -129,7 +126,7 @@ public class FontManager {
     private static void loadFont(String fontName, int scaledSize) {
         FileHandle savedFileHandle = Gdx.files.local(fontDir + scaledSize + "_" + fontName + FNT_TYPE);
         BitmapFont font = new BitmapFont(savedFileHandle);
-        fonts.put(scaledSize + "_" + fontName, font);
+        _fonts.put(scaledSize + "_" + fontName, font);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -222,7 +219,7 @@ public class FontManager {
         }
 
         private FreeTypeFontGenerator.FreeTypeFontParameter _fontParameters;
-        FreeTypeFontGenerator.FreeTypeBitmapFontData _fontData;
+        private FreeTypeFontGenerator.FreeTypeBitmapFontData _fontData;
         private Array<PixmapTextureData> _textureData;
         private Array<TextureRegion> _textureRegions;
 
@@ -231,46 +228,35 @@ public class FontManager {
         private final int _scaledSize;
     }
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    public static BitmapFont fontSmall(Color color) {
-        return fontCustom(color, SMALL);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    public static BitmapFont fontMedium(Color color) {
-        return fontCustom(color, MEDIUM);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    public static BitmapFont fontLarge(Color color) {
-        return fontCustom(color, LARGE);
-    }
+    public static BitmapFont fontSmall(Color color) { return fontCustom(color, SMALL); }
+    public static BitmapFont fontMedium(Color color) { return fontCustom(color, MEDIUM); }
+    public static BitmapFont fontLarge(Color color) { return fontCustom(color, LARGE); }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     public static BitmapFont fontCustom(Color color, int fontSize) {
-        int scaledSize = Math.round(fontSize * scaleFactor);
-        int referenceSize = -1;
+        final int scaledSize = Math.round(fontSize * _scaleFactor);
 
-        if(scaledSize <= scaledSmall)
-            referenceSize = scaledSmall;
-        else if (scaledSize <= scaledMedium)
-            referenceSize = scaledMedium;
+        int referenceSize;
+        if (scaledSize <= _scaledSmall) {
+            referenceSize = _scaledSmall;
+        }
+        else if (scaledSize <= _scaledMedium) {
+            referenceSize = _scaledMedium;
+        }
         else {
-            referenceSize = scaledLarge;
+            referenceSize = _scaledLarge;
         }
 
-        BitmapFont font = fonts.get(referenceSize + "_" + AUDIMAT_MONO_B);
+        BitmapFont font = _fonts.get(referenceSize + "_" + AUDIMAT_MONO_B);
         font.getData().setScale((float)scaledSize/referenceSize, (float)scaledSize/referenceSize);
         font.setColor(color);
 
         return font;
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
@@ -288,13 +274,13 @@ public class FontManager {
     private static Array<FontGenerationTask> _createFontTextureTasks;
     private static Array<FontGenerationTask> _saveFontBitmapTasks;
 
-    private static final Object lock = new Object();
+    private static final Object _lock = new Object();
 
-    private static HashMap<String, BitmapFont> fonts;
-    private static FileHandle audimatHandle;
+    private static HashMap<String, BitmapFont> _fonts;
+    private static FileHandle _audimatHandle;
 
-    private static int scaledSmall;
-    private static int scaledMedium;
-    private static int scaledLarge;
-    private static float scaleFactor;
+    private static int _scaledSmall;
+    private static int _scaledMedium;
+    private static int _scaledLarge;
+    private static float _scaleFactor;
 }

@@ -19,7 +19,7 @@ public class MySnakeGame extends Game {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     public MySnakeGame(PlayServices playServices) {
-        this.playServices = playServices;
+        _playServices = playServices;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,33 +39,25 @@ public class MySnakeGame extends Game {
         ScreenManager.getInstance().initialize(this);
         ScreenManager.getInstance().showScreen( ScreenEnum.SPLASH );
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FontManager.createAllFont();
+        new Thread(() -> {
+            FontManager.createAllFont();
 
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        FontManager.loadAllFont();
-                        ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
-                    }
-                });
-            }
+            Gdx.app.postRunnable(() -> {
+                FontManager.loadAllFont();
+                ScreenManager.getInstance().showScreen( ScreenEnum.MAIN_MENU );
+            });
         }).start();
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public PlayServices getPlayServices() { return playServices; }
-
+    public PlayServices getPlayServices() { return _playServices; }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private PlayServices playServices;
+    private final PlayServices _playServices;
 }

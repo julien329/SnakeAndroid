@@ -7,8 +7,10 @@ import com.juchap.snake.Screens.AbstractScreen;
 
 public class ScreenManager {
 
-    private ScreenManager() { super(); }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private ScreenManager() { }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static ScreenManager getInstance() {
         if (_instance == null) {
             _instance = new ScreenManager();
@@ -17,11 +19,13 @@ public class ScreenManager {
         return _instance;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public void initialize(MySnakeGame game) {
         _game = game;
         Gdx.graphics.setContinuousRendering(false);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public void showScreen(ScreenEnum screenEnum, Object... params) {
         Screen oldScreen = _game.getScreen();
 

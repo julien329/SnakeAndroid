@@ -9,40 +9,42 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.juchap.snake.Managers.ColorManager;
 import com.juchap.snake.Utility.GlobalVars;
 
-
 public abstract class AbstractScreen extends Stage implements Screen {
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     protected AbstractScreen() {
-        super();
-        uiRenderer = new ShapeRenderer();
-        spriteBatch = new SpriteBatch();
-        leftBorderX = GlobalVars.LEFT;
-        rightBorderX = GlobalVars.RIGHT - GlobalVars.UNIT_SIZE;
-        bottomBorderY = GlobalVars.BOTTOM;
-        topBorderY = GlobalVars.TOP - GlobalVars.UNIT_SIZE;
+        _uiRenderer = new ShapeRenderer();
+        _spriteBatch = new SpriteBatch();
+        _leftBorderX = GlobalVars.LEFT;
+        _rightBorderX = GlobalVars.RIGHT - GlobalVars.UNIT_SIZE;
+        _bottomBorderY = GlobalVars.BOTTOM;
+        _topBorderY = GlobalVars.TOP - GlobalVars.UNIT_SIZE;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public abstract void buildStage();
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     protected void drawBorders() {
-        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        uiRenderer.setColor(ColorManager.getFrontColor());
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        uiRenderer.rect(leftBorderX, bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(leftBorderX, topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
-        uiRenderer.rect(rightBorderX, bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
-        uiRenderer.end();
+        _uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        _uiRenderer.setColor(ColorManager.getFrontColor());
+        _uiRenderer.rect(_leftBorderX, _bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        _uiRenderer.rect(_leftBorderX, _bottomBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        _uiRenderer.rect(_leftBorderX, _topBorderY, GlobalVars.GRID_WIDTH, GlobalVars.UNIT_SIZE);
+        _uiRenderer.rect(_rightBorderX, _bottomBorderY, GlobalVars.UNIT_SIZE, GlobalVars.GRID_HEIGHT);
+        _uiRenderer.end();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        uiRenderer.setColor(ColorManager.getBackColor());
-        uiRenderer.rect(GlobalVars.LEFT, GlobalVars.BOTTOM, GlobalVars.GRID_WIDTH, GlobalVars.GRID_HEIGHT);
-        uiRenderer.end();
+        _uiRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        _uiRenderer.setColor(ColorManager.getBackColor());
+        _uiRenderer.rect(GlobalVars.LEFT, GlobalVars.BOTTOM, GlobalVars.GRID_WIDTH, GlobalVars.GRID_HEIGHT);
+        _uiRenderer.end();
 
         drawBorders();
 
@@ -50,13 +52,15 @@ public abstract class AbstractScreen extends Stage implements Screen {
         super.draw();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void dispose() {
         super.dispose();
-        uiRenderer.dispose();
-        spriteBatch.dispose();
+        _uiRenderer.dispose();
+        _spriteBatch.dispose();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void resize(int width, int height) {
         getViewport().update(width, height, true);
@@ -67,18 +71,17 @@ public abstract class AbstractScreen extends Stage implements Screen {
     @Override public void pause() {}
     @Override public void resume() {}
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    protected ShapeRenderer uiRenderer;
-    protected SpriteBatch spriteBatch;
+    protected ShapeRenderer _uiRenderer;
+    protected SpriteBatch _spriteBatch;
 
-    private int leftBorderX;
-    private int rightBorderX;
-    private int topBorderY;
-    private int bottomBorderY;
+    private final int _leftBorderX;
+    private final int _rightBorderX;
+    private final int _topBorderY;
+    private final int _bottomBorderY;
 }
 
 

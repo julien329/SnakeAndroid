@@ -19,21 +19,23 @@ import com.juchap.snake.Managers.HighScoreManager;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
 
-
 public class HighScoreScreen extends AbstractScreen {
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     public HighScoreScreen() {
-        super();
         Gdx.input.setInputProcessor(this);
-        difficultyIndex = 0;
+
+        _difficultyIndex = 0;
 
         initButtonSkin();
-        arrowLeftButton = new TextButton(ARROW_LEFT, arrowSkin);
-        arrowRightButton = new TextButton(ARROW_RIGHT, arrowSkin);
+
+        _arrowLeftButton = new TextButton(ARROW_LEFT, _arrowSkin);
+        _arrowRightButton = new TextButton(ARROW_RIGHT, _arrowSkin);
 
         initGlyphs();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void buildStage() {
         BitmapFont medium = FontManager.fontMedium(ColorManager.getFrontColor());
@@ -46,47 +48,47 @@ public class HighScoreScreen extends AbstractScreen {
 
         // ArrowLeft button
         float buttonPosX = GlobalVars.LEFT + GlobalVars.UNIT_SIZE;
-        arrowLeftButton.setSize(buttonWidth, buttonHeight);
-        arrowLeftButton.setPosition(buttonPosX, buttonPosY);
-        arrowLeftButton.setVisible(false);
-        arrowLeftButton.addListener( new ClickListener() {
+        _arrowLeftButton.setSize(buttonWidth, buttonHeight);
+        _arrowLeftButton.setPosition(buttonPosX, buttonPosY);
+        _arrowLeftButton.setVisible(false);
+        _arrowLeftButton.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                arrowRightButton.setVisible(true);
-                difficultyIndex--;
-                if (difficultyIndex <= 0){
-                    difficultyIndex = 0;
-                    arrowLeftButton.setVisible(false);
+                _arrowRightButton.setVisible(true);
+                _difficultyIndex--;
+                if (_difficultyIndex <= 0){
+                    _difficultyIndex = 0;
+                    _arrowLeftButton.setVisible(false);
                 }
                 initGlyphs();
             }
         });
-        this.addActor(arrowLeftButton);
+        this.addActor(_arrowLeftButton);
 
         // ArrowRight button
         buttonPosX = GlobalVars.RIGHT - GlobalVars.UNIT_SIZE - buttonWidth;
-        arrowRightButton.setSize(buttonWidth, buttonHeight);
-        arrowRightButton.setPosition(buttonPosX, buttonPosY);
-        arrowRightButton.addListener( new ClickListener() {
+        _arrowRightButton.setSize(buttonWidth, buttonHeight);
+        _arrowRightButton.setPosition(buttonPosX, buttonPosY);
+        _arrowRightButton.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                arrowLeftButton.setVisible(true);
-                difficultyIndex++;
-                if (difficultyIndex >= DIFFICULTY_LEVELS.length - 1){
-                    difficultyIndex = DIFFICULTY_LEVELS.length - 1;
-                    arrowRightButton.setVisible(false);
+                _arrowLeftButton.setVisible(true);
+                _difficultyIndex++;
+                if (_difficultyIndex >= DIFFICULTY_LEVELS.length - 1){
+                    _difficultyIndex = DIFFICULTY_LEVELS.length - 1;
+                    _arrowRightButton.setVisible(false);
                 }
                 initGlyphs();
             }
         });
-        this.addActor(arrowRightButton);
+        this.addActor(_arrowRightButton);
 
         // Exit button
-        buttonWidth = (GlobalVars.GRID_WIDTH / 3);
-        buttonHeight = (GlobalVars.GRID_WIDTH / 8);
+        buttonWidth = (GlobalVars.GRID_WIDTH / 3.f);
+        buttonHeight = (GlobalVars.GRID_WIDTH / 8.f);
         buttonPosY = GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE + (4 * GlobalVars.PADDING_Y);
         buttonPosX = GlobalVars.CENTER_X - (buttonWidth / 2);
-        final TextButton exitButton = new TextButton(EXIT, exitSkin);
+        final TextButton exitButton = new TextButton(EXIT, _exitSkin);
         exitButton.setSize(buttonWidth, buttonHeight);
         exitButton.setPosition(buttonPosX, buttonPosY);
         exitButton.addListener( new ClickListener() {
@@ -98,17 +100,14 @@ public class HighScoreScreen extends AbstractScreen {
         this.addActor(exitButton);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void render(float delta) {
         super.render(delta);
         drawText();
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public boolean keyDown(int keycode) {
         if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK)) {
@@ -117,90 +116,94 @@ public class HighScoreScreen extends AbstractScreen {
         return false;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     private void drawText() {
-        spriteBatch.begin();
+        _spriteBatch.begin();
         BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 56);
-        fontCustom.draw(spriteBatch, highScoreText, highScoreX, highScoreY);
+        fontCustom.draw(_spriteBatch, _highScoreText, _highScoreX, _highScoreY);
 
         BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
-        fontMedium.draw(spriteBatch, difficultyText, difficultyTextX, difficultyTextY);
+        fontMedium.draw(_spriteBatch, _difficultyText, _difficultyTextX, _difficultyTextY);
         for(int i = 0; i < TABLE_SIZE; i++) {
-            fontMedium.draw(spriteBatch, entriesText[i], entriesX, entriesY[i]);
+            fontMedium.draw(_spriteBatch, _entriesText[i], _entriesX, _entriesY[i]);
         }
-        spriteBatch.end();
+        _spriteBatch.end();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     private StringBuilder formatScore(int score) {
         String scoreText = String.valueOf(score);
         StringBuilder scoreFormatted = new StringBuilder();
-        for(int i = 0; i < 4 - scoreText.length(); i++) {
+        for (int i = 0; i < 4 - scoreText.length(); i++) {
             scoreFormatted.append(ZERO);
         }
         return scoreFormatted.append(scoreText);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     private void initButtonSkin() {
         // Init
         BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
-        arrowSkin = new Skin();
-        exitSkin = new Skin();
-        arrowSkin.add(DEFAULT, fontMedium);
-        exitSkin.add(DEFAULT, fontMedium);
+        _arrowSkin = new Skin();
+        _exitSkin = new Skin();
+        _arrowSkin.add(DEFAULT, fontMedium);
+        _exitSkin.add(DEFAULT, fontMedium);
 
         // Create texture
         Pixmap pixmap = new Pixmap(GlobalVars.GRID_WIDTH / 3, GlobalVars.GRID_HEIGHT / 8, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
-        arrowSkin.add(BACKGROUND, new Texture(pixmap));
-        exitSkin.add(BACKGROUND, new Texture(pixmap));
+        _arrowSkin.add(BACKGROUND, new Texture(pixmap));
+        _exitSkin.add(BACKGROUND, new Texture(pixmap));
         pixmap.dispose();
 
         // Create button style
         TextButton.TextButtonStyle arrowButtonStyle = new TextButton.TextButtonStyle();
-        arrowButtonStyle.up = arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
-        arrowButtonStyle.down = arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
-        arrowButtonStyle.checked = arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
-        arrowButtonStyle.over = arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
-        arrowButtonStyle.font = arrowSkin.getFont(DEFAULT);
+        arrowButtonStyle.up = _arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        arrowButtonStyle.down = _arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        arrowButtonStyle.checked = _arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        arrowButtonStyle.over = _arrowSkin.newDrawable(BACKGROUND, ColorManager.getBackColor());
+        arrowButtonStyle.font = _arrowSkin.getFont(DEFAULT);
         arrowButtonStyle.fontColor = ColorManager.getFrontColor();
         arrowButtonStyle.downFontColor = ColorManager.getFrontAltColor();
-        arrowSkin.add(DEFAULT, arrowButtonStyle);
+        _arrowSkin.add(DEFAULT, arrowButtonStyle);
 
         // Create exit button style
         TextButton.TextButtonStyle exitButtonStyle = new TextButton.TextButtonStyle();
-        exitButtonStyle.up = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
-        exitButtonStyle.down = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontAltColor());
-        exitButtonStyle.checked = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
-        exitButtonStyle.over = exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
-        exitButtonStyle.font = exitSkin.getFont(DEFAULT);
+        exitButtonStyle.up = _exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        exitButtonStyle.down = _exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontAltColor());
+        exitButtonStyle.checked = _exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        exitButtonStyle.over = _exitSkin.newDrawable(BACKGROUND, ColorManager.getFrontColor());
+        exitButtonStyle.font = _exitSkin.getFont(DEFAULT);
         exitButtonStyle.fontColor = ColorManager.getBackColor();
-        exitSkin.add(DEFAULT, exitButtonStyle);
+        _exitSkin.add(DEFAULT, exitButtonStyle);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     private void initGlyphs() {
         BitmapFont fontCustom = FontManager.fontCustom(ColorManager.getFrontColor(), 56);
-        highScoreText = new GlyphLayout();
-        highScoreText.setText(fontCustom, HIGH_SCORE);
-        highScoreX = GlobalVars.CENTER_X - (highScoreText.width / 2);
-        highScoreY = GlobalVars.BOTTOM + (0.9f * GlobalVars.GRID_HEIGHT);
+        _highScoreText = new GlyphLayout();
+        _highScoreText.setText(fontCustom, HIGH_SCORE);
+        _highScoreX = GlobalVars.CENTER_X - (_highScoreText.width / 2.f);
+        _highScoreY = GlobalVars.BOTTOM + (0.9f * GlobalVars.GRID_HEIGHT);
 
         BitmapFont fontMedium = FontManager.fontMedium(ColorManager.getFrontColor());
-        difficultyText = new GlyphLayout();
-        difficultyText.setText(fontMedium, DIFFICULTY_LEVELS[difficultyIndex]);
-        difficultyTextX = GlobalVars.CENTER_X - (difficultyText.width / 2);
-        difficultyTextY = highScoreY - (12 * GlobalVars.PADDING_Y);
+        _difficultyText = new GlyphLayout();
+        _difficultyText.setText(fontMedium, DIFFICULTY_LEVELS[_difficultyIndex]);
+        _difficultyTextX = GlobalVars.CENTER_X - (_difficultyText.width / 2.f);
+        _difficultyTextY = _highScoreY - (12.f * GlobalVars.PADDING_Y);
 
-        float textPosY = difficultyTextY - (2 * GlobalVars.PADDING_Y);
-        entriesY = new float[TABLE_SIZE];
-        entriesText = new GlyphLayout[TABLE_SIZE];
-        for(int i = 0; i < TABLE_SIZE; i++) {
-            StringBuilder entryText = new StringBuilder(RANKS[i]).append(SPACE4).append(formatScore(HighScoreManager.getScore(i, difficultyIndex)));
-            entriesText[i] = new GlyphLayout();
-            entriesText[i].setText(fontMedium, entryText);
+        float textPosY = _difficultyTextY - (2.f * GlobalVars.PADDING_Y);
+        _entriesY = new float[TABLE_SIZE];
+        _entriesText = new GlyphLayout[TABLE_SIZE];
+        for (int i = 0; i < TABLE_SIZE; i++) {
+            StringBuilder entryText = new StringBuilder(RANKS[i]).append(SPACE4).append(formatScore(HighScoreManager.getScore(i, _difficultyIndex)));
+            _entriesText[i] = new GlyphLayout();
+            _entriesText[i].setText(fontMedium, entryText);
             textPosY -= (2.5 * GlobalVars.PADDING_Y);
-            entriesY[i] = textPosY;
+            _entriesY[i] = textPosY;
         }
-        entriesX = GlobalVars.CENTER_X - (entriesText[0].width / 2);
+        _entriesX = GlobalVars.CENTER_X - (_entriesText[0].width / 2.f);
     }
 
 
@@ -220,19 +223,19 @@ public class HighScoreScreen extends AbstractScreen {
     private static final String BACKGROUND = "background";
     private static final String ZERO = "0";
 
-    private final TextButton arrowLeftButton;
-    private final TextButton arrowRightButton;
-    private Skin arrowSkin;
-    private Skin exitSkin;
-    private GlyphLayout[] entriesText;
-    private GlyphLayout highScoreText;
-    private GlyphLayout difficultyText;
+    private final TextButton _arrowLeftButton;
+    private final TextButton _arrowRightButton;
+    private Skin _arrowSkin;
+    private Skin _exitSkin;
+    private GlyphLayout[] _entriesText;
+    private GlyphLayout _highScoreText;
+    private GlyphLayout _difficultyText;
 
-    private int difficultyIndex;
-    private float highScoreX;
-    private float highScoreY;
-    private float difficultyTextX;
-    private float difficultyTextY;
-    private float entriesX;
-    private float[] entriesY;
+    private int _difficultyIndex;
+    private float _highScoreX;
+    private float _highScoreY;
+    private float _difficultyTextX;
+    private float _difficultyTextY;
+    private float _entriesX;
+    private float[] _entriesY;
 }

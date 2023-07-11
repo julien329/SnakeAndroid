@@ -3,44 +3,47 @@ package com.juchap.snake.Managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
-
 public class InputManager {
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void initManager() {
-        inputPrefs = Gdx.app.getPreferences(PREFS_NAME);
+        _inputPrefs = Gdx.app.getPreferences(PREFS_NAME);
 
-        if(inputPrefs.contains(KEY_NAME))
+        if (_inputPrefs.contains(KEY_NAME)) {
             loadFromPrefs();
+        }
         else {
-            inputType = TYPE_SWIPE;
+            _inputType = TYPE_SWIPE;
             saveToPrefs();
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static void loadFromPrefs() {
-        inputType = inputPrefs.getInteger(KEY_NAME);
+        _inputType = _inputPrefs.getInteger(KEY_NAME);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static void saveToPrefs() {
-        inputPrefs.putInteger(KEY_NAME, inputType);
-        inputPrefs.flush();
+        _inputPrefs.putInteger(KEY_NAME, _inputType);
+        _inputPrefs.flush();
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// GET / SET
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static void setType(int type) {
-        inputType = type;
+        _inputType = type;
         saveToPrefs();
     }
 
-    public static boolean isSwipe() { return inputType == TYPE_SWIPE; }
-    public static boolean isTouch() { return inputType == TYPE_TOUCH; }
-    public static boolean isDpad() { return inputType == TYPE_DPAD; }
-    public static boolean isHalfDpad() { return inputType == TYPE_HALFDPAD; }
-    public static int getType() { return inputType; }
+    public static boolean isSwipe() { return _inputType == TYPE_SWIPE; }
+    public static boolean isTouch() { return _inputType == TYPE_TOUCH; }
+    public static boolean isDpad() { return _inputType == TYPE_DPAD; }
+    public static boolean isHalfDpad() { return _inputType == TYPE_HALF_DPAD; }
+    public static int getType() { return _inputType; }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,9 +55,9 @@ public class InputManager {
     private static final int TYPE_SWIPE = 0;
     private static final int TYPE_TOUCH = 1;
     private static final int TYPE_DPAD = 2;
-    private static final int TYPE_HALFDPAD = 3;
+    private static final int TYPE_HALF_DPAD = 3;
 
-    private static Preferences inputPrefs;
+    private static Preferences _inputPrefs;
 
-    private static int inputType;
+    private static int _inputType;
 }
