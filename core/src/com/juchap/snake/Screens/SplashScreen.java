@@ -7,6 +7,7 @@ import com.juchap.snake.GameScene.Snake;
 import com.juchap.snake.Managers.ColorManager;
 import com.juchap.snake.Managers.FontManager;
 import com.juchap.snake.Utility.GlobalVars;
+
 import java.util.ArrayList;
 
 public class SplashScreen extends AbstractScreen {

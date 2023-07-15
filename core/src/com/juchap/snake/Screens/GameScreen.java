@@ -13,13 +13,13 @@ import com.juchap.snake.GameScene.Food;
 import com.juchap.snake.GameScene.GameUI;
 import com.juchap.snake.GameScene.Snake;
 import com.juchap.snake.Managers.DifficultyManager;
-import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Managers.InputManager;
+import com.juchap.snake.Managers.SoundManager;
+import com.juchap.snake.Managers.VibrationManager;
+import com.juchap.snake.Utility.GlobalStrings;
+import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
-import com.juchap.snake.Managers.SoundManager;
-import com.juchap.snake.Utility.GlobalStrings;
-import com.juchap.snake.Managers.VibrationManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +56,7 @@ public class GameScreen extends AbstractScreen {
 		Timer.schedule(new MoveSnake(), updatePosInterval, updatePosInterval);
 		Timer.instance().start();
 
-        setupInputs();
+		setupInputs();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,78 +122,78 @@ public class GameScreen extends AbstractScreen {
 		Gdx.input.setInputProcessor(_pausedInputs);
 
 		if (_controlPad != null) {
-            for (ControlButton control : _controlPad) {
-                control.eventTouchUp();
-            }
-        }
+			for (ControlButton control : _controlPad) {
+				control.eventTouchUp();
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	private void setupInputs() {
-        _pausedInputs = new InputPaused();
+		_pausedInputs = new InputPaused();
 
-        InputProcessor inputProcessor = this;
-        if (InputManager.isSwipe()) {
-            inputProcessor = new GestureDetector(new InputSwipe());
-        }
-        else if (InputManager.isTouch()) {
-            inputProcessor =  new InputTouch();
-        }
-        else if (InputManager.isDpad() || InputManager.isHalfDpad()) {
-            inputProcessor = new InputControlPad();
+		InputProcessor inputProcessor = this;
+		if (InputManager.isSwipe()) {
+			inputProcessor = new GestureDetector(new InputSwipe());
+		}
+		else if (InputManager.isTouch()) {
+			inputProcessor =  new InputTouch();
+		}
+		else if (InputManager.isDpad() || InputManager.isHalfDpad()) {
+			inputProcessor = new InputControlPad();
 
 			final float leftPos = GlobalVars.LEFT + (2 * GlobalVars.UNIT_SIZE);
 			final float rightPos = GlobalVars.RIGHT - (2 * GlobalVars.UNIT_SIZE);
 			final float bottomPos = GlobalVars.BOTTOM + (2 * GlobalVars.UNIT_SIZE);
 			final float deltaPos = GlobalVars.UNIT_SIZE / 2.f;
-            float topPos, centerY;
+			float topPos, centerY;
 
-            if (InputManager.isHalfDpad()) {
-                topPos = GlobalVars.CENTER_Y - (2 * GlobalVars.UNIT_SIZE);
-                centerY = (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE) + ((GlobalVars.CENTER_Y - (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE)) / 2.f);
-            }
-            else {
-                topPos = GlobalVars.GAME_GRID_TOP - (2 * GlobalVars.UNIT_SIZE);
-                centerY = (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE) + ((GlobalVars.GAME_GRID_TOP - (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE)) / 2.f);
-            }
+			if (InputManager.isHalfDpad()) {
+				topPos = GlobalVars.CENTER_Y - (2 * GlobalVars.UNIT_SIZE);
+				centerY = (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE) + ((GlobalVars.CENTER_Y - (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE)) / 2.f);
+			}
+			else {
+				topPos = GlobalVars.GAME_GRID_TOP - (2 * GlobalVars.UNIT_SIZE);
+				centerY = (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE) + ((GlobalVars.GAME_GRID_TOP - (GlobalVars.BOTTOM + GlobalVars.UNIT_SIZE)) / 2.f);
+			}
 
-            final float[] leftVertices = new float[]{ leftPos, bottomPos + deltaPos, leftPos, topPos - deltaPos, GlobalVars.CENTER_X - (GlobalVars.UNIT_SIZE / 2.f), centerY };
-            final float[] rightVertices = new float[]{ rightPos, bottomPos + deltaPos, rightPos, topPos - deltaPos, GlobalVars.CENTER_X + (GlobalVars.UNIT_SIZE / 2.f), centerY };
-            final float[] upVertices = new float[]{ leftPos + deltaPos, topPos, rightPos - deltaPos, topPos, GlobalVars.CENTER_X, centerY + (GlobalVars.UNIT_SIZE / 2.f) };
-            final float[] downVertices = new float[]{ leftPos + deltaPos, bottomPos, rightPos - deltaPos, bottomPos, GlobalVars.CENTER_X, centerY - (GlobalVars.UNIT_SIZE / 2.f) };
+			final float[] leftVertices = new float[]{ leftPos, bottomPos + deltaPos, leftPos, topPos - deltaPos, GlobalVars.CENTER_X - (GlobalVars.UNIT_SIZE / 2.f), centerY };
+			final float[] rightVertices = new float[]{ rightPos, bottomPos + deltaPos, rightPos, topPos - deltaPos, GlobalVars.CENTER_X + (GlobalVars.UNIT_SIZE / 2.f), centerY };
+			final float[] upVertices = new float[]{ leftPos + deltaPos, topPos, rightPos - deltaPos, topPos, GlobalVars.CENTER_X, centerY + (GlobalVars.UNIT_SIZE / 2.f) };
+			final float[] downVertices = new float[]{ leftPos + deltaPos, bottomPos, rightPos - deltaPos, bottomPos, GlobalVars.CENTER_X, centerY - (GlobalVars.UNIT_SIZE / 2.f) };
 
-            final ControlButton leftButton = new ControlButton(_uiRenderer, _snake, ControlButton.LEFT, leftVertices);
-            final ControlButton rightButton = new ControlButton(_uiRenderer, _snake, ControlButton.RIGHT, rightVertices);
-            final ControlButton upButton = new ControlButton(_uiRenderer, _snake, ControlButton.UP, upVertices);
-            final ControlButton downButton = new ControlButton(_uiRenderer, _snake, ControlButton.DOWN, downVertices);
+			final ControlButton leftButton = new ControlButton(_uiRenderer, _snake, ControlButton.LEFT, leftVertices);
+			final ControlButton rightButton = new ControlButton(_uiRenderer, _snake, ControlButton.RIGHT, rightVertices);
+			final ControlButton upButton = new ControlButton(_uiRenderer, _snake, ControlButton.UP, upVertices);
+			final ControlButton downButton = new ControlButton(_uiRenderer, _snake, ControlButton.DOWN, downVertices);
 
-            addActor(leftButton);
-            addActor(rightButton);
-            addActor(upButton);
-            addActor(downButton);
+			addActor(leftButton);
+			addActor(rightButton);
+			addActor(upButton);
+			addActor(downButton);
 
-           _controlPad = Arrays.asList(leftButton, rightButton, upButton, downButton);
-        }
+			_controlPad = Arrays.asList(leftButton, rightButton, upButton, downButton);
+		}
 
-        _inputMultiplexer = new InputMultiplexer(this, inputProcessor);
-        Gdx.input.setInputProcessor(_inputMultiplexer);
-    }
+		_inputMultiplexer = new InputMultiplexer(this, inputProcessor);
+		Gdx.input.setInputProcessor(_inputMultiplexer);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	/// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private class InputSwipe extends GestureDetector.GestureAdapter {
-        @Override
-        public boolean touchDown(float x, float y, int pointer, int button) {
-            _deltaX = _deltaY = 0;
-            _moved = false;
-            return true;
-        }
+	private class InputSwipe extends GestureDetector.GestureAdapter {
+		@Override
+		public boolean touchDown(float x, float y, int pointer, int button) {
+			_deltaX = _deltaY = 0;
+			_moved = false;
+			return true;
+		}
 
-        @Override
-        public boolean pan(float x, float y, float deltaX, float deltaY) {
-            if (_moved) {
+		@Override
+		public boolean pan(float x, float y, float deltaX, float deltaY) {
+			if (_moved) {
 				return false;
 			}
 
@@ -210,74 +210,74 @@ public class GameScreen extends AbstractScreen {
 				return true;
 			}
 
-            return false;
-        }
+			return false;
+		}
 
-        private float _deltaX = 0;
-        private float _deltaY = 0;
-        private boolean _moved = false;
+		private float _deltaX = 0;
+		private float _deltaY = 0;
+		private boolean _moved = false;
 
-        private final float DIST_TO_TRAVEL = GlobalVars.GRID_WIDTH / 32.0f;
-    }
+		private final float DIST_TO_TRAVEL = GlobalVars.GRID_WIDTH / 32.0f;
+	}
 
 	private class InputTouch extends InputAdapter {
 		@Override
 		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 			int distX = Gdx.input.getX() - _snake.getHeadPosX();
 			int distY = Gdx.graphics.getHeight() - Gdx.input.getY() - _snake.getHeadPosY();
-            int signX = (int) Math.signum(distX);
-            int signY = (int) Math.signum(distY);
+			int signX = (int) Math.signum(distX);
+			int signY = (int) Math.signum(distY);
 
-            if (_snake.getDirX() == 0 && _snake.getDirY() != 0) {
-                if (signX != 0) {
-                    _snake.setDir(signX, 0);
-                }
-            }
-            else if (_snake.getDirY() == 0 && _snake.getDirX() != 0) {
-                if (signY != 0) {
-                    _snake.setDir(0, signY);
-                }
-            }
-            else if (_snake.getDirX() == 0 && _snake.getDirY() == 0) {
-                if (Math.abs(distX) >= Math.abs(distY)) {
-                    _snake.setDir(signX, 0);
-                } else {
-                    _snake.setDir(0, signY);
-                }
-            }
+			if (_snake.getDirX() == 0 && _snake.getDirY() != 0) {
+				if (signX != 0) {
+					_snake.setDir(signX, 0);
+				}
+			}
+			else if (_snake.getDirY() == 0 && _snake.getDirX() != 0) {
+				if (signY != 0) {
+					_snake.setDir(0, signY);
+				}
+			}
+			else if (_snake.getDirX() == 0 && _snake.getDirY() == 0) {
+				if (Math.abs(distX) >= Math.abs(distY)) {
+					_snake.setDir(signX, 0);
+				} else {
+					_snake.setDir(0, signY);
+				}
+			}
 			return true;
 		}
 	}
 
-    private class InputControlPad extends InputAdapter {
-        @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            Vector2 inputPos = new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-            for (ControlButton control : _controlPad) {
-                control.eventTouchDown(inputPos);
-            }
-            return true;
-        }
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            for (ControlButton control : _controlPad) {
-                control.eventTouchUp();
-            }
-            return false;
-        }
-    }
+	private class InputControlPad extends InputAdapter {
+		@Override
+		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+			Vector2 inputPos = new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+			for (ControlButton control : _controlPad) {
+				control.eventTouchDown(inputPos);
+			}
+			return true;
+		}
+		@Override
+		public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+			for (ControlButton control : _controlPad) {
+				control.eventTouchUp();
+			}
+			return false;
+		}
+	}
 
 	private class InputPaused extends InputAdapter {
 		@Override
 		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            _isInputDown = true;
+			_isInputDown = true;
 			_downX = Gdx.input.getX();
-            _downY = Gdx.input.getY();
+			_downY = Gdx.input.getY();
 			return true;
 		}
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		    if (!_isInputDown) {
+		@Override
+		public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+			if (!_isInputDown) {
 				return true;
 			}
 
@@ -293,8 +293,8 @@ public class GameScreen extends AbstractScreen {
 				Timer.instance().start();
 			}
 
-            return true;
-        }
+			return true;
+		}
 		@Override
 		public boolean keyUp(int keycode) {
 			if ((keycode == Input.Keys.ESCAPE) || (keycode == Input.Keys.BACK) ) {
@@ -307,10 +307,10 @@ public class GameScreen extends AbstractScreen {
 		}
 
 		private boolean _isInputDown = false;
-        private float _downX = 0;
-        private float _downY = 0;
+		private float _downX = 0;
+		private float _downY = 0;
 
-        private final float MAX_TRAVEL_DIST = GlobalVars.GRID_WIDTH / 16.f;
+		private final float MAX_TRAVEL_DIST = GlobalVars.GRID_WIDTH / 16.f;
 	}
 
 	private class MoveSnake extends Timer.Task {
@@ -325,8 +325,8 @@ public class GameScreen extends AbstractScreen {
 			Gdx.graphics.requestRendering();
 
 			if (_snake.checkCollisions()) {
-                gameOver();
-            }
+				gameOver();
+			}
 		}
 	}
 

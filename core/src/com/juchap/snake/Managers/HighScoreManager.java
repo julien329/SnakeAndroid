@@ -2,6 +2,7 @@ package com.juchap.snake.Managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+
 import java.util.HashMap;
 
 public class HighScoreManager {

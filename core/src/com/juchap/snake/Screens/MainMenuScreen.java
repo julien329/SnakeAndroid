@@ -86,13 +86,11 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
                 achievementButton.getImage().setColor(ColorManager.getFrontAltColor());
-                Gdx.graphics.setContinuousRendering(true);
                 return true;
             }
             @Override
             public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
                 achievementButton.getImage().setColor(ColorManager.getFrontColor());
-                Gdx.graphics.setContinuousRendering(false);
                 if (x >= 0 && x < achievementButton.getWidth() && y >= 0 && y < achievementButton.getHeight()) {
                     if (System.currentTimeMillis() - _lastActivityTime > ACTIVITY_MIN_INTERVAL) {
                         ScreenManager.getInstance().showAchievements();
@@ -113,13 +111,11 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
                 leaderboardButton.getImage().setColor(ColorManager.getFrontAltColor());
-                Gdx.graphics.setContinuousRendering(true);
                 return true;
             }
             @Override
             public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
                 leaderboardButton.getImage().setColor(ColorManager.getFrontColor());
-                Gdx.graphics.setContinuousRendering(false);
                 if (x >= 0 && x < leaderboardButton.getWidth() && y >= 0 && y < leaderboardButton.getHeight()) {
                     if (System.currentTimeMillis() - _lastActivityTime > ACTIVITY_MIN_INTERVAL) {
                         ScreenManager.getInstance().showScores();
@@ -140,14 +136,12 @@ public class MainMenuScreen extends AbstractScreen {
         rateButton.addListener( new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
-                Gdx.graphics.setContinuousRendering(true);
                 rateButton.getImage().setColor(ColorManager.getFrontAltColor());
                 return true;
             }
             @Override
             public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
                 rateButton.getImage().setColor(ColorManager.getFrontColor());
-                Gdx.graphics.setContinuousRendering(false);
                 if (x >= 0 && x < rateButton.getWidth() && y >= 0 && y < rateButton.getHeight()) {
                     if (System.currentTimeMillis() - _lastActivityTime > ACTIVITY_MIN_INTERVAL) {
                         ScreenManager.getInstance().rateGame();
@@ -168,14 +162,12 @@ public class MainMenuScreen extends AbstractScreen {
         shareButton.addListener( new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event,  float x, float y, int pointer, int button) {
-                Gdx.graphics.setContinuousRendering(true);
                 shareButton.getImage().setColor(ColorManager.getFrontAltColor());
                 return true;
             }
             @Override
             public void touchUp(InputEvent event,  float x, float y, int pointer, int button) {
                 shareButton.getImage().setColor(ColorManager.getFrontColor());
-                Gdx.graphics.setContinuousRendering(false);
                 if (x >= 0 && x < shareButton.getWidth() && y >= 0 && y < shareButton.getHeight()) {
                     if (System.currentTimeMillis() - _lastActivityTime > ACTIVITY_MIN_INTERVAL) {
                         ScreenManager.getInstance().shareApp();

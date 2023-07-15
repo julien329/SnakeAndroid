@@ -1,7 +1,7 @@
 package com.juchap.snake;
 
-import android.content.SharedPreferences;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.google.android.gms.games.PlayGames;
 import com.juchap.snake.Encrypting.AESObfuscator;

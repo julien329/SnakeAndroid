@@ -14,12 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.juchap.snake.Managers.ColorManager;
 import com.juchap.snake.Managers.DifficultyManager;
 import com.juchap.snake.Managers.FontManager;
-import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Managers.InputManager;
-import com.juchap.snake.Utility.ScreenEnum;
-import com.juchap.snake.Utility.ScreenManager;
 import com.juchap.snake.Managers.SoundManager;
 import com.juchap.snake.Managers.VibrationManager;
+import com.juchap.snake.Utility.GlobalVars;
+import com.juchap.snake.Utility.ScreenEnum;
+import com.juchap.snake.Utility.ScreenManager;
 
 public class OptionScreen extends AbstractScreen {
 

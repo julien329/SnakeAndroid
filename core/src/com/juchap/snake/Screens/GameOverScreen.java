@@ -9,11 +9,11 @@ import com.badlogic.gdx.utils.Timer;
 import com.juchap.snake.Managers.ColorManager;
 import com.juchap.snake.Managers.DifficultyManager;
 import com.juchap.snake.Managers.FontManager;
-import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Managers.HighScoreManager;
+import com.juchap.snake.Utility.GlobalStrings;
+import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
-import com.juchap.snake.Utility.GlobalStrings;
 
 public class GameOverScreen extends AbstractScreen {
 

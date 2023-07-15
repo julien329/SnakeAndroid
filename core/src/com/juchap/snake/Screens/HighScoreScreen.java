@@ -14,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.juchap.snake.Managers.ColorManager;
 import com.juchap.snake.Managers.FontManager;
-import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Managers.HighScoreManager;
+import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenEnum;
 import com.juchap.snake.Utility.ScreenManager;
 

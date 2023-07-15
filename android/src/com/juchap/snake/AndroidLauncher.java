@@ -21,28 +21,26 @@ import com.juchap.snake.Services.PlayServices;
 public class AndroidLauncher extends AndroidApplication implements PlayServices {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+		_offlineData = new OfflineData(getContext(), BuildConfig.APPLICATION_ID, Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID));
 
-        _offlineData = new OfflineData(getContext(), BuildConfig.APPLICATION_ID, Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID));
-
-        PlayGamesSdk.initialize(this);
+		PlayGamesSdk.initialize(this);
 
 		GamesSignInClient gamesSignInClient = PlayGames.getGamesSignInClient(this);
 		gamesSignInClient.isAuthenticated().addOnCompleteListener(this::validateSignIn);
 
-        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-        config.useImmersiveMode = true;
-        config.useCompass = false;
-        config.useAccelerometer = false;
+		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		config.useImmersiveMode = true;
+		config.useCompass = false;
+		config.useAccelerometer = false;
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        initialize(new MySnakeGame(this), config);
-    }
+		initialize(new MySnakeGame(this), config);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	public void validateSignIn(Task<AuthenticationResult> authenticationTask) {

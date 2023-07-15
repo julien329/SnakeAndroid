@@ -6,14 +6,14 @@ import com.badlogic.gdx.Input;
 import com.juchap.snake.Managers.ColorManager;
 import com.juchap.snake.Managers.DifficultyManager;
 import com.juchap.snake.Managers.FontManager;
-import com.juchap.snake.Services.PlayServices;
-import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Managers.HighScoreManager;
 import com.juchap.snake.Managers.InputManager;
-import com.juchap.snake.Utility.ScreenEnum;
-import com.juchap.snake.Utility.ScreenManager;
 import com.juchap.snake.Managers.SoundManager;
 import com.juchap.snake.Managers.VibrationManager;
+import com.juchap.snake.Services.PlayServices;
+import com.juchap.snake.Utility.GlobalVars;
+import com.juchap.snake.Utility.ScreenEnum;
+import com.juchap.snake.Utility.ScreenManager;
 
 public class MySnakeGame extends Game {
 
@@ -24,7 +24,7 @@ public class MySnakeGame extends Game {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public void create () {
+    public void create() {
         GlobalVars.initVars();
         ColorManager.initManager();
         DifficultyManager.initManager();

@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.juchap.snake.Managers.ColorManager;
 import com.juchap.snake.Utility.GlobalVars;
 
-import java.util.Random;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Food {
 

@@ -1,14 +1,14 @@
 package com.juchap.snake.GameScene;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.juchap.snake.Managers.ColorManager;
+import com.juchap.snake.Managers.SoundManager;
+import com.juchap.snake.Managers.VibrationManager;
 import com.juchap.snake.Screens.GameScreen;
 import com.juchap.snake.Utility.GlobalVars;
 import com.juchap.snake.Utility.ScreenManager;
-import com.juchap.snake.Managers.SoundManager;
-import com.juchap.snake.Managers.VibrationManager;
+
+import java.util.ArrayList;
 
 public class Snake {
 
