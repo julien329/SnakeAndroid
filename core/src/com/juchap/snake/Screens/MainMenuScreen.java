@@ -170,7 +170,13 @@ public class MainMenuScreen extends AbstractScreen {
                 shareButton.getImage().setColor(ColorManager.getFrontColor());
                 if (x >= 0 && x < shareButton.getWidth() && y >= 0 && y < shareButton.getHeight()) {
                     if (System.currentTimeMillis() - _lastActivityTime > ACTIVITY_MIN_INTERVAL) {
-                        ScreenManager.getInstance().shareApp();
+                        // Fix screen getting black during share view
+                        Gdx.graphics.setContinuousRendering(true);
+
+                        new Thread(() -> {
+                            // Delay share view launch to apply setContinuousRendering
+                            ScreenManager.getInstance().shareApp();
+                        }).start();
                     }
                 }
 
@@ -182,6 +188,7 @@ public class MainMenuScreen extends AbstractScreen {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void resume() {
+        super.resume();
         _lastActivityTime = System.currentTimeMillis();
     }
 

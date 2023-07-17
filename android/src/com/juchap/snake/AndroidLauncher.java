@@ -103,8 +103,8 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	@Override
 	public void showAchievements() {
 		if (isSignedIn()) {
-			PlayGames.getLeaderboardsClient(this).getAllLeaderboardsIntent().addOnSuccessListener(intent -> {
-				startActivityForResult(intent, REQUEST_ACHIEVEMENTS);
+			PlayGames.getAchievementsClient(this).getAchievementsIntent().addOnSuccessListener(intent -> {
+				startActivityForResult(intent, RC_ACHIEVEMENT_UI);
 			});
 		}
 		else {
@@ -117,12 +117,21 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	public void showScores() {
 		if (isSignedIn()) {
 			PlayGames.getLeaderboardsClient(this).getAllLeaderboardsIntent().addOnSuccessListener(intent -> {
-				startActivityForResult(intent, REQUEST_SCORES);
+				startActivityForResult(intent, RC_LEADERBOARD_UI);
 			});
 		}
 		else {
 			signIn();
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	@Override
+	protected void onResume () {
+		super.onResume();
+
+		// Fix black screen when coming back to app (with non continuous rendering)
+		Gdx.graphics.requestRendering();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,8 +156,8 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 	/// VARIABLES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final int REQUEST_SCORES = 1;
-	private static final int REQUEST_ACHIEVEMENTS = 2;
+	private static final int RC_ACHIEVEMENT_UI = 9003;
+	private static final int RC_LEADERBOARD_UI = 9004;
 	private static final String SHARE_WITH = "Share with";
 	private static final String SHARE_EXTRA = "Hey! Try this Retro Snake game, it's just like the good old classic :\n\n";
 	private static final String SHARE_TYPE = "text/plain";

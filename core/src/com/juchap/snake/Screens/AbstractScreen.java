@@ -66,10 +66,21 @@ public abstract class AbstractScreen extends Stage implements Screen {
         getViewport().update(width, height, true);
     }
 
-    @Override public void show() {}
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void resume() {
+        Gdx.graphics.setContinuousRendering(false);
+        Gdx.graphics.requestRendering();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override public void show() {
+        Gdx.graphics.setContinuousRendering(false);
+        Gdx.graphics.requestRendering();
+    }
+
     @Override public void hide() {}
     @Override public void pause() {}
-    @Override public void resume() {}
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /// VARIABLES
