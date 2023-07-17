@@ -19,7 +19,7 @@ android {
     }
     defaultConfig {
         applicationId "com.juchap.snake"
-        minSdk 21
+        minSdk 19
         targetSdk 34
     }
     buildTypes {
@@ -27,6 +27,10 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+
+            ndk {
+                debugSymbolLevel = 'FULL'
+            }
         }
     }
     buildFeatures {
