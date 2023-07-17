@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.View;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.Gdx;
@@ -16,6 +15,7 @@ import com.google.android.gms.games.GamesSignInClient;
 import com.google.android.gms.games.PlayGames;
 import com.google.android.gms.games.PlayGamesSdk;
 import com.google.android.gms.tasks.Task;
+
 import com.juchap.snake.Services.PlayServices;
 
 public class AndroidLauncher extends AndroidApplication implements PlayServices {
